@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Ivan - Bienvenido</title>
+    <style>
+        /* --- ESTILOS GENERALES (Estética Limpia) --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente limpia y moderna */
+            overflow: hidden; /* Evita scrolls innecesarios en la bienvenida */
+            background-color: #E6F0EA; /* Beige/Verde Pálido del fondo de la imagen original */
+            color: #4A4A4A; /* Texto gris oscuro para legibilidad */
+        }
+
+        /* --- CONTENEDOR PRINCIPAL (Mobile First) --- */
+        .splash-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Distribuye elementos: Top, Centro, Bottom */
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        /* --- SECCIÓN SUPERIOR: Logo y Título (De image_8.png) --- */
+        .app-header {
+            margin-top: 20px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2D6A4F; /* Verde oscuro del logo en la imagen */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .logo-subtext {
+            font-size: 0.9rem;
+            color: #7D7D7D;
+            display: block;
+            margin-top: -5px;
+        }
+
+        .welcome-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #4A4A4A;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
+        /* --- SECCIÓN CENTRAL: La Animación Protagonista (El Chibi) --- */
+        .animation-focus {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1; /* Ocupa el espacio central */
+            margin: 20px 0;
+        }
+
+        /* Placeholder para el video Chibi_Flotante_con_Movimiento_de_Viento.mp4 */
+        .chibi-animation {
+            width: 250px; /* Tamaño del Chibi en el centro */
+            height: auto;
+            border-radius: 50%; /* Opcional: Para efecto de borde suave circular */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* Sombra suave para efecto de flotado */
+            
+            /* --- Animación CSS para acentuar la sensación de FLOTADO --- */
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Keyframes para la animación de flotación */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); } /* Sube ligeramente */
+            100% { transform: translateY(0px); }
+        }
+
+        /* --- SECCIÓN INFERIOR: Acción y Decoración (Suscripción/Comenzar) --- */
+        .app-footer {
+            width: 100%;
+            position: relative;
+            padding-bottom: 30px; /* Espacio para el efecto de hierba */
+        }
+
+        /* Botón de "Comenzar" (Estilo LET'S START de image_8.png) */
+        .btn-start {
+            background-color: #A2D9A9; /* Verde claro del botón original */
+            color: #FFFFFF;
+            padding: 15px 45px;
+            border: none;
+            border-radius: 30px; /* Bordes muy redondeados */
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s, background-color 0.2s;
+            position: relative;
+            z-index: 10; /* Asegura que esté sobre la hierba */
+        }
+
+        .btn-start:hover {
+            background-color: #8BC34A; /* Verde más intenso al pasar el mouse */
+            transform: scale(1.05); /* Ligeramente más grande */
+        }
+
+        /* --- Decoración de Hierba (De image_8.png) --- */
+        .grass-decoration {
+            width: 100%;
+            height: 60px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(0deg, #A2D9A9 0%, rgba(230,240,234,0) 100%);
+            border-radius: 50% 50% 0 0; /* Forma curva suave */
+            z-index: 1;
+            opacity: 0.7;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="splash-container">
+        <header class="app-header">
+            <div class="logo">TEACHER IVAN<span class="logo-subtext">LIFESTYLE</span></div>
+            <h1 class="welcome-title">BIENVENIDO A TU VIAJE LIFESTYLE</h1>
+        </header>
+
+        <div class="animation-focus">
+            <video id="chibiVideo" class="chibi-animation" autoplay loop muted playsinline>
+                <source src="Chibi_Flotante_con_Movimiento_de_Viento.mp4" type="video/mp4">
+                Tu navegador no soporta video.
+            </video>
+        </div>
+
+        <footer class="app-footer">
+            <button id="startButton" class="btn-start">COMENZAR</button>
+            <div class="grass-decoration"></div>
+        </footer>
+    </div>
+
+    <script>
+        // Sencilla lógica para el botón de "Comenzar"
+        document.getElementById('startButton').addEventListener('click', function() {
+            alert('¡Genial! Pasaremos al Onboarding (Paso 1: Perfil)...');
+            // Aquí iría la redirección a la siguiente página (ej. index.html -> onboarding.html)
+            // window.location.href = 'onboarding.html'; 
+        });
+    </script>
+</body>
+</html>
