@@ -2,159 +2,262 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Ivan - Bienvenido</title>
-    <style>
-        /* --- ESTILOS GENERALES (Estética Limpia) --- */
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Teacher Ivan - Lifestyle</title>
+    <meta name="theme-color" content="#2D6A4F">
+    <link rel="manifest" href="manifest.json"> <style>
+        /* --- ESTILOS GENERALES --- */
+        :root {
+            --primary-green: #2D6A4F; /* Verde oscuro del logo */
+            --light-green: #A2D9A9;   /* Verde claro del botón */
+            --bg-color: #E6F0EA;      /* Beige/Verde claro */
+            --text-dark: #333333;
+            --text-gray: #7D7D7D;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente limpia y moderna */
-            overflow: hidden; /* Evita scrolls innecesarios en la bienvenida */
-            background-color: #E6F0EA; /* Beige/Verde Pálido del fondo de la imagen original */
-            color: #4A4A4A; /* Texto gris oscuro para legibilidad */
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            overflow: hidden; /* Evita el scroll en la bienvenida */
         }
 
-        /* --- CONTENEDOR PRINCIPAL (Mobile First) --- */
-        .splash-container {
+        /* --- VIDEO DE FONDO FULL SCREEN --- */
+        .video-bg-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            background-color: var(--bg-color);
+        }
+
+        .video-bg-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Hace que el video llene toda la pantalla sin deformarse */
+            object-position: center center;
+            opacity: 0.9; /* Ligera transparencia para que no sature */
+        }
+
+        /* Overlay para asegurar que el logo superior se lea bien */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to bottom, rgba(230,240,234,0.8) 0%, rgba(230,240,234,0) 100%);
+            z-index: 1;
+        }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+            height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Distribuye elementos: Top, Centro, Bottom */
-            align-items: center;
-            height: 100vh;
+            justify-content: space-between;
+        }
+
+        /* HEADER: Logo estilo marca */
+        .header-logo {
             text-align: center;
-            padding: 40px 20px;
+            padding-top: 50px;
+        }
+
+        .header-logo h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            margin: 0;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 10px rgba(255,255,255,0.8); /* Sombra blanca para resaltar sobre el video */
+        }
+
+        .header-logo span {
+            font-size: 1rem;
+            color: var(--primary-green);
+            font-weight: 600;
+            letter-spacing: 4px;
+        }
+
+        /* --- PANEL INFERIOR (Estilo Figma Tutorial) --- */
+        .bottom-panel {
+            background-color: #FFFFFF;
+            width: 100%;
+            padding: 40px 20px 50px 20px;
             box-sizing: border-box;
+            border-radius: 40px 40px 0 0; /* Bordes superiores muy redondeados */
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            animation: slideUp 0.8s ease-out forwards;
+            transform: translateY(100%); /* Inicia oculto para la animación */
         }
 
-        /* --- SECCIÓN SUPERIOR: Logo y Título (De image_8.png) --- */
-        .app-header {
-            margin-top: 20px;
+        @keyframes slideUp {
+            to { transform: translateY(0); }
         }
 
-        .logo {
-            font-size: 2rem;
+        .bottom-panel h2 {
+            margin: 0 0 10px 0;
+            color: var(--text-dark);
+            font-size: 1.8rem;
+        }
+
+        .bottom-panel p {
+            color: var(--text-gray);
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        /* --- BOTONES --- */
+        .btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Espacio entre botones */
+            align-items: center;
+        }
+
+        .btn {
+            width: 90%;
+            max-width: 350px;
+            padding: 16px;
+            border-radius: 30px; /* Estilo píldora */
+            font-size: 1.1rem;
             font-weight: bold;
-            color: #2D6A4F; /* Verde oscuro del logo en la imagen */
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-
-        .logo-subtext {
-            font-size: 0.9rem;
-            color: #7D7D7D;
-            display: block;
-            margin-top: -5px;
-        }
-
-        .welcome-title {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #4A4A4A;
-            margin-top: 20px;
-            margin-bottom: 0;
-        }
-
-        /* --- SECCIÓN CENTRAL: La Animación Protagonista (El Chibi) --- */
-        .animation-focus {
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-grow: 1; /* Ocupa el espacio central */
-            margin: 20px 0;
+            gap: 10px;
         }
 
-        /* Placeholder para el video Chibi_Flotante_con_Movimiento_de_Viento.mp4 */
-        .chibi-animation {
-            width: 250px; /* Tamaño del Chibi en el centro */
-            height: auto;
-            border-radius: 50%; /* Opcional: Para efecto de borde suave circular */
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* Sombra suave para efecto de flotado */
-            
-            /* --- Animación CSS para acentuar la sensación de FLOTADO --- */
-            animation: float 4s ease-in-out infinite;
+        /* Botón Principal */
+        .btn-primary {
+            background-color: var(--light-green);
+            color: var(--primary-green);
         }
 
-        /* Keyframes para la animación de flotación */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); } /* Sube ligeramente */
-            100% { transform: translateY(0px); }
+        .btn-primary:active {
+            transform: scale(0.96);
+            background-color: #8BC34A;
         }
 
-        /* --- SECCIÓN INFERIOR: Acción y Decoración (Suscripción/Comenzar) --- */
-        .app-footer {
-            width: 100%;
-            position: relative;
-            padding-bottom: 30px; /* Espacio para el efecto de hierba */
+        /* Botón de Instalación PWA */
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-green);
+            border: 2px solid var(--primary-green);
+            display: none; /* Se oculta por defecto, JS lo muestra si es instalable */
         }
 
-        /* Botón de "Comenzar" (Estilo LET'S START de image_8.png) */
-        .btn-start {
-            background-color: #A2D9A9; /* Verde claro del botón original */
-            color: #FFFFFF;
-            padding: 15px 45px;
-            border: none;
-            border-radius: 30px; /* Bordes muy redondeados */
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.2s, background-color 0.2s;
-            position: relative;
-            z-index: 10; /* Asegura que esté sobre la hierba */
+        .btn-outline:active {
+            background-color: var(--primary-green);
+            color: white;
         }
 
-        .btn-start:hover {
-            background-color: #8BC34A; /* Verde más intenso al pasar el mouse */
-            transform: scale(1.05); /* Ligeramente más grande */
-        }
-
-        /* --- Decoración de Hierba (De image_8.png) --- */
-        .grass-decoration {
-            width: 100%;
-            height: 60px;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            background: linear-gradient(0deg, #A2D9A9 0%, rgba(230,240,234,0) 100%);
-            border-radius: 50% 50% 0 0; /* Forma curva suave */
-            z-index: 1;
-            opacity: 0.7;
+        .icon-download {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
         }
 
     </style>
 </head>
 <body>
-    <div class="splash-container">
-        <header class="app-header">
-            <div class="logo">TEACHER IVAN<span class="logo-subtext">LIFESTYLE</span></div>
-            <h1 class="welcome-title">BIENVENIDO A TU VIAJE LIFESTYLE</h1>
+
+    <div class="video-bg-container">
+        <div class="video-overlay"></div>
+        <video autoplay loop muted playsinline>
+            <source src="Chibi_Flotante_con_Movimiento_de_Viento.mp4" type="video/mp4">
+            Tu navegador no soporta video.
+        </video>
+    </div>
+
+    <div class="content-wrapper">
+        <header class="header-logo">
+            <h1>TEACHER IVAN</h1>
+            <span>LIFESTYLE</span>
         </header>
 
-        <div class="animation-focus">
-            <video id="chibiVideo" class="chibi-animation" autoplay loop muted playsinline>
-                <source src="Chibi_Flotante_con_Movimiento_de_Viento.mp4" type="video/mp4">
-                Tu navegador no soporta video.
-            </video>
+        <div class="bottom-panel">
+            <h2>WELCOME</h2>
+            <p>Bienvenido a tu viaje lifestyle. Prepárate para transformar tus hábitos.</p>
+            
+            <div class="btn-container">
+                <button id="startButton" class="btn btn-primary">COMENZAR</button>
+                
+                <button id="installAppBtn" class="btn btn-outline">
+                    <svg class="icon-download" viewBox="0 0 24 24">
+                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                    </svg>
+                    INSTALA NUESTRA APLICACIÓN
+                </button>
+            </div>
         </div>
-
-        <footer class="app-footer">
-            <button id="startButton" class="btn-start">COMENZAR</button>
-            <div class="grass-decoration"></div>
-        </footer>
     </div>
 
     <script>
-        // Sencilla lógica para el botón de "Comenzar"
-        document.getElementById('startButton').addEventListener('click', function() {
-            alert('¡Genial! Pasaremos al Onboarding (Paso 1: Perfil)...');
-            // Aquí iría la redirección a la siguiente página (ej. index.html -> onboarding.html)
-            // window.location.href = 'onboarding.html'; 
+        // 1. Lógica del botón Comenzar
+        document.getElementById('startButton').addEventListener('click', () => {
+            // Animación de salida opcional antes de redirigir
+            document.querySelector('.bottom-panel').style.transform = 'translateY(100%)';
+            document.querySelector('.bottom-panel').style.transition = 'transform 0.4s ease-in';
+            
+            setTimeout(() => {
+                alert('Redirigiendo a Paso 1: Perfil...');
+                // window.location.href = 'onboarding.html'; 
+            }, 400);
+        });
+
+        // 2. Lógica para Instalar la WebApp (PWA - Add to Home Screen)
+        let deferredPrompt;
+        const installBtn = document.getElementById('installAppBtn');
+
+        // Escucha el evento que el navegador dispara si la web cumple los requisitos PWA
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Previene que Chrome muestre el mini-infobar automáticamente
+            e.preventDefault();
+            // Guarda el evento para usarlo luego
+            deferredPrompt = e;
+            // Muestra nuestro botón personalizado
+            installBtn.style.display = 'flex';
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt !== null) {
+                // Muestra el prompt nativo del sistema (Android/iOS/Desktop)
+                deferredPrompt.prompt();
+                
+                // Espera a que el usuario responda al prompt
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('El usuario aceptó instalar la app');
+                } else {
+                    console.log('El usuario rechazó la instalación');
+                }
+                
+                // Limpia la variable
+                deferredPrompt = null;
+                // Oculta el botón ya que se tomó una decisión
+                installBtn.style.display = 'none';
+            }
+        });
+
+        // Opcional: Detectar si ya fue instalada para no mostrar el botón
+        window.addEventListener('appinstalled', () => {
+            installBtn.style.display = 'none';
+            console.log('PWA fue instalada exitosamente');
         });
     </script>
+
 </body>
 </html>
