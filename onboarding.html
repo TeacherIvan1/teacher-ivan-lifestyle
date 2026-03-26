@@ -7,6 +7,8 @@
     <meta name="theme-color" content="#2D6A4F">
     
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <style>
         /* --- ESTILOS GENERALES --- */
@@ -17,6 +19,7 @@
             --text-dark: #333333;
             --text-gray: #7D7D7D;
             --card-bg: #FFFFFF;
+            --danger-red: #E76F51;
         }
 
         body, html {
@@ -53,29 +56,26 @@
         .scrollable-list { overflow-y: auto; flex-grow: 1; padding-right: 5px; margin-bottom: 10px; text-align: left; scrollbar-width: none; }
         .scrollable-list::-webkit-scrollbar { display: none; }
 
-        /* --- ESTILOS AUTH (GOOGLE Y SEPARADOR) --- */
-        .btn-google {
-            background-color: #FFFFFF; color: #333; border: 2px solid #EEE; padding: 12px; border-radius: 15px;
-            width: 100%; font-family: 'Quicksand', sans-serif; font-size: 1rem; font-weight: 700;
-            display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: background-color 0.2s; margin-bottom: 15px;
-        }
-        .btn-google:active { background-color: #F9F9F9; }
+        /* --- ESTILOS AUTH --- */
+        #googleButtonContainer { display: flex; justify-content: center; margin-bottom: 15px; min-height: 44px; }
         
-        .divider {
-            display: flex; align-items: center; text-align: center; margin: 15px 0; color: var(--text-gray); font-size: 0.85rem; font-weight: 600;
-        }
+        .divider { display: flex; align-items: center; text-align: center; margin: 15px 0; color: var(--text-gray); font-size: 0.85rem; font-weight: 600; }
         .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #EEE; }
         .divider::before { margin-right: .5em; }
         .divider::after { margin-left: .5em; }
 
-        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group { margin-bottom: 15px; text-align: left; position: relative; }
         .input-group label { display: block; color: var(--primary-green); font-weight: 700; margin-bottom: 8px; font-size: 0.9rem; }
         .input-group input, .input-group select {
             width: 100%; padding: 12px; border: 2px solid #E6F0EA; border-radius: 15px;
             font-family: 'Quicksand', sans-serif; font-size: 1rem; color: var(--text-dark); box-sizing: border-box; outline: none; transition: border-color 0.3s;
         }
         .input-group input:focus, .input-group select:focus { border-color: var(--primary-green); }
+        .input-group input.error { border-color: var(--danger-red); background-color: rgba(231, 111, 81, 0.05); }
+
+        /* Estilo CAPTCHA */
+        .captcha-box { background-color: #f9f9f9; border: 1px dashed #ccc; padding: 15px; border-radius: 15px; margin-bottom: 15px; text-align: center; }
+        .captcha-challenge { font-size: 1.2rem; font-weight: 700; color: var(--primary-green); margin-bottom: 10px; letter-spacing: 2px;}
 
         .selectable-option { display: flex; align-items: center; padding: 12px 15px; border: 2px solid #E6F0EA; border-radius: 15px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; text-align: left; }
         .selectable-option.active { border-color: var(--primary-green); background-color: rgba(162, 217, 169, 0.15); }
@@ -93,6 +93,7 @@
         .btn-primary:active { transform: scale(0.96); background-color: #245A42; }
 
         .spinner { display: none; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; animation: spin 1s linear infinite; }
+        .spinner.loading-habits { border-color: rgba(45, 106, 79, 0.2); border-top-color: var(--primary-green); display: block; margin: 20px auto; width: 30px; height: 30px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
@@ -108,7 +109,6 @@
     <div class="slider-container">
         <div class="slider-track" id="sliderTrack">
             
-            <!-- PASO 1: CREAR CUENTA (AUTH) -->
             <div class="slide">
                 <div class="card">
                     <h2>Crea tu Cuenta</h2>
@@ -116,27 +116,29 @@
                     
                     <div class="scrollable-list">
                         
-                        <!-- Botón Google -->
-                        <button class="btn-google" onclick="simularGoogleLogin()">
-                            <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-                            Continuar con Google
-                        </button>
+                        <div id="googleButtonContainer"></div>
 
                         <div class="divider"><span>o regístrate con tu email</span></div>
 
                         <div class="input-group">
-                            <label>Nombre y Apellido</label>
+                            <label>Nombre y Apellido *</label>
                             <input type="text" placeholder="Ej. Carlos Mendoza" id="userName" required>
                         </div>
                         
                         <div class="input-group">
-                            <label>Correo Electrónico</label>
+                            <label>Correo Electrónico *</label>
                             <input type="email" placeholder="tu@email.com" id="userEmail" required>
                         </div>
 
                         <div class="input-group">
-                            <label>Contraseña</label>
+                            <label>Contraseña *</label>
                             <input type="password" placeholder="Crea una contraseña segura" id="userPassword" required>
+                        </div>
+
+                        <div class="captcha-box">
+                            <label style="color:var(--text-gray); font-size:0.85rem; display:block; margin-bottom:5px;">Verificación Anti-Bot</label>
+                            <div class="captcha-challenge">¿Cuánto es <span id="capNum1">0</span> + <span id="capNum2">0</span>?</div>
+                            <input type="number" id="captchaInput" placeholder="Escribe el resultado" style="width:60%; padding:10px; border-radius:10px; border:2px solid #ccc; text-align:center; font-family:'Quicksand'; font-size:1rem;">
                         </div>
                         
                         <div class="input-group">
@@ -156,7 +158,6 @@
                 </div>
             </div>
 
-            <!-- PASO 2: OBJETIVOS -->
             <div class="slide">
                 <div class="card">
                     <h2>Tus Objetivos</h2>
@@ -166,23 +167,27 @@
                         <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Fuerza y Musculo"><span class="icon">💪</span><span class="text">Ganar Fuerza y Músculo</span><div class="check-circle"></div></div>
                         <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Perder Grasa"><span class="icon">🔥</span><span class="text">Perder Grasa / Definir</span><div class="check-circle"></div></div>
                         <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Condicion Fisica"><span class="icon">🏃</span><span class="text">Mejorar Condición (Cardio)</span><div class="check-circle"></div></div>
-                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Dormir Mejor"><span class="icon">🛌</span><span class="text">Dormir Mejor / Más Energía</span><div class="check-circle"></div></div>
+                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Flexibilidad"><span class="icon">🤸</span><span class="text">Ganar Flexibilidad / Movilidad</span><div class="check-circle"></div></div>
+                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Mejorar Nutricion"><span class="icon">🥗</span><span class="text">Mejorar mi Nutrición Diaria</span><div class="check-circle"></div></div>
+                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Dormir Mejor"><span class="icon">🛌</span><span class="text">Dormir Mejor / Recuperación</span><div class="check-circle"></div></div>
+                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Mas Energia"><span class="icon">⚡</span><span class="text">Tener Más Energía en el Día</span><div class="check-circle"></div></div>
+                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Reducir Estres"><span class="icon">🧘</span><span class="text">Reducir Estrés y Ansiedad</span><div class="check-circle"></div></div>
+                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Salud Mental"><span class="icon">🧠</span><span class="text">Fortalecer mi Salud Mental</span><div class="check-circle"></div></div>
+                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Longevidad"><span class="icon">🌱</span><span class="text">Longevidad / Vivir Más y Mejor</span><div class="check-circle"></div></div>
                     </div>
                 </div>
             </div>
 
-            <!-- PASO 3: HÁBITOS BASE -->
             <div class="slide">
                 <div class="card">
                     <h2>Hábitos Base</h2>
                     <p>Elige los que deseas trackear diariamente.</p>
 
-                    <div class="scrollable-list">
-                        <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Agua 2L"><span class="icon">💧</span><span class="text">Beber 2L de Agua</span><div class="check-circle"></div></div>
-                        <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Meditar 10m"><span class="icon">🧘</span><span class="text">Meditar 10 mins</span><div class="check-circle"></div></div>
-                        <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="10k Pasos"><span class="icon">🚶</span><span class="text">Caminar 10,000 pasos</span><div class="check-circle"></div></div>
-                        <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Cero Azucar"><span class="icon">🚫</span><span class="text">Cero azúcar refinada</span><div class="check-circle"></div></div>
-                    </div>
+                    <div class="scrollable-list" id="dynamicHabitsList">
+                        <div class="spinner loading-habits" id="habitsLoader"></div>
+                        <p id="habitsStatus" style="text-align:center; color:var(--text-gray); font-size:0.85rem;">Conectando con tu base de datos...</p>
+                        
+                        </div>
                 </div>
             </div>
 
@@ -193,14 +198,13 @@
         <button id="prevBtn" class="btn btn-outline" style="visibility: hidden;">Atrás</button>
         <button id="nextBtn" class="btn btn-primary">
             <span id="btnText">Siguiente</span>
-            <div class="spinner" id="btnSpinner"></div>
+            <div class="spinner" id="btnSpinner" style="border-color: rgba(255,255,255,0.3); border-top-color: white;"></div>
         </button>
     </div>
 
     <script>
-        // Tu URL de Google Apps Script
         const API_URL = 'https://script.google.com/macros/s/AKfycbxnbIBK31t3Il1JoyvIj6fSawERfBxgAJD-5ahXmZsFBKnf5RWMNy1uf1RQM36WNJJd/exec';
-
+        
         let currentStep = 0;
         const totalSteps = 3;
         const track = document.getElementById('sliderTrack');
@@ -211,6 +215,94 @@
         const btnText = document.getElementById('btnText');
         const btnSpinner = document.getElementById('btnSpinner');
 
+        // --- SISTEMA DE CAPTCHA MATEMÁTICO ---
+        let captchaResult = 0;
+        function generateCaptcha() {
+            let n1 = Math.floor(Math.random() * 10) + 1;
+            let n2 = Math.floor(Math.random() * 10) + 1;
+            captchaResult = n1 + n2;
+            document.getElementById('capNum1').innerText = n1;
+            document.getElementById('capNum2').innerText = n2;
+            document.getElementById('captchaInput').value = '';
+            document.getElementById('captchaInput').classList.remove('error');
+        }
+
+        // --- INICIALIZACIÓN DE GOOGLE LOGIN ---
+        window.onload = function () {
+            generateCaptcha(); // Inicia el CAPTCHA
+            fetchHabitos();    // Llama a los hábitos en segundo plano
+
+            // Configuración Oficial de Google
+            // NOTA: Reemplaza "TU_CLIENT_ID_DE_GOOGLE" con el tuyo cuando lo tengas en Google Cloud Console
+            try {
+                google.accounts.id.initialize({
+                    client_id: "TU_CLIENT_ID_DE_GOOGLE.apps.googleusercontent.com",
+                    callback: handleGoogleResponse
+                });
+                google.accounts.id.renderButton(
+                    document.getElementById("googleButtonContainer"),
+                    { theme: "outline", size: "large", width: "300", shape: "pill" }
+                );
+            } catch(e) {
+                console.log("Esperando Client ID de Google válido.");
+            }
+        };
+
+        // Función que procesa los datos reales devueltos por Google
+        function handleGoogleResponse(response) {
+            // Decodificar el token JWT que manda Google (Base64)
+            const responsePayload = JSON.parse(atob(response.credential.split('.')[1]));
+            
+            // Autocompletamos los campos visualmente
+            document.getElementById('userName').value = responsePayload.name;
+            document.getElementById('userEmail').value = responsePayload.email;
+            document.getElementById('userPassword').value = "ConectadoVíaGoogle"; // Contraseña enmascarada
+            document.getElementById('captchaInput').value = captchaResult; // Bypass del captcha por ser Google
+
+            alert(`¡Conectado como ${responsePayload.name}! Por favor, completa tu nivel físico y presiona Siguiente.`);
+        }
+
+        // --- DESCARGAR HÁBITOS DE LA SPREADSHEET (Paso 3) ---
+        async function fetchHabitos() {
+            const container = document.getElementById('dynamicHabitsList');
+            const loader = document.getElementById('habitsLoader');
+            const status = document.getElementById('habitsStatus');
+
+            try {
+                // Asume que añadiste la lógica "?action=getHabitos" en tu Google Script
+                const response = await fetch(API_URL + '?action=getHabitos');
+                const data = await response.json();
+                
+                if(data && data.length > 0) {
+                    container.innerHTML = ''; // Limpiamos el loader
+                    data.forEach(habit => {
+                        const icon = habit["ICONO"] || '✨';
+                        const name = habit["NOMBRE DEL HABITO"] || 'Hábito';
+                        container.innerHTML += `
+                            <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="${name}">
+                                <span class="icon">${icon}</span>
+                                <span class="text">${name}</span>
+                                <div class="check-circle"></div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    throw new Error("No hay hábitos");
+                }
+            } catch (error) {
+                // Fallback automático en caso de que la API falle o aún no esté lista
+                status.innerText = "Error cargando desde la nube. Mostrando lista base.";
+                loader.style.display = "none";
+                container.innerHTML = `
+                    <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Beber 2L de Agua"><span class="icon">💧</span><span class="text">Beber 2L de Agua</span><div class="check-circle"></div></div>
+                    <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Meditar 10 mins"><span class="icon">🧘</span><span class="text">Meditar 10 mins</span><div class="check-circle"></div></div>
+                    <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Leer 15 páginas"><span class="icon">📚</span><span class="text">Leer 15 páginas</span><div class="check-circle"></div></div>
+                    <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Caminar 10k pasos"><span class="icon">🚶</span><span class="text">Caminar 10,000 pasos</span><div class="check-circle"></div></div>
+                `;
+            }
+        }
+
+        // --- LÓGICA DE NAVEGACIÓN Y VALIDACIÓN ---
         function toggleOption(element) { element.classList.toggle('active'); }
 
         function updateSlider() {
@@ -220,18 +312,41 @@
             prevBtn.style.visibility = currentStep === 0 ? 'hidden' : 'visible';
             
             if (currentStep === totalSteps - 1) {
-                btnText.innerText = 'Crear Cuenta';
+                btnText.innerText = 'Crear Cuenta Segura';
             } else {
                 btnText.innerText = 'Siguiente';
             }
         }
 
-        // Simula la obtención de datos de Google Auth
-        function simularGoogleLogin() {
-            document.getElementById('userName').value = "Carlos Mendoza (Google)";
-            document.getElementById('userEmail').value = "carlos@gmail.com";
-            document.getElementById('userPassword').value = "google-oauth-token";
-            alert("Cuenta de Google conectada exitosamente.");
+        // Validación de Paso 1 antes de avanzar
+        function validateStep1() {
+            const nombre = document.getElementById('userName');
+            const email = document.getElementById('userEmail');
+            const password = document.getElementById('userPassword');
+            const captchaInput = document.getElementById('captchaInput');
+
+            let isValid = true;
+
+            // Limpiar errores previos
+            [nombre, email, password, captchaInput].forEach(el => el.classList.remove('error'));
+
+            if (!nombre.value.trim()) { nombre.classList.add('error'); isValid = false; }
+            if (!email.value.trim() || !email.value.includes('@')) { email.classList.add('error'); isValid = false; }
+            if (!password.value.trim()) { password.classList.add('error'); isValid = false; }
+            
+            // Validar CAPTCHA
+            if (parseInt(captchaInput.value) !== captchaResult) {
+                captchaInput.classList.add('error');
+                isValid = false;
+                alert("El resultado matemático (CAPTCHA) es incorrecto. Intenta de nuevo.");
+                generateCaptcha(); // Renueva el reto si falló
+            }
+
+            if(!isValid && parseInt(captchaInput.value) === captchaResult) {
+                alert("Por favor, llena correctamente todos los campos obligatorios (*).");
+            }
+
+            return isValid;
         }
 
         async function guardarDatosUsuario() {
@@ -241,18 +356,10 @@
             const peso = document.getElementById('userWeight').value || 'No especificado';
             const nivel = document.getElementById('userLevel').value;
 
-            // Validación simple
-            if(!nombre || !email || !password) {
-                alert("Por favor, llena tu Nombre, Email y Contraseña para registrarte.");
-                // Regresar al paso 1
-                currentStep = 0; updateSlider();
-                return;
-            }
-
             const objetivosSeleccionados = Array.from(document.querySelectorAll('.goal-option.active')).map(el => el.getAttribute('data-value')).join(', ');
             const habitosSeleccionados = Array.from(document.querySelectorAll('.habit-option.active')).map(el => el.getAttribute('data-value')).join(', ');
 
-            // GUARDAMOS EN MEMORIA (LocalStorage) PARA EL DASHBOARD
+            // GUARDAMOS EN MEMORIA (LocalStorage) PARA EL DASHBOARD Y EL INDEX
             const appState = {
                 user: { nombre: nombre, email: email, avatar: '🧘🏻‍♂️', plan: 'free' },
                 habits: Array.from(document.querySelectorAll('.habit-option.active')).map((el, i) => ({
@@ -261,13 +368,13 @@
             };
             localStorage.setItem('teacherIvanData', JSON.stringify(appState));
 
-            // ENVIAMOS A GOOGLE SHEETS
+            // ENVIAMOS A GOOGLE SHEETS (La pestaña Usuarios)
             const formData = {
                 action: 'saveUser',
                 fecha: new Date().toISOString(),
                 nombre: nombre,
                 email: email,
-                password: password, // Precaución: En producción real usar Firebase
+                password: password, 
                 peso: peso,
                 nivel: nivel,
                 objetivos: objetivosSeleccionados,
@@ -293,6 +400,11 @@
         }
 
         nextBtn.addEventListener('click', () => {
+            // Validamos obligatoriamente el paso 1 antes de dejarlo ir al paso 2
+            if (currentStep === 0 && !validateStep1()) {
+                return; // Bloquea el avance si hay errores o el captcha falla
+            }
+
             if (currentStep < totalSteps - 1) {
                 currentStep++; updateSlider();
             } else {
