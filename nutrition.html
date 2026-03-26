@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nutrición - Teacher Ivan Lifestyle</title>
+    <meta name="theme-color" content="#2D6A4F">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        :root {
+            --primary-green: #2D6A4F;
+            --light-green: #A2D9A9;
+            --bg-beige: #E6F0EA;
+            --text-dark: #333333;
+            --text-gray: #7D7D7D;
+            --card-bg: #FFFFFF;
+            
+            /* Colores específicos para Nutrición (Más cálidos/frutales) */
+            --accent-orange: #F4A261;
+            --accent-red: #E76F51;
+            --accent-yellow: #E9C46A;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-beige);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* --- PATRÓN DE FONDO "HEALTHY" --- */
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.12;
+            background-image: 
+                radial-gradient(var(--primary-green) 1.5px, transparent 1.5px),
+                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
+                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
+                linear-gradient(135deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%);
+            background-size: 60px 60px;
+            background-position: 0 0, 0 0, 30px 30px, 30px 30px;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .app-container {
+            padding: 20px 20px 100px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- HEADER --- */
+        .header {
+            margin-bottom: 25px;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-text h1 {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+            margin: 0 0 5px 0;
+            font-weight: 700;
+        }
+        
+        .header-text p {
+            color: var(--text-gray);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        /* --- TARJETA DE RESUMEN DE MACROS --- */
+        .macros-card {
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-red));
+            border-radius: 25px;
+            padding: 20px;
+            color: white;
+            box-shadow: 0 8px 20px rgba(231, 111, 81, 0.2);
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .macros-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .calories-title { margin: 0; font-size: 1rem; opacity: 0.9; }
+        .calories-number { margin: 0; font-size: 2.5rem; font-weight: 700; line-height: 1; }
+        .calories-label { font-size: 0.9rem; opacity: 0.9; }
+
+        .macros-bars {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .macro-item {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .macro-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 5px; opacity: 0.9;}
+        .macro-value { font-size: 1.1rem; font-weight: 700; margin-bottom: 5px; }
+        
+        .macro-progress-bg {
+            height: 6px;
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .macro-progress-fill {
+            height: 100%;
+            background-color: white;
+            border-radius: 10px;
+        }
+
+        /* --- PLAN DE COMIDAS (TIMELINE) --- */
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin: 0 0 15px 0;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .meal-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .meal-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+            display: flex;
+            align-items: stretch;
+            gap: 15px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Borde izquierdo dinámico para diferenciar comidas */
+        .meal-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 6px;
+        }
+        .meal-breakfast::before { background-color: var(--accent-yellow); }
+        .meal-lunch::before { background-color: var(--accent-orange); }
+        .meal-dinner::before { background-color: var(--primary-green); }
+
+        /* Icono de la comida */
+        .meal-icon-container {
+            width: 60px;
+            background-color: var(--bg-beige);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .meal-emoji { font-size: 1.8rem; margin-bottom: 2px; }
+        .meal-time { font-size: 0.65rem; color: var(--text-gray); font-weight: 700; }
+
+        /* Información de la comida */
+        .meal-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .meal-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 3px 0;
+        }
+
+        .meal-desc {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin: 0 0 8px 0;
+            line-height: 1.3;
+        }
+
+        .meal-calories {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+            background-color: rgba(244, 162, 97, 0.1);
+            padding: 3px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            align-self: flex-start;
+        }
+
+        /* Botón Check de Comida */
+        .meal-check {
+            width: 30px;
+            height: 30px;
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-self: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        /* Estado "Consumido" */
+        .meal-card.consumed .meal-check {
+            background-color: var(--primary-green);
+            border-color: var(--primary-green);
+        }
+
+        .meal-card.consumed .meal-check::after {
+            content: "✓";
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .meal-card.consumed .meal-title, 
+        .meal-card.consumed .meal-desc {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+
+        /* --- NAVEGACIÓN INFERIOR --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #FFFFFF;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 15px 0 20px 0;
+            z-index: 100;
+            border-radius: 30px 30px 0 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            gap: 5px;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-item svg { width: 24px; height: 24px; fill: currentColor; }
+        .nav-item.active { color: var(--accent-orange); } /* Resalta en naranja para la Dieta */
+
+    </style>
+</head>
+<body>
+
+    <div class="background-pattern"></div>
+
+    <div class="app-container">
+        
+        <!-- HEADER -->
+        <div class="header">
+            <div class="header-text">
+                <h1>Tu Dieta</h1>
+                <p>Plan de recomposición corporal</p>
+            </div>
+            <!-- Puedes añadir un botón de "Ajustes de Dieta" aquí si lo deseas -->
+        </div>
+
+        <!-- TARJETA DE MACROS -->
+        <div class="macros-card">
+            <div class="macros-header">
+                <div>
+                    <h2 class="calories-title">Calorías Restantes</h2>
+                    <p class="calories-number">1,450</p>
+                </div>
+                <div>
+                    <span class="calories-label">de 2,200 kcal</span>
+                </div>
+            </div>
+            
+            <div class="macros-bars">
+                <!-- Proteína -->
+                <div class="macro-item">
+                    <div class="macro-label">Proteína</div>
+                    <div class="macro-value">45 / 150g</div>
+                    <div class="macro-progress-bg">
+                        <div class="macro-progress-fill" style="width: 30%;"></div>
+                    </div>
+                </div>
+                <!-- Carbos -->
+                <div class="macro-item">
+                    <div class="macro-label">Carbos</div>
+                    <div class="macro-value">120 / 200g</div>
+                    <div class="macro-progress-bg">
+                        <div class="macro-progress-fill" style="width: 60%;"></div>
+                    </div>
+                </div>
+                <!-- Grasas -->
+                <div class="macro-item">
+                    <div class="macro-label">Grasas</div>
+                    <div class="macro-value">25 / 70g</div>
+                    <div class="macro-progress-bg">
+                        <div class="macro-progress-fill" style="width: 35%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PLAN DE COMIDAS -->
+        <h2 class="section-title">Comidas de Hoy <span style="font-size: 0.9rem; font-weight: 500; color: var(--primary-green); cursor:pointer;" onclick="alert('Abriendo buscador de alimentos...')">+ Añadir Extra</span></h2>
+        
+        <div class="meal-list">
+            
+            <!-- Desayuno (Ejemplo consumido) -->
+            <div class="meal-card meal-breakfast consumed" onclick="toggleMeal(this)">
+                <div class="meal-icon-container">
+                    <span class="meal-emoji">🍳</span>
+                    <span class="meal-time">08:00</span>
+                </div>
+                <div class="meal-info">
+                    <h3 class="meal-title">Huevos Revueltos y Avena</h3>
+                    <p class="meal-desc">3 huevos enteros, 50g de avena con leche de almendras.</p>
+                    <span class="meal-calories">450 kcal</span>
+                </div>
+                <div class="meal-check"></div>
+            </div>
+
+            <!-- Almuerzo -->
+            <div class="meal-card meal-lunch" onclick="toggleMeal(this)">
+                <div class="meal-icon-container">
+                    <span class="meal-emoji">🥗</span>
+                    <span class="meal-time">13:30</span>
+                </div>
+                <div class="meal-info">
+                    <h3 class="meal-title">Pollo al Grill con Quinoa</h3>
+                    <p class="meal-desc">150g de pechuga, 1 taza de quinoa, vegetales mixtos.</p>
+                    <span class="meal-calories">550 kcal</span>
+                </div>
+                <div class="meal-check"></div>
+            </div>
+
+            <!-- Snack -->
+            <div class="meal-card meal-lunch" onclick="toggleMeal(this)">
+                <div class="meal-icon-container">
+                    <span class="meal-emoji">🍎</span>
+                    <span class="meal-time">17:00</span>
+                </div>
+                <div class="meal-info">
+                    <h3 class="meal-title">Manzana y Almendras</h3>
+                    <p class="meal-desc">1 manzana verde, 15 almendras enteras.</p>
+                    <span class="meal-calories">200 kcal</span>
+                </div>
+                <div class="meal-check"></div>
+            </div>
+
+            <!-- Cena -->
+            <div class="meal-card meal-dinner" onclick="toggleMeal(this)">
+                <div class="meal-icon-container">
+                    <span class="meal-emoji">🐟</span>
+                    <span class="meal-time">20:30</span>
+                </div>
+                <div class="meal-info">
+                    <h3 class="meal-title">Salmón al Horno</h3>
+                    <p class="meal-desc">150g de salmón, espárragos y medio aguacate.</p>
+                    <span class="meal-calories">480 kcal</span>
+                </div>
+                <div class="meal-check"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MENÚ INFERIOR -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Inicio
+        </a>
+        <a href="workouts.html" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29l-1.43-1.43z"/></svg>
+            Rutinas
+        </a>
+        <a href="habits.html" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            Hábitos
+        </a>
+        <a class="nav-item active">
+            <!-- Icono de Manzana/Nutrición -->
+            <svg viewBox="0 0 24 24"><path d="M15.06 11.06L16.12 10 15 8.88C13.88 7.75 13.88 5.92 15 4.79C12.44 5.39 10.45 7.42 10.05 10H10C8.9 10 8 10.9 8 12C8 13.1 8.9 14 10 14H10.05C10.45 16.58 12.44 18.61 15 19.21C13.88 18.08 13.88 16.25 15 15.12L16.12 14 15.06 12.94C14.54 12.42 14.54 11.58 15.06 11.06M20 12C20 16.42 16.42 20 12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"/></svg>
+            Dieta
+        </a>
+    </nav>
+
+    <script>
+        // Lógica visual para marcar una comida como "consumida"
+        function toggleMeal(element) {
+            element.classList.toggle('consumed');
+            
+            // Aquí en el futuro conectarías con una función que actualice 
+            // la barra de macros y calorías restantes basándose en la comida marcada.
+            if(element.classList.contains('consumed')){
+                console.log("Comida registrada");
+            } else {
+                console.log("Comida desmarcada");
+            }
+        }
+    </script>
+</body>
+</html>
