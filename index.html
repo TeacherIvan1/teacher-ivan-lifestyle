@@ -29,7 +29,7 @@
             position: relative;
         }
 
-        /* --- PATRÓN GEOMÉTRICO DE FONDO (Inspirado en imágenes compartidas) --- */
+        /* --- PATRÓN DE FONDO "HEALTHY" (NUEVO) --- */
         .background-pattern {
             position: absolute;
             top: 0;
@@ -37,15 +37,14 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            opacity: 0.08; /* Muy sutil */
+            opacity: 0.12; /* Sutil pero visible */
             background-image: 
                 radial-gradient(var(--primary-green) 1.5px, transparent 1.5px),
-                linear-gradient(60deg, var(--light-green) 25%, transparent 25.1%),
-                linear-gradient(120deg, var(--light-green) 25%, transparent 25.1%),
-                linear-gradient(60deg, var(--primary-green) 25%, transparent 25.1%),
-                linear-gradient(120deg, var(--primary-green) 25%, transparent 25.1%);
-            background-size: 50px 50px;
-            background-position: 0 0, 0 0, 25px 0, 25px 0, 0 0;
+                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
+                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
+                linear-gradient(135deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%);
+            background-size: 60px 60px;
+            background-position: 0 0, 0 0, 30px 30px, 30px 30px;
         }
 
         /* --- CONTENIDO PRINCIPAL --- */
@@ -69,7 +68,7 @@
             font-weight: 700;
             color: var(--primary-green);
             margin: 0;
-            letter-spacing: -1px; /* Estilo de letra redondeada y amigable */
+            letter-spacing: -1px; /* Tipografía amigable */
         }
 
         .logo-lifestyle {
@@ -80,24 +79,26 @@
             text-transform: uppercase;
         }
 
-        /* --- CONTENEDOR DE ANIMACIÓN (Centrado perfecto) --- */
+        /* --- CONTENEDOR DE ANIMACIÓN (Centrado perfecto y orgánico) --- */
         .animation-container {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-grow: 1;
             padding: 20px;
+            margin-bottom: -20px; /* Para que parezca flotar sobre el panel */
         }
 
         .chibi-animation-wrapper {
-            width: 80%; /* Ajuste perfecto a móviles sin zoom innecesario */
+            width: 90%; /* Ajuste perfecto a móviles sin zoom innecesario */
             max-width: 320px;
             height: auto;
             border-radius: 50%;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Sombra suave */
             overflow: hidden;
             background-color: var(--bg-beige);
-            border: 4px solid #FFFFFF;
+            /* --- BORDES ELIMINADOS (AJUSTE) --- */
+            border: none; 
         }
 
         .chibi-animation-wrapper video {
@@ -117,6 +118,7 @@
             text-align: center;
             animation: slideUp 0.8s ease-out forwards;
             transform: translateY(100%);
+            z-index: 4; /* Sobre la animación */
         }
 
         @keyframes slideUp {
@@ -187,7 +189,7 @@
             color: white;
         }
 
-        /* --- COPYRIGHT INFERIOR --- */
+        /* --- COPYRIGHT INFERIOR (AJUSTE AÑO) --- */
         .footer-copyright {
             position: absolute;
             bottom: 10px;
@@ -197,6 +199,7 @@
             font-size: 0.75rem;
             color: var(--text-gray);
             opacity: 0.8;
+            font-family: 'Quicksand', sans-serif;
         }
 
     </style>
@@ -238,7 +241,7 @@
     </div>
 
     <div class="footer-copyright">
-        © 2024 Teacher Ivan Lifestyle. Todos los derechos reservados.
+        © 2026 Teacher Ivan Lifestyle. Todos los derechos reservados.
     </div>
 
     <script>
