@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Suscripción - Teacher Ivan Lifestyle</title>
+    <meta name="theme-color" content="#2D6A4F">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        :root {
+            --primary-green: #2D6A4F;
+            --light-green: #A2D9A9;
+            --accent-gold: #F4A261; /* Un tono dorado/naranja suave para lo Premium */
+            --bg-beige: #E6F0EA;
+            --text-dark: #333333;
+            --text-gray: #7D7D7D;
+            --card-bg: #FFFFFF;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-beige);
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* --- PATRÓN DE FONDO "HEALTHY" --- */
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.12;
+            background-image: 
+                radial-gradient(var(--primary-green) 1.5px, transparent 1.5px),
+                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
+                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
+                linear-gradient(135deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%);
+            background-size: 60px 60px;
+            background-position: 0 0, 0 0, 30px 30px, 30px 30px;
+        }
+
+        /* --- HEADER --- */
+        .header {
+            padding: 40px 20px 20px;
+            text-align: center;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .header h1 {
+            color: var(--primary-green);
+            margin: 0 0 10px 0;
+            font-size: 1.8rem;
+        }
+
+        .header p {
+            color: var(--text-gray);
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        /* --- CONTENEDOR DE PLANES --- */
+        .plans-container {
+            padding: 10px 20px 100px 20px; /* Padding bottom extra para el botón fijo */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        /* --- TARJETAS DE PLANES --- */
+        .plan-card {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 400px;
+            border-radius: 25px;
+            padding: 25px;
+            box-sizing: border-box;
+            border: 2px solid transparent;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Estado inactivo (no seleccionado) */
+        .plan-card:not(.active) {
+            opacity: 0.7;
+            transform: scale(0.98);
+        }
+
+        /* Estado activo (seleccionado) */
+        .plan-card.active {
+            border-color: var(--primary-green);
+            box-shadow: 0 12px 35px rgba(45, 106, 79, 0.15);
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Estilos específicos de Premium */
+        .plan-premium.active {
+            border-color: var(--accent-gold);
+        }
+
+        .premium-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: var(--accent-gold);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 0 25px 0 15px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* Contenido de la tarjeta */
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .plan-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .plan-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .plan-premium .plan-price {
+            color: var(--accent-gold);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        .feature-list li {
+            color: var(--text-gray);
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-list li::before {
+            content: "✓";
+            color: var(--primary-green);
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        .plan-premium .feature-list li::before {
+            color: var(--accent-gold);
+        }
+
+        /* --- SECCIÓN DEL QR (Oculta por defecto) --- */
+        .qr-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #eee;
+            display: none; /* Se muestra con JS */
+            flex-direction: column;
+            align-items: center;
+            animation: slideDown 0.4s ease forwards;
+        }
+
+        .plan-premium.active .qr-section {
+            display: flex;
+        }
+
+        /* El espacio exacto para tu QR */
+        .qr-placeholder {
+            width: 180px;
+            height: 180px;
+            background-color: #f9f9f9;
+            border: 2px dashed #ccc;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #aaa;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 15px;
+            transition: border-color 0.3s;
+        }
+
+        .qr-placeholder:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .qr-instructions {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* --- BOTÓN FLOTANTE INFERIOR --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background: linear-gradient(to top, var(--bg-beige) 80%, transparent);
+            display: flex;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-green);
+            color: #FFFFFF;
+            width: 100%;
+            max-width: 400px;
+            padding: 18px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            font-family: 'Quicksand', sans-serif;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(45, 106, 79, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.96);
+            background-color: #245A42;
+        }
+
+        /* Animaciones */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); height: 0; }
+            to { opacity: 1; transform: translateY(0); height: auto; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="background-pattern"></div>
+
+    <div class="header">
+        <h1>Elige tu Plan</h1>
+        <p>Desbloquea todo tu potencial.</p>
+    </div>
+
+    <div class="plans-container">
+        
+        <!-- TARJETA FREE -->
+        <div class="plan-card plan-free" id="cardFree" onclick="selectPlan('free')">
+            <div class="plan-header">
+                <h2 class="plan-title">Member Free</h2>
+                <span class="plan-price">Bs. 0</span>
+            </div>
+            <ul class="feature-list">
+                <li>Tracker de Hábitos Básico</li>
+                <li>Rutina de ejercicios estándar</li>
+                <li>Acceso limitado a biblioteca</li>
+            </ul>
+        </div>
+
+        <!-- TARJETA ELITE PREMIUM -->
+        <div class="plan-card plan-premium active" id="cardPremium" onclick="selectPlan('premium')">
+            <div class="premium-badge">👑 ELITE</div>
+            <div class="plan-header">
+                <h2 class="plan-title">Elite Premium</h2>
+                <span class="plan-price">Bs. 50 / mes</span>
+            </div>
+            <ul class="feature-list">
+                <li>Planes de comida personalizados</li>
+                <li>Acceso total a ejercicios (Spreadsheet)</li>
+                <li>Rutinas dinámicas por nivel</li>
+                <li>Soporte directo</li>
+            </ul>
+
+            <!-- ESPACIO PARA EL QR (Aparece cuando esta tarjeta está activa) -->
+            <div class="qr-section">
+                <p class="qr-instructions">Escanea el código QR desde tu app bancaria para activar tu plan Elite.</p>
+                
+                <!-- AQUÍ VA TU IMAGEN DEL QR -->
+                <div class="qr-placeholder" id="qrContainer">
+                    <!-- Cuando tengas la imagen, reemplaza este texto por: 
+                    <img src="tu_qr_bolivia.jpg" alt="QR de Pago" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"> 
+                    -->
+                    <span>Espacio reservado<br>para tu Imagen QR</span>
+                </div>
+                
+                <p class="qr-instructions" style="font-size: 0.75rem; color: #999; margin-top: 5px;">
+                    Una vez realizado el pago, haz clic en continuar. Tu cuenta será validada en breve.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-nav">
+        <button id="continueBtn" class="btn-primary">Continuar al Dashboard</button>
+    </div>
+
+    <script>
+        // Lógica para alternar entre los planes
+        const cardFree = document.getElementById('cardFree');
+        const cardPremium = document.getElementById('cardPremium');
+        let selectedPlan = 'premium'; // Por defecto, incitamos al usuario al Premium
+
+        function selectPlan(plan) {
+            selectedPlan = plan;
+            
+            if (plan === 'free') {
+                cardFree.classList.add('active');
+                cardPremium.classList.remove('active');
+            } else {
+                cardPremium.classList.add('active');
+                cardFree.classList.remove('active');
+            }
+        }
+
+        // Lógica del botón continuar
+        document.getElementById('continueBtn').addEventListener('click', () => {
+            if (selectedPlan === 'premium') {
+                alert('¡Gracias por elegir Elite Premium! Redirigiendo a tu Dashboard...');
+                // Aquí iría lógica para marcar en la base de datos que está pendiente de validación de pago.
+            } else {
+                alert('Plan Free seleccionado. Redirigiendo a tu Dashboard...');
+            }
+            
+            // Simulación de redirección
+            // window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>
