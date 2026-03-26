@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Onboarding - Teacher Ivan Lifestyle</title>
+    <title>Registro - Teacher Ivan Lifestyle</title>
     <meta name="theme-color" content="#2D6A4F">
     
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
@@ -20,267 +20,80 @@
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Quicksand', sans-serif;
-            background-color: var(--bg-beige);
-            overflow: hidden; 
-            display: flex;
-            flex-direction: column;
+            margin: 0; padding: 0; height: 100%; font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-beige); overflow: hidden; display: flex; flex-direction: column;
         }
 
-        /* --- PATRÓN DE FONDO "HEALTHY" --- */
         .background-pattern {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.12;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.12;
             background-image: 
                 radial-gradient(var(--primary-green) 1.5px, transparent 1.5px),
                 linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
                 linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
                 linear-gradient(135deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%);
             background-size: 60px 60px;
-            background-position: 0 0, 0 0, 30px 30px, 30px 30px;
         }
 
-        /* --- HEADER Y BARRA DE PROGRESO --- */
-        .header {
-            padding: 30px 20px 10px;
-            text-align: center;
-        }
-        
-        .progress-container {
-            width: 100%;
-            height: 8px;
-            background-color: rgba(45, 106, 79, 0.1);
-            border-radius: 10px;
-            margin-top: 15px;
-            overflow: hidden;
-        }
+        .header { padding: 30px 20px 10px; text-align: center; }
+        .progress-container { width: 100%; height: 8px; background-color: rgba(45, 106, 79, 0.1); border-radius: 10px; margin-top: 15px; overflow: hidden; }
+        .progress-bar { height: 100%; width: 33.33%; background-color: var(--primary-green); border-radius: 10px; transition: width 0.4s ease; }
 
-        .progress-bar {
-            height: 100%;
-            width: 33.33%; 
-            background-color: var(--primary-green);
-            border-radius: 10px;
-            transition: width 0.4s ease;
-        }
+        .slider-container { flex-grow: 1; width: 100%; overflow: hidden; position: relative; }
+        .slider-track { display: flex; height: 100%; width: 300vw; transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .slide { width: 100vw; height: 100%; display: flex; justify-content: center; align-items: flex-start; padding: 10px 20px 20px 20px; box-sizing: border-box; }
 
-        /* --- CARRUSEL DE PANELES DESLIZABLES --- */
-        .slider-container {
-            flex-grow: 1;
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .slider-track {
-            display: flex;
-            height: 100%;
-            width: 300vw; 
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .slide {
-            width: 100vw;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 10px 20px 20px 20px;
-            box-sizing: border-box;
-        }
-
-        /* --- TARJETAS --- */
         .card {
-            background-color: var(--card-bg);
-            width: 100%;
-            max-width: 400px;
-            border-radius: 30px;
-            padding: 25px 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            text-align: center;
-            border: 2px solid rgba(162, 217, 169, 0.3);
-            display: flex;
-            flex-direction: column;
-            max-height: 100%; /* Para permitir scroll interno si es necesario */
+            background-color: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px;
+            padding: 25px 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center;
+            border: 2px solid rgba(162, 217, 169, 0.3); display: flex; flex-direction: column; max-height: 100%;
         }
+        .card h2 { color: var(--text-dark); margin-top: 0; margin-bottom: 5px; font-size: 1.5rem; }
+        .card p { color: var(--text-gray); font-size: 0.95rem; margin-bottom: 20px; }
 
-        .card h2 {
-            color: var(--text-dark);
-            margin-top: 0;
-            margin-bottom: 5px;
-            font-size: 1.5rem;
-        }
+        .scrollable-list { overflow-y: auto; flex-grow: 1; padding-right: 5px; margin-bottom: 10px; text-align: left; scrollbar-width: none; }
+        .scrollable-list::-webkit-scrollbar { display: none; }
 
-        .card p {
-            color: var(--text-gray);
-            font-size: 0.95rem;
-            margin-bottom: 20px;
+        /* --- ESTILOS AUTH (GOOGLE Y SEPARADOR) --- */
+        .btn-google {
+            background-color: #FFFFFF; color: #333; border: 2px solid #EEE; padding: 12px; border-radius: 15px;
+            width: 100%; font-family: 'Quicksand', sans-serif; font-size: 1rem; font-weight: 700;
+            display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: background-color 0.2s; margin-bottom: 15px;
         }
-
-        /* Contenedor con scroll interno para listas largas (Hábitos/Objetivos) */
-        .scrollable-list {
-            overflow-y: auto;
-            flex-grow: 1;
-            padding-right: 5px;
-            margin-bottom: 10px;
-            text-align: left;
-            /* Scrollbar styling */
-            scrollbar-width: thin;
-            scrollbar-color: var(--light-green) transparent;
-        }
+        .btn-google:active { background-color: #F9F9F9; }
         
-        .scrollable-list::-webkit-scrollbar {
-            width: 6px;
+        .divider {
+            display: flex; align-items: center; text-align: center; margin: 15px 0; color: var(--text-gray); font-size: 0.85rem; font-weight: 600;
         }
-        .scrollable-list::-webkit-scrollbar-thumb {
-            background-color: var(--light-green);
-            border-radius: 10px;
-        }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #EEE; }
+        .divider::before { margin-right: .5em; }
+        .divider::after { margin-left: .5em; }
 
-        /* --- ELEMENTOS DE FORMULARIO --- */
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .input-group label {
-            display: block;
-            color: var(--primary-green);
-            font-weight: 700;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
-
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; color: var(--primary-green); font-weight: 700; margin-bottom: 8px; font-size: 0.9rem; }
         .input-group input, .input-group select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #E6F0EA;
-            border-radius: 15px;
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1rem;
-            color: var(--text-dark);
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.3s;
+            width: 100%; padding: 12px; border: 2px solid #E6F0EA; border-radius: 15px;
+            font-family: 'Quicksand', sans-serif; font-size: 1rem; color: var(--text-dark); box-sizing: border-box; outline: none; transition: border-color 0.3s;
         }
+        .input-group input:focus, .input-group select:focus { border-color: var(--primary-green); }
 
-        .input-group input:focus, .input-group select:focus {
-            border-color: var(--primary-green);
-        }
+        .selectable-option { display: flex; align-items: center; padding: 12px 15px; border: 2px solid #E6F0EA; border-radius: 15px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; text-align: left; }
+        .selectable-option.active { border-color: var(--primary-green); background-color: rgba(162, 217, 169, 0.15); }
+        .selectable-option span.icon { font-size: 1.3rem; margin-right: 12px; }
+        .selectable-option span.text { font-weight: 600; color: var(--text-dark); flex-grow: 1; font-size: 0.95rem; }
+        
+        .check-circle { width: 22px; height: 22px; border: 2px solid #ccc; border-radius: 50%; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
+        .active .check-circle { border-color: var(--primary-green); background-color: var(--primary-green); }
+        .active .check-circle::after { content: "✓"; color: white; font-weight: bold; font-size: 12px; }
 
-        /* Opciones seleccionables */
-        .selectable-option {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            border: 2px solid #E6F0EA;
-            border-radius: 15px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: left;
-        }
+        .bottom-nav { padding: 20px; display: flex; justify-content: space-between; gap: 15px; background: linear-gradient(to top, var(--bg-beige) 80%, transparent); }
+        .btn { padding: 16px; border-radius: 30px; font-size: 1.1rem; font-weight: 700; cursor: pointer; border: none; font-family: 'Quicksand', sans-serif; flex-grow: 1; display: flex; justify-content: center; align-items: center; transition: transform 0.2s; }
+        .btn-outline { background-color: transparent; color: var(--text-gray); flex-grow: 0; padding: 16px 25px; }
+        .btn-primary { background-color: var(--primary-green); color: #FFFFFF; }
+        .btn-primary:active { transform: scale(0.96); background-color: #245A42; }
 
-        .selectable-option.active {
-            border-color: var(--primary-green);
-            background-color: rgba(162, 217, 169, 0.15);
-        }
-
-        .selectable-option span.icon {
-            font-size: 1.3rem;
-            margin-right: 12px;
-        }
-
-        .selectable-option span.text {
-            font-weight: 600;
-            color: var(--text-dark);
-            flex-grow: 1;
-            font-size: 0.95rem;
-        }
-
-        .check-circle {
-            width: 22px;
-            height: 22px;
-            border: 2px solid #ccc;
-            border-radius: 50%; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .active .check-circle {
-            border-color: var(--primary-green);
-            background-color: var(--primary-green);
-        }
-
-        .active .check-circle::after {
-            content: "✓";
-            color: white;
-            font-weight: bold;
-            font-size: 12px;
-        }
-
-        /* --- NAVEGACIÓN INFERIOR --- */
-        .bottom-nav {
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            background: linear-gradient(to top, var(--bg-beige) 80%, transparent);
-        }
-
-        .btn {
-            padding: 16px;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            font-family: 'Quicksand', sans-serif;
-            flex-grow: 1;
-            transition: transform 0.2s, background-color 0.2s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            color: var(--text-gray);
-            flex-grow: 0;
-            padding: 16px 25px;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-green);
-            color: #FFFFFF;
-        }
-
-        .btn-primary:active {
-            transform: scale(0.96);
-            background-color: #245A42;
-        }
-
-        /* Estado de carga en el botón */
-        .spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top: 3px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
+        .spinner { display: none; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
     </style>
 </head>
 <body>
@@ -289,23 +102,41 @@
 
     <div class="header">
         <h3 style="margin: 0; color: var(--primary-green); font-size: 1.2rem;">Paso <span id="stepCounter">1</span> de 3</h3>
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
+        <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
     </div>
 
     <div class="slider-container">
         <div class="slider-track" id="sliderTrack">
             
+            <!-- PASO 1: CREAR CUENTA (AUTH) -->
             <div class="slide">
                 <div class="card">
-                    <h2>Tu Perfil</h2>
-                    <p>Conozcámonos un poco mejor.</p>
+                    <h2>Crea tu Cuenta</h2>
+                    <p>Guarda tu progreso de forma segura.</p>
                     
                     <div class="scrollable-list">
+                        
+                        <!-- Botón Google -->
+                        <button class="btn-google" onclick="simularGoogleLogin()">
+                            <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+                            Continuar con Google
+                        </button>
+
+                        <div class="divider"><span>o regístrate con tu email</span></div>
+
                         <div class="input-group">
-                            <label>¿Cómo te llamas?</label>
-                            <input type="text" placeholder="Ej. Carlos" id="userName">
+                            <label>Nombre y Apellido</label>
+                            <input type="text" placeholder="Ej. Carlos Mendoza" id="userName" required>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Correo Electrónico</label>
+                            <input type="email" placeholder="tu@email.com" id="userEmail" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Contraseña</label>
+                            <input type="password" placeholder="Crea una contraseña segura" id="userPassword" required>
                         </div>
                         
                         <div class="input-group">
@@ -314,7 +145,7 @@
                         </div>
 
                         <div class="input-group">
-                            <label>Tu nivel físico actual</label>
+                            <label>Nivel Físico</label>
                             <select id="userLevel">
                                 <option value="Principiante">Principiante (Empiezo mi viaje)</option>
                                 <option value="Intermedio">Intermedio (Hago ejercicio regular)</option>
@@ -325,34 +156,22 @@
                 </div>
             </div>
 
+            <!-- PASO 2: OBJETIVOS -->
             <div class="slide">
                 <div class="card">
                     <h2>Tus Objetivos</h2>
                     <p>¿Qué te trae por aquí? (Elige varios)</p>
 
                     <div class="scrollable-list">
-                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Fuerza y Musculo">
-                            <span class="icon">💪</span><span class="text">Ganar Fuerza y Músculo</span><div class="check-circle"></div>
-                        </div>
-                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Perder Grasa">
-                            <span class="icon">🔥</span><span class="text">Perder Grasa / Definir</span><div class="check-circle"></div>
-                        </div>
-                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Condicion Fisica">
-                            <span class="icon">🏃</span><span class="text">Mejorar Condición (Cardio)</span><div class="check-circle"></div>
-                        </div>
-                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Reducir Estres">
-                            <span class="icon">🧘</span><span class="text">Reducir Estrés y Ansiedad</span><div class="check-circle"></div>
-                        </div>
-                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Dormir Mejor">
-                            <span class="icon">🛌</span><span class="text">Dormir Mejor / Más Energía</span><div class="check-circle"></div>
-                        </div>
-                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Habitos Saludables">
-                            <span class="icon">🌱</span><span class="text">Crear Hábitos Saludables</span><div class="check-circle"></div>
-                        </div>
+                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Fuerza y Musculo"><span class="icon">💪</span><span class="text">Ganar Fuerza y Músculo</span><div class="check-circle"></div></div>
+                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Perder Grasa"><span class="icon">🔥</span><span class="text">Perder Grasa / Definir</span><div class="check-circle"></div></div>
+                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Condicion Fisica"><span class="icon">🏃</span><span class="text">Mejorar Condición (Cardio)</span><div class="check-circle"></div></div>
+                        <div class="selectable-option goal-option" onclick="toggleOption(this)" data-value="Dormir Mejor"><span class="icon">🛌</span><span class="text">Dormir Mejor / Más Energía</span><div class="check-circle"></div></div>
                     </div>
                 </div>
             </div>
 
+            <!-- PASO 3: HÁBITOS BASE -->
             <div class="slide">
                 <div class="card">
                     <h2>Hábitos Base</h2>
@@ -361,19 +180,8 @@
                     <div class="scrollable-list">
                         <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Agua 2L"><span class="icon">💧</span><span class="text">Beber 2L de Agua</span><div class="check-circle"></div></div>
                         <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Meditar 10m"><span class="icon">🧘</span><span class="text">Meditar 10 mins</span><div class="check-circle"></div></div>
-                        <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Leer 15m"><span class="icon">📚</span><span class="text">Leer 15 mins</span><div class="check-circle"></div></div>
                         <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="10k Pasos"><span class="icon">🚶</span><span class="text">Caminar 10,000 pasos</span><div class="check-circle"></div></div>
-                        <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Dormir 8h"><span class="icon">🛌</span><span class="text">Dormir 8 horas</span><div class="check-circle"></div></div>
                         <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Cero Azucar"><span class="icon">🚫</span><span class="text">Cero azúcar refinada</span><div class="check-circle"></div></div>
-                        <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Estiramiento 5m"><span class="icon">🤸</span><span class="text">Estirar 5 mins al despertar</span><div class="check-circle"></div></div>
-                        <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Verduras x2"><span class="icon">🥗</span><span class="text">Comer 2 porciones verdura</span><div class="check-circle"></div></div>
-                        <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Ayuno 12h"><span class="icon">⏳</span><span class="text">Ayuno intermitente (12h+)</span><div class="check-circle"></div></div>
-                        <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Despertar 6AM"><span class="icon">🌅</span><span class="text">Despertar antes de las 6 AM</span><div class="check-circle"></div></div>
-                        <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Ducha Fria"><span class="icon">🚿</span><span class="text">Ducha de agua fría</span><div class="check-circle"></div></div>
-                        <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Journaling"><span class="icon">📝</span><span class="text">Journaling / Agradecimiento</span><div class="check-circle"></div></div>
-                        <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Sin Pantallas"><span class="icon">📱</span><span class="text">Sin pantallas 1h antes dormir</span><div class="check-circle"></div></div>
-                        <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Ejercicio 30m"><span class="icon">🏋️</span><span class="text">Hacer ejercicio 30 mins</span><div class="check-circle"></div></div>
-                        <div class="selectable-option habit-option" onclick="toggleOption(this)" data-value="Comida Real"><span class="icon">🥩</span><span class="text">80% Comida no procesada</span><div class="check-circle"></div></div>
                     </div>
                 </div>
             </div>
@@ -390,7 +198,7 @@
     </div>
 
     <script>
-        // Tu URL de Google Apps Script (La misma que usamos para los ejercicios)
+        // Tu URL de Google Apps Script
         const API_URL = 'https://script.google.com/macros/s/AKfycbxnbIBK31t3Il1JoyvIj6fSawERfBxgAJD-5ahXmZsFBKnf5RWMNy1uf1RQM36WNJJd/exec';
 
         let currentStep = 0;
@@ -403,12 +211,8 @@
         const btnText = document.getElementById('btnText');
         const btnSpinner = document.getElementById('btnSpinner');
 
-        // Función para cambiar visualmente el estado de las opciones
-        function toggleOption(element) {
-            element.classList.toggle('active');
-        }
+        function toggleOption(element) { element.classList.toggle('active'); }
 
-        // Lógica de navegación del carrusel
         function updateSlider() {
             track.style.transform = `translateX(-${currentStep * 100}vw)`;
             progressBar.style.width = `${((currentStep + 1) / totalSteps) * 100}%`;
@@ -416,72 +220,81 @@
             prevBtn.style.visibility = currentStep === 0 ? 'hidden' : 'visible';
             
             if (currentStep === totalSteps - 1) {
-                btnText.innerText = 'Finalizar y Guardar';
-                nextBtn.style.backgroundColor = 'var(--light-green)';
-                nextBtn.style.color = 'var(--primary-green)';
+                btnText.innerText = 'Crear Cuenta';
             } else {
                 btnText.innerText = 'Siguiente';
-                nextBtn.style.backgroundColor = 'var(--primary-green)';
-                nextBtn.style.color = '#FFFFFF';
             }
         }
 
-        // Recopilación y envío de datos
+        // Simula la obtención de datos de Google Auth
+        function simularGoogleLogin() {
+            document.getElementById('userName').value = "Carlos Mendoza (Google)";
+            document.getElementById('userEmail').value = "carlos@gmail.com";
+            document.getElementById('userPassword').value = "google-oauth-token";
+            alert("Cuenta de Google conectada exitosamente.");
+        }
+
         async function guardarDatosUsuario() {
-            // 1. Recolectar Nombre, Peso, Nivel
-            const nombre = document.getElementById('userName').value || 'Usuario';
+            const nombre = document.getElementById('userName').value;
+            const email = document.getElementById('userEmail').value;
+            const password = document.getElementById('userPassword').value;
             const peso = document.getElementById('userWeight').value || 'No especificado';
             const nivel = document.getElementById('userLevel').value;
 
-            // 2. Recolectar Objetivos
-            const objetivosSeleccionados = Array.from(document.querySelectorAll('.goal-option.active'))
-                .map(el => el.getAttribute('data-value')).join(', ');
+            // Validación simple
+            if(!nombre || !email || !password) {
+                alert("Por favor, llena tu Nombre, Email y Contraseña para registrarte.");
+                // Regresar al paso 1
+                currentStep = 0; updateSlider();
+                return;
+            }
 
-            // 3. Recolectar Hábitos
-            const habitosSeleccionados = Array.from(document.querySelectorAll('.habit-option.active'))
-                .map(el => el.getAttribute('data-value')).join(', ');
+            const objetivosSeleccionados = Array.from(document.querySelectorAll('.goal-option.active')).map(el => el.getAttribute('data-value')).join(', ');
+            const habitosSeleccionados = Array.from(document.querySelectorAll('.habit-option.active')).map(el => el.getAttribute('data-value')).join(', ');
 
-            // 4. Armar el objeto a enviar
+            // GUARDAMOS EN MEMORIA (LocalStorage) PARA EL DASHBOARD
+            const appState = {
+                user: { nombre: nombre, email: email, avatar: '🧘🏻‍♂️', plan: 'free' },
+                habits: Array.from(document.querySelectorAll('.habit-option.active')).map((el, i) => ({
+                    id: i, text: el.querySelector('.text').innerText, icon: el.querySelector('.icon').innerText, done: false
+                }))
+            };
+            localStorage.setItem('teacherIvanData', JSON.stringify(appState));
+
+            // ENVIAMOS A GOOGLE SHEETS
             const formData = {
                 action: 'saveUser',
+                fecha: new Date().toISOString(),
                 nombre: nombre,
+                email: email,
+                password: password, // Precaución: En producción real usar Firebase
                 peso: peso,
                 nivel: nivel,
                 objetivos: objetivosSeleccionados,
-                habitos: habitosSeleccionados,
-                fecha: new Date().toISOString()
+                habitos: habitosSeleccionados
             };
 
-            // Mostrar estado de carga en el botón
             btnText.style.display = 'none';
             btnSpinner.style.display = 'block';
             nextBtn.disabled = true;
 
             try {
-                // Hacemos un POST usando mode 'no-cors' para evitar bloqueos de Google
                 await fetch(API_URL, {
                     method: 'POST',
                     mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)
                 });
-                
-                // Redirigir al Paywall tras guardar
                 window.location.href = 'auth.html';
             } catch (error) {
                 console.error('Error guardando datos:', error);
-                // Redirigir de todos modos para no bloquear al usuario
                 window.location.href = 'auth.html'; 
             }
         }
 
-        // Controladores de botones
         nextBtn.addEventListener('click', () => {
             if (currentStep < totalSteps - 1) {
-                currentStep++;
-                updateSlider();
+                currentStep++; updateSlider();
             } else {
                 guardarDatosUsuario();
             }
@@ -489,8 +302,7 @@
 
         prevBtn.addEventListener('click', () => {
             if (currentStep > 0) {
-                currentStep--;
-                updateSlider();
+                currentStep--; updateSlider();
             }
         });
     </script>
