@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rutinas - Teacher Ivan Lifestyle</title>
+    <meta name="theme-color" content="#2D6A4F">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        :root {
+            --primary-green: #2D6A4F;
+            --light-green: #A2D9A9;
+            --bg-beige: #E6F0EA;
+            --text-dark: #333333;
+            --text-gray: #7D7D7D;
+            --card-bg: #FFFFFF;
+            --level-beginner: #4CAF50;
+            --level-intermediate: #FF9800;
+            --level-advanced: #F44336;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-beige);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* --- PATRÓN DE FONDO "HEALTHY" --- */
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.12;
+            background-image: 
+                radial-gradient(var(--primary-green) 1.5px, transparent 1.5px),
+                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
+                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
+                linear-gradient(135deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%);
+            background-size: 60px 60px;
+            background-position: 0 0, 0 0, 30px 30px, 30px 30px;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .app-container {
+            padding: 20px 20px 100px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- HEADER Y FILTROS --- */
+        .header {
+            margin-bottom: 20px;
+            padding-top: 10px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+            margin: 0 0 5px 0;
+            font-weight: 700;
+        }
+        
+        .header p {
+            color: var(--text-gray);
+            margin: 0 0 15px 0;
+            font-size: 0.95rem;
+        }
+
+        /* Menú deslizable horizontal para filtros */
+        .filters-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none; /* Ocultar scrollbar en Firefox */
+        }
+        .filters-container::-webkit-scrollbar {
+            display: none; /* Ocultar scrollbar en Chrome/Safari */
+        }
+
+        .filter-btn {
+            background-color: var(--card-bg);
+            color: var(--text-gray);
+            border: 2px solid transparent;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            white-space: nowrap;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-green);
+            color: white;
+            box-shadow: 0 4px 10px rgba(45, 106, 79, 0.2);
+        }
+
+        /* --- ESTADO DE CARGA --- */
+        .loading-state {
+            text-align: center;
+            padding: 50px 0;
+            color: var(--primary-green);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(45, 106, 79, 0.2);
+            border-top: 4px solid var(--primary-green);
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* --- TARJETAS DE EJERCICIOS --- */
+        .exercise-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .exercise-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .exercise-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 5px 0;
+        }
+
+        .exercise-muscle {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* Colores dinámicos por nivel */
+        .tag-level-principiante { background-color: rgba(76, 175, 80, 0.15); color: var(--level-beginner); }
+        .tag-level-intermedio { background-color: rgba(255, 152, 0, 0.15); color: var(--level-intermediate); }
+        .tag-level-avanzado { background-color: rgba(244, 67, 54, 0.15); color: var(--level-advanced); }
+        
+        .tag-type { background-color: #f0f0f0; color: var(--text-gray); }
+
+        .exercise-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 5px;
+            border-top: 1px dashed #eee;
+            padding-top: 10px;
+        }
+
+        .equipment-text {
+            font-size: 0.8rem;
+            color: var(--primary-green);
+            font-weight: 600;
+        }
+
+        .btn-video {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+            border: none;
+            padding: 6px 15px;
+            border-radius: 15px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+
+        .btn-video:active {
+            transform: scale(0.95);
+        }
+
+        /* --- NAVEGACIÓN INFERIOR (BOTTOM NAV) --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #FFFFFF;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 15px 0 20px 0;
+            z-index: 100;
+            border-radius: 30px 30px 0 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            gap: 5px;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-item svg { width: 24px; height: 24px; fill: currentColor; }
+        .nav-item.active { color: var(--primary-green); }
+
+    </style>
+</head>
+<body>
+
+    <div class="background-pattern"></div>
+
+    <div class="app-container">
+        
+        <div class="header">
+            <h1>Biblioteca</h1>
+            <p>Explora todos los ejercicios disponibles.</p>
+            
+            <!-- Filtros -->
+            <div class="filters-container">
+                <button class="filter-btn active" onclick="filterData('Todos', this)">Todos</button>
+                <button class="filter-btn" onclick="filterData('Principiante', this)">Principiante</button>
+                <button class="filter-btn" onclick="filterData('Intermedio', this)">Intermedio</button>
+                <button class="filter-btn" onclick="filterData('Avanzado', this)">Avanzado</button>
+            </div>
+        </div>
+
+        <!-- Estado de carga -->
+        <div id="loadingState" class="loading-state">
+            <div class="spinner"></div>
+            <p>Conectando con tu base de datos...</p>
+        </div>
+
+        <!-- Contenedor donde se inyectarán las tarjetas -->
+        <div id="exerciseList" class="exercise-list">
+            <!-- Las tarjetas se generan aquí con JavaScript -->
+        </div>
+
+    </div>
+
+    <!-- MENÚ INFERIOR (BOTTOM NAV) -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Inicio
+        </a>
+        <a class="nav-item active">
+            <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29l-1.43-1.43z"/></svg>
+            Rutinas
+        </a>
+        <a class="nav-item" onclick="alert('Ir a Nutrición')">
+            <svg viewBox="0 0 24 24"><path d="M15.06 11.06L16.12 10 15 8.88C13.88 7.75 13.88 5.92 15 4.79C12.44 5.39 10.45 7.42 10.05 10H10C8.9 10 8 10.9 8 12C8 13.1 8.9 14 10 14H10.05C10.45 16.58 12.44 18.61 15 19.21C13.88 18.08 13.88 16.25 15 15.12L16.12 14 15.06 12.94C14.54 12.42 14.54 11.58 15.06 11.06M20 12C20 16.42 16.42 20 12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"/></svg>
+            Dieta
+        </a>
+        <a class="nav-item" onclick="alert('Ir a Perfil')">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            Perfil
+        </a>
+    </nav>
+
+    <script>
+        // TU URL DE LA API DE GOOGLE (¡Aquí ocurre la magia!)
+        const API_URL = 'https://script.google.com/macros/s/AKfycbxnbIBK31t3Il1JoyvIj6fSawERfBxgAJD-5ahXmZsFBKnf5RWMNy1uf1RQM36WNJJd/exec?action=getEjercicios';
+        
+        let allExercises = []; // Guardaremos los datos aquí para no recargar al filtrar
+
+        // 1. Función para descargar los datos
+        async function fetchEjercicios() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                allExercises = data; // Guardamos la data
+                
+                // Ocultar loader y mostrar lista
+                document.getElementById('loadingState').style.display = 'none';
+                renderEjercicios(allExercises);
+                
+            } catch (error) {
+                console.error("Error al cargar la data:", error);
+                document.getElementById('loadingState').innerHTML = '<p style="color: red;">Hubo un error al cargar los ejercicios. Intenta de nuevo.</p>';
+            }
+        }
+
+        // 2. Función para "Dibujar" las tarjetas en el HTML
+        function renderEjercicios(ejerciciosArray) {
+            const container = document.getElementById('exerciseList');
+            container.innerHTML = ''; // Limpiar lista actual
+
+            if(ejerciciosArray.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color: var(--text-gray);">No hay ejercicios para este filtro.</p>';
+                return;
+            }
+
+            ejerciciosArray.forEach(ejercicio => {
+                // Asignar clase de color según el nivel (leyendo directo de tu Excel)
+                let nivelClass = 'tag-level-principiante';
+                if (ejercicio["NIVEL"] === 'Intermedio') nivelClass = 'tag-level-intermedio';
+                if (ejercicio["NIVEL"] === 'Avanzado') nivelClass = 'tag-level-avanzado';
+
+                // Crear el HTML de la tarjeta inyectando los datos del JSON
+                const cardHTML = `
+                    <div class="exercise-card">
+                        <div class="exercise-header">
+                            <div>
+                                <h3 class="exercise-title">${ejercicio["NOMBRE DEL EJERCICIO"]}</h3>
+                                <p class="exercise-muscle">🎯 ${ejercicio["ZONA DE ENFOQUE MUSCULAR"]}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="tags-container">
+                            <span class="tag ${nivelClass}">${ejercicio["NIVEL"]}</span>
+                            <span class="tag tag-type">${ejercicio["TIPO DE MOVIMIENTO"]}</span>
+                        </div>
+
+                        <div class="exercise-footer">
+                            <span class="equipment-text">🛠️ ${ejercicio["EQUIPAMIENTO NECESARIO"]}</span>
+                            <a href="${ejercicio["LINK DEL VIDEO REFERENCIA"]}" target="_blank" class="btn-video">
+                                ▶ Ver Video
+                            </a>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        // 3. Función para Filtrar por Nivel
+        function filterData(nivel, btnElement) {
+            // Cambiar estilos de los botones
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            // Filtrar el array original
+            if (nivel === 'Todos') {
+                renderEjercicios(allExercises);
+            } else {
+                const filtrados = allExercises.filter(ej => ej["NIVEL"] === nivel);
+                renderEjercicios(filtrados);
+            }
+        }
+
+        // ¡Iniciar la descarga al cargar la página!
+        window.onload = fetchEjercicios;
+
+    </script>
+</body>
+</html>
