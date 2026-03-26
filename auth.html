@@ -13,7 +13,7 @@
         :root {
             --primary-green: #2D6A4F;
             --light-green: #A2D9A9;
-            --accent-gold: #F4A261; /* Un tono dorado/naranja suave para lo Premium */
+            --accent-gold: #F4A261; /* Dorado Premium */
             --bg-beige: #E6F0EA;
             --text-dark: #333333;
             --text-gray: #7D7D7D;
@@ -49,32 +49,70 @@
             background-position: 0 0, 0 0, 30px 30px, 30px 30px;
         }
 
+        /* --- CONTENEDOR PRINCIPAL CON LOGO --- */
+        .app-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+
+        /* --- LOGO SUPERIOR CENTRADO --- */
+        .logo-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .top-logo {
+            width: 90px; /* Escalado para móvil, no los 512px nativos */
+            height: 90px;
+            border-radius: 50%;
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            object-fit: cover;
+        }
+
         /* --- HEADER --- */
         .header {
-            padding: 40px 20px 20px;
             text-align: center;
-            animation: fadeInDown 0.6s ease;
+            margin-bottom: 25px;
+            animation: fadeInDown 0.6s ease 0.2s forwards;
+            opacity: 0; /* Inicia oculto para la animación */
         }
 
         .header h1 {
             color: var(--primary-green);
             margin: 0 0 10px 0;
             font-size: 1.8rem;
+            font-weight: 700;
         }
 
         .header p {
             color: var(--text-gray);
             margin: 0;
             font-size: 1rem;
+            max-width: 280px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        /* --- CONTENEDOR DE PLANES --- */
+        /* --- CONTENEDOR DE PLANES (Sube sobre el logo suavemente) --- */
         .plans-container {
-            padding: 10px 20px 100px 20px; /* Padding bottom extra para el botón fijo */
             display: flex;
             flex-direction: column;
             gap: 20px;
             align-items: center;
+            padding-bottom: 120px; /* Espacio para el botón fijo inferior */
+            animation: slideUp 0.8s ease-out forwards;
+            transform: translateY(30px);
+            opacity: 0;
         }
 
         /* --- TARJETAS DE PLANES --- */
@@ -82,32 +120,32 @@
             background-color: var(--card-bg);
             width: 100%;
             max-width: 400px;
-            border-radius: 25px;
-            padding: 25px;
+            border-radius: 30px;
+            padding: 30px 25px;
             box-sizing: border-box;
-            border: 2px solid transparent;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            border: 3px solid transparent;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
             overflow: hidden;
         }
 
-        /* Estado inactivo (no seleccionado) */
+        /* Estado inactivo */
         .plan-card:not(.active) {
             opacity: 0.7;
             transform: scale(0.98);
         }
 
-        /* Estado activo (seleccionado) */
+        /* Estado activo */
         .plan-card.active {
             border-color: var(--primary-green);
-            box-shadow: 0 12px 35px rgba(45, 106, 79, 0.15);
+            box-shadow: 0 12px 40px rgba(45, 106, 79, 0.15);
             opacity: 1;
             transform: scale(1);
         }
 
-        /* Estilos específicos de Premium */
+        /* Estilos específicos de Premium (Dorado) */
         .plan-premium.active {
             border-color: var(--accent-gold);
         }
@@ -118,11 +156,12 @@
             right: 0;
             background-color: var(--accent-gold);
             color: white;
-            padding: 5px 15px;
-            border-radius: 0 25px 0 15px;
-            font-size: 0.8rem;
+            padding: 6px 18px;
+            border-radius: 0 30px 0 20px;
+            font-size: 0.85rem;
             font-weight: 700;
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         /* Contenido de la tarjeta */
@@ -130,18 +169,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .plan-title {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--text-dark);
             margin: 0;
         }
 
         .plan-price {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--primary-green);
         }
@@ -159,18 +198,21 @@
 
         .feature-list li {
             color: var(--text-gray);
-            margin-bottom: 10px;
-            font-size: 0.95rem;
+            margin-bottom: 12px;
+            font-size: 1rem;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
+            line-height: 1.4;
         }
 
         .feature-list li::before {
             content: "✓";
             color: var(--primary-green);
             font-weight: bold;
-            margin-right: 10px;
-            font-size: 1.1rem;
+            margin-right: 12px;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            margin-top: -2px;
         }
 
         .plan-premium .feature-list li::before {
@@ -179,47 +221,47 @@
 
         /* --- SECCIÓN DEL QR (Oculta por defecto) --- */
         .qr-section {
-            margin-top: 20px;
-            padding-top: 20px;
+            margin-top: 25px;
+            padding-top: 25px;
             border-top: 1px dashed #eee;
             display: none; /* Se muestra con JS */
             flex-direction: column;
             align-items: center;
-            animation: slideDown 0.4s ease forwards;
+            animation: slideDownFade 0.4s ease forwards;
         }
 
         .plan-premium.active .qr-section {
             display: flex;
         }
 
-        /* El espacio exacto para tu QR */
-        .qr-placeholder {
-            width: 180px;
-            height: 180px;
-            background-color: #f9f9f9;
-            border: 2px dashed #ccc;
-            border-radius: 15px;
+        .qr-container {
+            width: 200px;
+            height: 200px;
+            background-color: white;
+            border: 3px solid var(--accent-gold);
+            border-radius: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #aaa;
-            font-size: 0.9rem;
-            text-align: center;
-            padding: 10px;
             margin-bottom: 15px;
-            transition: border-color 0.3s;
+            padding: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
 
-        .qr-placeholder:hover {
-            border-color: var(--accent-gold);
-            color: var(--accent-gold);
+        .qr-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ajusta la imagen QR real */
         }
 
         .qr-instructions {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-gray);
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+            max-width: 250px;
+            line-height: 1.4;
         }
 
         /* --- BOTÓN FLOTANTE INFERIOR --- */
@@ -230,7 +272,7 @@
             width: 100%;
             padding: 20px;
             box-sizing: border-box;
-            background: linear-gradient(to top, var(--bg-beige) 80%, transparent);
+            background: linear-gradient(to top, var(--bg-beige) 80%, rgba(230,240,234,0));
             display: flex;
             justify-content: center;
             z-index: 10;
@@ -243,13 +285,13 @@
             max-width: 400px;
             padding: 18px;
             border-radius: 30px;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 700;
             cursor: pointer;
             border: none;
             font-family: 'Quicksand', sans-serif;
             text-transform: uppercase;
-            box-shadow: 0 5px 15px rgba(45, 106, 79, 0.2);
+            box-shadow: 0 8px 20px rgba(45, 106, 79, 0.2);
             transition: all 0.3s ease;
         }
 
@@ -263,7 +305,11 @@
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes slideDown {
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideDownFade {
             from { opacity: 0; transform: translateY(-10px); height: 0; }
             to { opacity: 1; transform: translateY(0); height: auto; }
         }
@@ -274,56 +320,59 @@
 
     <div class="background-pattern"></div>
 
-    <div class="header">
-        <h1>Elige tu Plan</h1>
-        <p>Desbloquea todo tu potencial.</p>
-    </div>
-
-    <div class="plans-container">
+    <div class="app-container">
         
-        <!-- TARJETA FREE -->
-        <div class="plan-card plan-free" id="cardFree" onclick="selectPlan('free')">
-            <div class="plan-header">
-                <h2 class="plan-title">Member Free</h2>
-                <span class="plan-price">Bs. 0</span>
-            </div>
-            <ul class="feature-list">
-                <li>Tracker de Hábitos Básico</li>
-                <li>Rutina de ejercicios estándar</li>
-                <li>Acceso limitado a biblioteca</li>
-            </ul>
+        <div class="logo-wrapper">
+            <img src="icon-512.png" alt="Teacher Ivan Lifestyle Logo" class="top-logo">
         </div>
 
-        <!-- TARJETA ELITE PREMIUM -->
-        <div class="plan-card plan-premium active" id="cardPremium" onclick="selectPlan('premium')">
-            <div class="premium-badge">👑 ELITE</div>
-            <div class="plan-header">
-                <h2 class="plan-title">Elite Premium</h2>
-                <span class="plan-price">Bs. 50 / mes</span>
-            </div>
-            <ul class="feature-list">
-                <li>Planes de comida personalizados</li>
-                <li>Acceso total a ejercicios (Spreadsheet)</li>
-                <li>Rutinas dinámicas por nivel</li>
-                <li>Soporte directo</li>
-            </ul>
+        <div class="header">
+            <h1>Invierte en ti</h1>
+            <p>Elige el plan que transformará tu estilo de vida.</p>
+        </div>
 
-            <!-- ESPACIO PARA EL QR (Aparece cuando esta tarjeta está activa) -->
-            <div class="qr-section">
-                <p class="qr-instructions">Escanea el código QR desde tu app bancaria para activar tu plan Elite.</p>
-                
-                <!-- AQUÍ VA TU IMAGEN DEL QR -->
-                <div class="qr-placeholder" id="qrContainer">
-                    <!-- Cuando tengas la imagen, reemplaza este texto por: 
-                    <img src="tu_qr_bolivia.jpg" alt="QR de Pago" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"> 
-                    -->
-                    <span>Espacio reservado<br>para tu Imagen QR</span>
+        <div class="plans-container">
+            
+            <div class="plan-card plan-free" id="cardFree" onclick="selectPlan('free')">
+                <div class="plan-header">
+                    <h2 class="plan-title"> Member Free </h2>
+                    <span class="plan-price">Bs. 0</span>
                 </div>
-                
-                <p class="qr-instructions" style="font-size: 0.75rem; color: #999; margin-top: 5px;">
-                    Una vez realizado el pago, haz clic en continuar. Tu cuenta será validada en breve.
-                </p>
+                <ul class="feature-list">
+                    <li>Rastreador de Hábitos Básico</li>
+                    <li>Rutina General (no adaptativa)</li>
+                    <li>Soporte vía Comunidad</li>
+                    <li>Primeros pasos en tu viaje Lifestyle</li>
+                </ul>
             </div>
+
+            <div class="plan-card plan-premium active" id="cardPremium" onclick="selectPlan('premium')">
+                <div class="premium-badge">👑 VIP ELITE</div>
+                <div class="plan-header">
+                    <h2 class="plan-title">VIP Premium</h2>
+                    <span class="plan-price">Bs. 100 / mes</span>
+                </div>
+                <ul class="feature-list">
+                    <li><strong>Asesoría Personalizada Directa: Mentoría 1-a-1 con Teacher Ivan.</strong></li>
+                    <li><strong>Planes de Nutrición y Dieta 100% Adaptados a tus metas reales.</strong></li>
+                    <li><strong>Acceso Total e Ilimitado a la Biblioteca de Élite de ejercicios.</strong></li>
+                    <li>Rutinas Dinámicas que evolucionan con tu progreso.</li>
+                    <li>Soporte Preferencial vía WhatsApp.</li>
+                </ul>
+
+                <div class="qr-section">
+                    <p class="qr-instructions">Escanea el código QR desde tu app bancaria para activar tu plan VIP ELITE inmediatamente.</p>
+                    
+                    <div class="qr-container">
+                        <img src="TeacherIvan-QR.jpg" alt="Código QR de Pago Teacher Ivan" class="qr-image">
+                    </div>
+                    
+                    <p class="qr-instructions" style="font-size: 0.8rem; color: #999; margin-top: 5px;">
+                        Una vez realizado el pago, haz clic en continuar. Tu cuenta VIP será validada por el Teacher en breve.
+                    </p>
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -350,17 +399,26 @@
             }
         }
 
-        // Lógica del botón continuar
+        // 3. Lógica del botón continuar con CONECTIVIDAD REAL
         document.getElementById('continueBtn').addEventListener('click', () => {
             if (selectedPlan === 'premium') {
-                alert('¡Gracias por elegir Elite Premium! Redirigiendo a tu Dashboard...');
-                // Aquí iría lógica para marcar en la base de datos que está pendiente de validación de pago.
+                // Notificación Premium
+                alert('¡Gracias por elegir VIP ELITE! Escanea el QR para que Teacher Ivan valide tu pago. Redirigiendo a tu Dashboard...');
+                
+                // Redirección Real al Dashboard tras confirmación visual
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 100); 
+                
             } else {
-                alert('Plan Free seleccionado. Redirigiendo a tu Dashboard...');
+                // Notificación Free
+                alert('Iniciando en Plan Free. Redirigiendo a tu Dashboard...');
+                
+                // Redirección Real al Dashboard
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 100);
             }
-            
-            // Simulación de redirección
-            // window.location.href = 'dashboard.html';
         });
     </script>
 </body>
