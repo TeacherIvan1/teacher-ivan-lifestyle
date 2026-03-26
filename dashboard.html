@@ -18,6 +18,7 @@
             --text-gray: #7D7D7D;
             --card-bg: #FFFFFF;
             --accent-orange: #F4A261;
+            --accent-gold: #E9C46A;
         }
 
         body, html {
@@ -26,7 +27,7 @@
             min-height: 100%;
             font-family: 'Quicksand', sans-serif;
             background-color: var(--bg-beige);
-            -webkit-tap-highlight-color: transparent; /* Quita el destello azul en móviles */
+            -webkit-tap-highlight-color: transparent;
         }
 
         /* --- PATRÓN DE FONDO "HEALTHY" --- */
@@ -40,275 +41,96 @@
             opacity: 0.12;
             background-image: 
                 radial-gradient(var(--primary-green) 1.5px, transparent 1.5px),
-                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
-                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
-                linear-gradient(135deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%);
+                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%);
             background-size: 60px 60px;
-            background-position: 0 0, 0 0, 30px 30px, 30px 30px;
         }
 
-        /* --- CONTENEDOR PRINCIPAL --- */
-        .app-container {
-            padding: 20px 20px 100px 20px; /* Padding inferior para que el menú no tape el contenido */
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        .app-container { padding: 20px 20px 100px 20px; max-width: 600px; margin: 0 auto; }
 
-        /* --- HEADER (Saludo y Avatar) --- */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-top: 10px;
-        }
-
-        .header-text h1 {
-            font-size: 1.6rem;
-            color: var(--primary-green);
-            margin: 0;
-            font-weight: 700;
-        }
-
-        .header-text p {
-            color: var(--text-gray);
-            margin: 2px 0 0 0;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
+        /* --- HEADER Y AVATAR --- */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-top: 10px; }
+        .header-text h1 { font-size: 1.6rem; color: var(--primary-green); margin: 0; font-weight: 700; }
+        .header-text p { color: var(--text-gray); margin: 2px 0 0 0; font-size: 0.9rem; font-weight: 600; display:flex; align-items:center; gap:5px;}
+        
         .avatar {
-            width: 50px;
-            height: 50px;
-            background-color: var(--light-green);
-            border-radius: 50%;
-            border: 2px solid #FFF;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5rem;
-            overflow: hidden;
+            width: 55px; height: 55px; background-color: var(--light-green); border-radius: 50%;
+            border: 3px solid #FFF; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex;
+            justify-content: center; align-items: center; font-size: 1.8rem; cursor: pointer;
+            transition: transform 0.2s; position: relative;
+        }
+        .avatar:active { transform: scale(0.9); }
+        .avatar-edit-icon {
+            position: absolute; bottom: -2px; right: -2px; background: var(--primary-green);
+            color: white; width: 18px; height: 18px; border-radius: 50%; font-size: 10px;
+            display: flex; justify-content: center; align-items: center; border: 2px solid white;
         }
 
-        /* --- TARJETAS GLOBALES --- */
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 25px;
-            padding: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
-            margin-bottom: 20px;
+        /* --- BOTÓN DE NOTIFICACIONES --- */
+        .btn-notify {
+            background: rgba(244, 162, 97, 0.2); color: var(--accent-orange); border: none;
+            padding: 4px 8px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer;
         }
 
-        .section-title {
-            font-size: 1.2rem;
-            color: var(--text-dark);
-            margin: 0 0 15px 0;
-            font-weight: 700;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* --- TARJETAS --- */
+        .card { background-color: var(--card-bg); border-radius: 25px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.04); margin-bottom: 20px; }
+        .section-title { font-size: 1.2rem; color: var(--text-dark); margin: 0 0 15px 0; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+
+        /* Progreso */
+        .progress-card { background: linear-gradient(135deg, var(--primary-green), #1b4332); color: white; }
+        .progress-card h2 { margin: 0 0 5px 0; font-size: 1.2rem; }
+        .progress-card p { margin: 0 0 15px 0; font-size: 0.9rem; opacity: 0.8; }
+        .progress-bar-bg { background-color: rgba(255,255,255,0.2); height: 10px; border-radius: 10px; overflow: hidden; }
+        .progress-bar-fill { background-color: var(--accent-orange); height: 100%; width: 0%; transition: width 0.4s ease; }
+
+        /* Rutina (Bloqueo VIP) */
+        .workout-hero { background-color: var(--bg-beige); border-radius: 15px; padding: 15px; display: flex; align-items: center; gap: 15px; margin-top: 10px; }
+        .workout-icon { width: 50px; height: 50px; background-color: white; border-radius: 15px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; }
+        .workout-info h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: var(--text-dark); }
+        .btn-start-workout { background-color: var(--primary-green); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 15px; font-size: 1rem; }
+        
+        .btn-customize {
+            background-color: transparent; color: var(--accent-gold); border: 2px solid var(--accent-gold);
+            padding: 8px 15px; border-radius: 20px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 10px; font-size: 0.9rem;
+            display: flex; justify-content: center; align-items: center; gap: 5px;
         }
 
-        /* --- TARJETA DE PROGRESO DIARIO --- */
-        .progress-card {
-            background: linear-gradient(135deg, var(--primary-green), #1b4332);
-            color: white;
-        }
+        /* Hábitos */
+        .habit-list { display: flex; flex-direction: column; }
+        .habit-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; cursor: pointer; }
+        .habit-item:last-child { border-bottom: none; }
+        .habit-icon { font-size: 1.3rem; margin-right: 15px; background-color: var(--bg-beige); width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; border-radius: 12px; }
+        .habit-text { flex-grow: 1; font-weight: 600; color: var(--text-dark); transition: color 0.3s; }
+        .checkbox-round { width: 22px; height: 22px; border: 2px solid #ccc; border-radius: 50%; display: flex; justify-content: center; align-items: center; transition: all 0.2s; }
+        .habit-item.completed .checkbox-round { background-color: var(--primary-green); border-color: var(--primary-green); }
+        .habit-item.completed .checkbox-round::after { content: "✓"; color: white; font-size: 14px; font-weight: bold; }
+        .habit-item.completed .habit-text { color: #aaa; text-decoration: line-through; }
 
-        .progress-card h2 {
-            margin: 0 0 5px 0;
-            font-size: 1.2rem;
-            color: white;
-        }
+        .btn-add-habit { background: none; border: none; color: var(--primary-green); font-weight: 700; font-family: 'Quicksand'; cursor: pointer; padding: 10px 0 0 0; display: flex; align-items: center; gap: 5px; font-size: 0.95rem; }
 
-        .progress-card p {
-            margin: 0 0 15px 0;
-            font-size: 0.9rem;
-            opacity: 0.8;
+        /* --- MODAL AVATARES --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);
+            z-index: 1000; display: none; justify-content: center; align-items: flex-end; opacity: 0; transition: opacity 0.3s;
         }
+        .modal-content {
+            background: white; width: 100%; border-radius: 30px 30px 0 0; padding: 30px 20px 40px;
+            box-sizing: border-box; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        
+        .avatar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 20px; }
+        .avatar-option {
+            font-size: 2.5rem; background: var(--bg-beige); border-radius: 50%; width: 60px; height: 60px;
+            display: flex; justify-content: center; align-items: center; margin: 0 auto; cursor: pointer; border: 3px solid transparent;
+        }
+        .avatar-option.selected { border-color: var(--primary-green); background: var(--light-green); }
 
-        .progress-bar-bg {
-            background-color: rgba(255,255,255,0.2);
-            height: 10px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            background-color: var(--accent-orange);
-            height: 100%;
-            width: 40%; /* Progreso dinámico */
-            border-radius: 10px;
-            transition: width 0.4s ease;
-        }
-
-        /* --- LISTA DE HÁBITOS --- */
-        .habit-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .habit-item:last-child {
-            border-bottom: none;
-        }
-
-        .habit-icon {
-            font-size: 1.5rem;
-            margin-right: 15px;
-            background-color: var(--bg-beige);
-            width: 45px;
-            height: 45px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 15px;
-        }
-
-        .habit-text {
-            flex-grow: 1;
-            font-weight: 600;
-            color: var(--text-dark);
-            font-size: 1rem;
-            transition: color 0.3s;
-        }
-
-        /* Checkbox Customizado */
-        .checkbox-round {
-            width: 24px;
-            height: 24px;
-            border: 2px solid #ccc;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.2s;
-        }
-
-        /* Estado "Completado" */
-        .habit-item.completed .checkbox-round {
-            background-color: var(--primary-green);
-            border-color: var(--primary-green);
-        }
-
-        .habit-item.completed .checkbox-round::after {
-            content: "✓";
-            color: white;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .habit-item.completed .habit-text {
-            color: #aaa;
-            text-decoration: line-through;
-        }
-
-        /* --- TARJETA RUTINA DE HOY --- */
-        .workout-hero {
-            background-color: var(--bg-beige);
-            border-radius: 15px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .workout-icon {
-            width: 60px;
-            height: 60px;
-            background-color: white;
-            border-radius: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-
-        .workout-info h3 {
-            margin: 0 0 5px 0;
-            font-size: 1.1rem;
-            color: var(--text-dark);
-        }
-
-        .workout-tags {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .tag {
-            font-size: 0.7rem;
-            background-color: white;
-            color: var(--primary-green);
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-weight: 700;
-            border: 1px solid var(--light-green);
-        }
-
-        .btn-start-workout {
-            background-color: var(--primary-green);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 15px;
-            font-size: 1rem;
-            transition: background-color 0.2s;
-        }
-
-        .btn-start-workout:active {
-            background-color: #245A42;
-        }
-
-        /* --- NAVEGACIÓN INFERIOR (BOTTOM NAV) --- */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #FFFFFF;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 15px 0 20px 0; /* Padding extra para iPhone/dispositivos sin bordes */
-            z-index: 100;
-            border-radius: 30px 30px 0 0;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-gray);
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 600;
-            gap: 5px;
-            transition: color 0.2s;
-            cursor: pointer;
-        }
-
-        .nav-item svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
-        }
-
-        .nav-item.active {
-            color: var(--primary-green);
-        }
+        /* Bottom Nav (Simplificada para el ejemplo) */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #FFFFFF; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); display: flex; justify-content: space-around; padding: 15px 0 20px 0; z-index: 100; border-radius: 30px 30px 0 0; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-gray); text-decoration: none; font-size: 0.75rem; font-weight: 600; gap: 5px; }
+        .nav-item svg { width: 24px; height: 24px; fill: currentColor; }
+        .nav-item.active { color: var(--primary-green); }
 
     </style>
 </head>
@@ -321,117 +143,210 @@
         <!-- HEADER -->
         <header class="header">
             <div class="header-text">
-                <h1>Hola, Carlos 👋</h1>
-                <p id="currentDate">Miércoles, 25 de Marzo</p>
+                <h1>Hola, <span id="displayUserName">Usuario</span> 👋</h1>
+                <p>
+                    <span id="currentDate">Cargando fecha...</span>
+                    <button class="btn-notify" onclick="requestNotifications()">🔔 Activar Avisos</button>
+                </p>
             </div>
-            <div class="avatar">
-                <!-- Aquí puedes poner la cara del Chibi -->
-                🧘🏻‍♂️
+            <div class="avatar" onclick="openAvatarModal()">
+                <span id="displayAvatar">🧘🏻‍♂️</span>
+                <div class="avatar-edit-icon">✏️</div>
             </div>
         </header>
 
-        <!-- TARJETA PROGRESO -->
+        <!-- PROGRESO -->
         <div class="card progress-card">
             <h2>Progreso Diario</h2>
-            <p>Has completado 2 de 5 tareas hoy. ¡Sigue así!</p>
+            <p id="progressText">Calculando...</p>
             <div class="progress-bar-bg">
                 <div class="progress-bar-fill" id="mainProgress"></div>
             </div>
         </div>
 
-        <!-- TARJETA RUTINA DE HOY (Datos de tu Spreadsheet) -->
+        <!-- RUTINA -->
         <div class="card">
-            <h2 class="section-title">Tu Rutina de Hoy <span style="font-size: 0.9rem; font-weight: 500; color: var(--primary-green);">Ver todas</span></h2>
+            <h2 class="section-title">Rutina Asignada <span style="font-size: 0.8rem; background: var(--bg-beige); padding: 4px 8px; border-radius: 10px;" id="planBadge">VIP</span></h2>
             
             <div class="workout-hero">
                 <div class="workout-icon">🔥</div>
                 <div class="workout-info">
-                    <h3>Acondicionamiento Metabólico</h3>
-                    <div class="workout-tags">
-                        <span class="tag">Intermedio</span>
-                        <span class="tag">Cuerpo Completo</span>
-                    </div>
-                    <p style="margin: 0; font-size: 0.85rem; color: var(--text-gray);">Rowing + Double Unders + Burpees</p>
+                    <h3 id="routineName">Rutina General Día 1</h3>
+                    <p style="margin: 0; font-size: 0.85rem; color: var(--text-gray);">Basada en tu nivel.</p>
                 </div>
             </div>
-            <button class="btn-start-workout" onclick="alert('Abriendo detalle de ejercicios...')">EMPEZAR RUTINA</button>
+            <button class="btn-start-workout" onclick="window.location.href='workouts.html'">EMPEZAR RUTINA</button>
+            <button class="btn-customize" onclick="customizeRoutine()">
+                <span>👑 Personalizar Rutina (VIP)</span>
+            </button>
         </div>
 
-        <!-- TARJETA HÁBITOS -->
+        <!-- HÁBITOS -->
         <div class="card">
             <h2 class="section-title">Hábitos Diarios</h2>
             
-            <div class="habit-list">
-                <!-- Hábito 1 -->
-                <div class="habit-item" onclick="toggleHabit(this)">
-                    <div class="habit-icon">💧</div>
-                    <div class="habit-text">Beber 2L de Agua</div>
-                    <div class="checkbox-round"></div>
-                </div>
-                <!-- Hábito 2 -->
-                <div class="habit-item completed" onclick="toggleHabit(this)">
-                    <div class="habit-icon">🧘</div>
-                    <div class="habit-text">Meditar 10 mins</div>
-                    <div class="checkbox-round"></div>
-                </div>
-                <!-- Hábito 3 -->
-                <div class="habit-item completed" onclick="toggleHabit(this)">
-                    <div class="habit-icon">📚</div>
-                    <div class="habit-text">Leer 15 mins</div>
-                    <div class="checkbox-round"></div>
-                </div>
+            <div class="habit-list" id="habitContainer">
+                <!-- Se inyectan con JS -->
             </div>
+            
+            <button class="btn-add-habit" onclick="addCustomHabit()">+ Crear Hábito Personal</button>
         </div>
 
     </div>
 
-    <!-- MENÚ INFERIOR (BOTTOM NAV) -->
+    <!-- MODAL DE AVATARES -->
+    <div class="modal-overlay" id="avatarModal" onclick="closeAvatarModal(event)">
+        <div class="modal-content">
+            <h2 style="margin-top:0; color: var(--primary-green); text-align: center;">Elige tu Avatar</h2>
+            <div class="avatar-grid">
+                <div class="avatar-option" onclick="saveAvatar('🧘🏻‍♂️')">🧘🏻‍♂️</div>
+                <div class="avatar-option" onclick="saveAvatar('🏋️‍♀️')">🏋️‍♀️</div>
+                <div class="avatar-option" onclick="saveAvatar('🏃🏽‍♂️')">🏃🏽‍♂️</div>
+                <div class="avatar-option" onclick="saveAvatar('🚴🏻')">🚴🏻</div>
+                <div class="avatar-option" onclick="saveAvatar('🧗🏽‍♀️')">🧗🏽‍♀️</div>
+                <div class="avatar-option" onclick="saveAvatar('🤸‍♂️')">🤸‍♂️</div>
+                <div class="avatar-option" onclick="saveAvatar('🥊')">🥊</div>
+                <div class="avatar-option" onclick="saveAvatar('🥑')">🥑</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MENÚ INFERIOR -->
     <nav class="bottom-nav">
-        <a class="nav-item active">
-            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            Inicio
-        </a>
-        <a class="nav-item" onclick="alert('Ir a Biblioteca de Ejercicios')">
-            <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29l-1.43-1.43z"/></svg>
-            Rutinas
-        </a>
-        <a class="nav-item" onclick="alert('Ir a Nutrición')">
-            <svg viewBox="0 0 24 24"><path d="M15.06 11.06L16.12 10 15 8.88C13.88 7.75 13.88 5.92 15 4.79C12.44 5.39 10.45 7.42 10.05 10H10C8.9 10 8 10.9 8 12C8 13.1 8.9 14 10 14H10.05C10.45 16.58 12.44 18.61 15 19.21C13.88 18.08 13.88 16.25 15 15.12L16.12 14 15.06 12.94C14.54 12.42 14.54 11.58 15.06 11.06M20 12C20 16.42 16.42 20 12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"/></svg>
-            Dieta
-        </a>
-        <a class="nav-item" onclick="alert('Ir a Perfil')">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-            Perfil
-        </a>
+        <a class="nav-item active"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Inicio</a>
+        <a href="workouts.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29l-1.43-1.43z"/></svg>Rutinas</a>
+        <a href="habits.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>Hábitos</a>
+        <a href="profile.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Perfil</a>
     </nav>
 
     <script>
-        // Lógica simple para marcar/desmarcar hábitos y actualizar la barra
-        function toggleHabit(element) {
-            element.classList.toggle('completed');
-            updateProgress();
-        }
-
-        function updateProgress() {
-            const totalHabits = document.querySelectorAll('.habit-item').length;
-            const completedHabits = document.querySelectorAll('.habit-item.completed').length;
-            const percentage = (completedHabits / totalHabits) * 100;
-            
-            document.getElementById('mainProgress').style.width = percentage + '%';
-            
-            // Actualizar texto (simplificado para el ejemplo)
-            const progressText = document.querySelector('.progress-card p');
-            progressText.innerText = `Has completado ${completedHabits} de ${totalHabits} tareas hoy. ¡Sigue así!`;
-        }
-
-        // Configurar la fecha actual
-        const options = { weekday: 'long', month: 'long', day: 'numeric' };
-        const dateString = new Date().toLocaleDateString('es-ES', options);
-        // Capitalizar la primera letra
-        document.getElementById('currentDate').innerText = dateString.charAt(0).toUpperCase() + dateString.slice(1);
+        // --- 1. MOTOR DE ESTADO GLOBAL (LOCALSTORAGE) ---
+        // Sincroniza datos entre todas las pantallas de la app
+        const STATE_KEY = 'teacherIvanData';
         
-        // Inicializar la barra de progreso al cargar
-        updateProgress();
+        let appState = JSON.parse(localStorage.getItem(STATE_KEY)) || {
+            user: { nombre: 'Carlos', avatar: '🧘🏻‍♂️', plan: 'premium' }, // 'free' o 'premium'
+            habits: [
+                { id: 1, text: 'Beber 2L de Agua', icon: '💧', done: false },
+                { id: 2, text: 'Meditar 10 mins', icon: '🧘', done: false }
+            ]
+        };
+
+        function saveState() {
+            localStorage.setItem(STATE_KEY, JSON.stringify(appState));
+            renderDashboard(); // Actualiza la UI tras guardar
+        }
+
+        // --- 2. RENDERIZADO DINÁMICO ---
+        function renderDashboard() {
+            // Perfil
+            document.getElementById('displayUserName').innerText = appState.user.nombre;
+            document.getElementById('displayAvatar').innerText = appState.user.avatar;
+            document.getElementById('planBadge').innerText = appState.user.plan === 'premium' ? '👑 VIP' : 'FREE';
+
+            // Hábitos
+            const container = document.getElementById('habitContainer');
+            container.innerHTML = '';
+            let completedCount = 0;
+
+            appState.habits.forEach((habit, index) => {
+                if(habit.done) completedCount++;
+                
+                container.innerHTML += `
+                    <div class="habit-item ${habit.done ? 'completed' : ''}" onclick="toggleHabit(${index})">
+                        <div class="habit-icon">${habit.icon}</div>
+                        <div class="habit-text">${habit.text}</div>
+                        <div class="checkbox-round"></div>
+                    </div>
+                `;
+            });
+
+            // Progreso
+            const total = appState.habits.length;
+            const percentage = total === 0 ? 0 : (completedCount / total) * 100;
+            document.getElementById('mainProgress').style.width = percentage + '%';
+            document.getElementById('progressText').innerText = `Has completado ${completedCount} de ${total} tareas.`;
+        }
+
+        // --- 3. LÓGICA DE HÁBITOS ---
+        function toggleHabit(index) {
+            appState.habits[index].done = !appState.habits[index].done;
+            saveState(); // Guarda en localStorage y re-renderiza
+        }
+
+        function addCustomHabit() {
+            const newHabitText = prompt("Escribe tu nuevo hábito diario (Ej. Leer 5 páginas):");
+            if (newHabitText && newHabitText.trim() !== "") {
+                const newHabit = {
+                    id: Date.now(), // ID único
+                    text: newHabitText,
+                    icon: '✨', // Icono genérico para personalizados
+                    done: false
+                };
+                appState.habits.push(newHabit);
+                saveState();
+            }
+        }
+
+        // --- 4. AVATARES ---
+        const modal = document.getElementById('avatarModal');
+        
+        function openAvatarModal() { modal.classList.add('active'); }
+        
+        function closeAvatarModal(e) { 
+            if(e.target === modal) modal.classList.remove('active'); 
+        }
+
+        function saveAvatar(emoji) {
+            appState.user.avatar = emoji;
+            saveState();
+            modal.classList.remove('active');
+        }
+
+        // --- 5. LÓGICA VIP VS FREE (RUTINAS) ---
+        function customizeRoutine() {
+            if (appState.user.plan === 'premium') {
+                alert("¡Bienvenido al panel VIP! Abriendo la biblioteca completa para armar tu rutina...");
+                window.location.href = 'workouts.html'; // Redirige a la biblioteca
+            } else {
+                alert("🔒 Función VIP: El plan Free incluye una rutina general. ¡Sube a Elite Premium para crear tus propias rutinas a medida!");
+                window.location.href = 'auth.html'; // Redirige al Paywall
+            }
+        }
+
+        // --- 6. NOTIFICACIONES PUSH (Simuladas/Browser API) ---
+        function requestNotifications() {
+            if (!("Notification" in window)) {
+                alert("Tu navegador no soporta notificaciones.");
+            } else if (Notification.permission === "granted") {
+                alert("¡Las notificaciones ya están activadas! Te avisaremos para tus rutinas.");
+                document.querySelector('.btn-notify').style.display = 'none';
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        new Notification("¡Teacher Ivan Lifestyle!", { body: "Te recordaremos tus hábitos diarios 💪" });
+                        document.querySelector('.btn-notify').style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        // --- INICIALIZACIÓN ---
+        window.onload = () => {
+            // Fecha actual
+            const dateStr = new Date().toLocaleDateString('es-ES', { weekday: 'long', month: 'long', day: 'numeric' });
+            document.getElementById('currentDate').innerText = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+            
+            // Si el usuario ya dio permiso, ocultar botón
+            if ("Notification" in window && Notification.permission === "granted") {
+                document.querySelector('.btn-notify').style.display = 'none';
+            }
+
+            // Para pruebas: Si quieres probar el plan FREE, descomenta la siguiente línea temporalmente:
+            // appState.user.plan = 'free'; localStorage.setItem(STATE_KEY, JSON.stringify(appState));
+
+            renderDashboard(); // Dibuja la UI con los datos guardados
+        };
     </script>
 </body>
 </html>
