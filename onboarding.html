@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Onboarding - Teacher Ivan Lifestyle</title>
+    <meta name="theme-color" content="#2D6A4F">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        :root {
+            --primary-green: #2D6A4F;
+            --light-green: #A2D9A9;
+            --bg-beige: #E6F0EA;
+            --text-dark: #333333;
+            --text-gray: #7D7D7D;
+            --card-bg: #FFFFFF;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-beige);
+            overflow: hidden; /* Previene el scroll general */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- PATRÓN DE FONDO "HEALTHY" --- */
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.12;
+            background-image: 
+                radial-gradient(var(--primary-green) 1.5px, transparent 1.5px),
+                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
+                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
+                linear-gradient(135deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%);
+            background-size: 60px 60px;
+            background-position: 0 0, 0 0, 30px 30px, 30px 30px;
+        }
+
+        /* --- HEADER Y BARRA DE PROGRESO --- */
+        .header {
+            padding: 30px 20px 10px;
+            text-align: center;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: rgba(45, 106, 79, 0.1);
+            border-radius: 10px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 33.33%; /* Empieza en el paso 1 de 3 */
+            background-color: var(--primary-green);
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        /* --- CARRUSEL DE PANELES DESLIZABLES --- */
+        .slider-container {
+            flex-grow: 1;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slider-track {
+            display: flex;
+            height: 100%;
+            width: 300vw; /* 3 pasos = 300% del ancho */
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* --- TARJETAS (CONTENIDO DE CADA PASO) --- */
+        .card {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 400px;
+            border-radius: 30px;
+            padding: 30px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: center;
+            border: 2px solid rgba(162, 217, 169, 0.3);
+        }
+
+        .card h2 {
+            color: var(--text-dark);
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+
+        /* --- ELEMENTOS DE FORMULARIO --- */
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--primary-green);
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #E6F0EA;
+            border-radius: 15px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            color: var(--text-dark);
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: var(--primary-green);
+        }
+
+        /* Opciones seleccionables (Objetivos / Hábitos) */
+        .selectable-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #E6F0EA;
+            border-radius: 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .selectable-option.active {
+            border-color: var(--primary-green);
+            background-color: rgba(162, 217, 169, 0.15);
+        }
+
+        .selectable-option span.icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .selectable-option span.text {
+            font-weight: 600;
+            color: var(--text-dark);
+            flex-grow: 1;
+        }
+
+        /* Custom Checkbox falso */
+        .check-circle {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #ccc;
+            border-radius: 50%; /* Redondo para un look más suave */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .active .check-circle {
+            border-color: var(--primary-green);
+            background-color: var(--primary-green);
+        }
+
+        .active .check-circle::after {
+            content: "✓";
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* --- NAVEGACIÓN INFERIOR --- */
+        .bottom-nav {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            background: linear-gradient(to top, var(--bg-beige) 80%, transparent);
+        }
+
+        .btn {
+            padding: 16px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            font-family: 'Quicksand', sans-serif;
+            flex-grow: 1;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-gray);
+            flex-grow: 0;
+            padding: 16px 25px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-green);
+            color: #FFFFFF;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.96);
+            background-color: #245A42;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-pattern"></div>
+
+    <div class="header">
+        <img src="Chibi_Flotante_con_Movimiento_de_Viento.mp4" alt="Chibi" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-green); display: none;"> <!-- Placeholder para el logo/chibi pequeño -->
+        <h3 style="margin: 0; color: var(--primary-green); font-size: 1.2rem;">Paso <span id="stepCounter">1</span> de 3</h3>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+
+    <div class="slider-container">
+        <div class="slider-track" id="sliderTrack">
+            
+            <!-- PASO 1: PERFIL -->
+            <div class="slide">
+                <div class="card">
+                    <h2>Tu Perfil</h2>
+                    <p>Conozcámonos un poco mejor.</p>
+                    
+                    <div class="input-group">
+                        <label>¿Cómo te llamas?</label>
+                        <input type="text" placeholder="Ej. Carlos" id="userName">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Tu nivel actual</label>
+                        <select id="userLevel">
+                            <option value="Principiante">Principiante (Empiezo mi viaje)</option>
+                            <option value="Intermedio">Intermedio (Hago ejercicio regular)</option>
+                            <option value="Avanzado">Avanzado (Soy un atleta)</option>
+                        </select>
+                        <small style="display:block; margin-top:5px; color:var(--text-gray); font-size:0.8rem;">
+                            *Esto adaptará tu rutina según nuestra base de datos.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 2: OBJETIVOS -->
+            <div class="slide">
+                <div class="card">
+                    <h2>Tus Objetivos</h2>
+                    <p>¿Qué quieres lograr principalmente?</p>
+
+                    <div class="selectable-option goal-option" onclick="toggleOption(this)">
+                        <span class="icon">💪</span>
+                        <span class="text">Ganar Fuerza</span>
+                        <div class="check-circle"></div>
+                    </div>
+                    <div class="selectable-option goal-option" onclick="toggleOption(this)">
+                        <span class="icon">🏃</span>
+                        <span class="text">Mejorar Resistencia (Cardio)</span>
+                        <div class="check-circle"></div>
+                    </div>
+                    <div class="selectable-option goal-option" onclick="toggleOption(this)">
+                        <span class="icon">🤸</span>
+                        <span class="text">Incrementar Flexibilidad</span>
+                        <div class="check-circle"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 3: HÁBITOS -->
+            <div class="slide">
+                <div class="card">
+                    <h2>Hábitos Diarios</h2>
+                    <p>Selecciona los que quieres trackear.</p>
+
+                    <div class="selectable-option habit-option active" onclick="toggleOption(this)">
+                        <span class="icon">💧</span>
+                        <span class="text">Beber 2L de Agua</span>
+                        <div class="check-circle"></div>
+                    </div>
+                    <div class="selectable-option habit-option" onclick="toggleOption(this)">
+                        <span class="icon">🧘</span>
+                        <span class="text">Meditar 10 mins</span>
+                        <div class="check-circle"></div>
+                    </div>
+                    <div class="selectable-option habit-option" onclick="toggleOption(this)">
+                        <span class="icon">📚</span>
+                        <span class="text">Leer 15 mins</span>
+                        <div class="check-circle"></div>
+                    </div>
+                    <div class="selectable-option habit-option" onclick="toggleOption(this)">
+                        <span class="icon">🚶</span>
+                        <span class="text">Caminar 10,000 pasos</span>
+                        <div class="check-circle"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button id="prevBtn" class="btn btn-outline" style="visibility: hidden;">Atrás</button>
+        <button id="nextBtn" class="btn btn-primary">Siguiente</button>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        const totalSteps = 3;
+        const track = document.getElementById('sliderTrack');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const progressBar = document.getElementById('progressBar');
+        const stepCounter = document.getElementById('stepCounter');
+
+        // Función para cambiar visualmente el estado de las opciones (Hábitos/Objetivos)
+        function toggleOption(element) {
+            element.classList.toggle('active');
+        }
+
+        // Lógica de navegación del carrusel
+        function updateSlider() {
+            // Mover el track horizontalmente (-0vw, -100vw, -200vw)
+            track.style.transform = `translateX(-${currentStep * 100}vw)`;
+            
+            // Actualizar barra y texto
+            progressBar.style.width = `${((currentStep + 1) / totalSteps) * 100}%`;
+            stepCounter.innerText = currentStep + 1;
+
+            // Mostrar/Ocultar botones
+            prevBtn.style.visibility = currentStep === 0 ? 'hidden' : 'visible';
+            
+            if (currentStep === totalSteps - 1) {
+                nextBtn.innerText = 'Finalizar';
+                nextBtn.style.backgroundColor = 'var(--light-green)';
+                nextBtn.style.color = 'var(--primary-green)';
+            } else {
+                nextBtn.innerText = 'Siguiente';
+                nextBtn.style.backgroundColor = 'var(--primary-green)';
+                nextBtn.style.color = '#FFFFFF';
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < totalSteps - 1) {
+                currentStep++;
+                updateSlider();
+            } else {
+                // AQUÍ RECOPILAREMOS LOS DATOS LUEGO
+                alert('¡Perfil configurado! Redirigiendo al Paywall (auth.html)...');
+                // window.location.href = 'auth.html';
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 0) {
+                currentStep--;
+                updateSlider();
+            }
+        });
+    </script>
+</body>
+</html>
