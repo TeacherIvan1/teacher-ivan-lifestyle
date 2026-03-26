@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Perfil - Teacher Ivan Lifestyle</title>
+    <meta name="theme-color" content="#2D6A4F">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        :root {
+            --primary-green: #2D6A4F;
+            --light-green: #A2D9A9;
+            --bg-beige: #E6F0EA;
+            --text-dark: #333333;
+            --text-gray: #7D7D7D;
+            --card-bg: #FFFFFF;
+            --accent-gold: #F4A261;
+            --danger-red: #E76F51;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-beige);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* --- PATRÓN DE FONDO "HEALTHY" --- */
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.12;
+            background-image: 
+                radial-gradient(var(--primary-green) 1.5px, transparent 1.5px),
+                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
+                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
+                linear-gradient(135deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%);
+            background-size: 60px 60px;
+            background-position: 0 0, 0 0, 30px 30px, 30px 30px;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .app-container {
+            padding: 20px 20px 100px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- HEADER Y PERFIL --- */
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-top: 20px;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 15px auto;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            background-color: var(--light-green);
+            border-radius: 50%;
+            border: 4px solid #FFF;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            overflow: hidden;
+        }
+
+        /* Badge flotante sobre el avatar */
+        .badge-premium {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: var(--accent-gold);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid #FFF;
+            font-size: 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .user-name {
+            font-size: 1.6rem;
+            color: var(--primary-green);
+            margin: 0 0 5px 0;
+            font-weight: 700;
+        }
+
+        .user-email {
+            color: var(--text-gray);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        /* --- ESTADÍSTICAS (GRID) --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 15px 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* --- MENÚ DE OPCIONES --- */
+        .settings-card {
+            background-color: var(--card-bg);
+            border-radius: 25px;
+            padding: 10px 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            margin-bottom: 25px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: opacity 0.2s;
+        }
+
+        .setting-item:active {
+            opacity: 0.6;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .setting-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .setting-icon {
+            width: 35px;
+            height: 35px;
+            background-color: var(--bg-beige);
+            color: var(--primary-green);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .setting-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .setting-text {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .setting-right {
+            color: #ccc;
+        }
+
+        .setting-right svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Toggle Switch (Interruptor) */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-green);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* --- BOTÓN CERRAR SESIÓN --- */
+        .btn-logout {
+            width: 100%;
+            padding: 16px;
+            border-radius: 20px;
+            background-color: transparent;
+            color: var(--danger-red);
+            border: 2px solid var(--danger-red);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-logout:active {
+            background-color: var(--danger-red);
+            color: white;
+        }
+
+        /* --- NAVEGACIÓN INFERIOR --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #FFFFFF;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 15px 0 20px 0;
+            z-index: 100;
+            border-radius: 30px 30px 0 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            gap: 5px;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-item svg { width: 24px; height: 24px; fill: currentColor; }
+        .nav-item.active { color: var(--primary-green); }
+
+    </style>
+</head>
+<body>
+
+    <div class="background-pattern"></div>
+
+    <div class="app-container">
+        
+        <!-- HEADER / INFO USUARIO -->
+        <div class="header">
+            <div class="avatar-container">
+                <div class="avatar">🧘🏻‍♂️</div>
+                <!-- Badge Premium (Corona) -->
+                <div class="badge-premium" title="Usuario Elite Premium">👑</div>
+            </div>
+            <h1 class="user-name">Carlos Mendoza</h1>
+            <p class="user-email">Miembro desde Mar 2026</p>
+        </div>
+
+        <!-- ESTADÍSTICAS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-value">14</span>
+                <span class="stat-label">Días Fuego</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">28</span>
+                <span class="stat-label">Rutinas</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">145</span>
+                <span class="stat-label">Hábitos</span>
+            </div>
+        </div>
+
+        <!-- LISTA DE AJUSTES -->
+        <div class="settings-card">
+            
+            <a href="#" class="setting-item" onclick="alert('Abriendo mi plan...')">
+                <div class="setting-left">
+                    <div class="setting-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </div>
+                    <span class="setting-text">Suscripción: Elite Premium</span>
+                </div>
+                <div class="setting-right">
+                    <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+                </div>
+            </a>
+
+            <div class="setting-item">
+                <div class="setting-left">
+                    <div class="setting-icon">
+                        <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+                    </div>
+                    <span class="setting-text">Notificaciones Push</span>
+                </div>
+                <div class="setting-right" style="display:flex; align-items:center;">
+                    <!-- Toggle Switch para notificaciones -->
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <a href="#" class="setting-item" onclick="alert('Abriendo soporte...')">
+                <div class="setting-left">
+                    <div class="setting-icon">
+                        <svg viewBox="0 0 24 24"><path d="M21 12.22C21 6.73 16.74 3 12 3c-4.69 0-9 3.65-9 9.28-.6.34-1 .98-1 1.72v2c0 1.1.9 2 2 2h1v-6.1c0-3.87 3.13-7 7-7s7 3.13 7 7V19h-8v2h8c1.1 0 2-.9 2-2v-1.22c.59-.31 1-.92 1-1.64v-2c0-.7-.41-1.31-1-1.62z"/></svg>
+                    </div>
+                    <span class="setting-text">Contactar al Teacher</span>
+                </div>
+                <div class="setting-right">
+                    <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+                </div>
+            </a>
+
+            <a href="#" class="setting-item" onclick="alert('Políticas...')">
+                <div class="setting-left">
+                    <div class="setting-icon">
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    </div>
+                    <span class="setting-text">Términos y Privacidad</span>
+                </div>
+                <div class="setting-right">
+                    <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+                </div>
+            </a>
+            
+        </div>
+
+        <!-- BOTÓN LOGOUT -->
+        <button class="btn-logout" onclick="window.location.href='index.html'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+            Cerrar Sesión
+        </button>
+
+    </div>
+
+    <!-- MENÚ INFERIOR -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Inicio
+        </a>
+        <a href="workouts.html" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29l-1.43-1.43z"/></svg>
+            Rutinas
+        </a>
+        <a href="habits.html" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            Hábitos
+        </a>
+        <a href="profile.html" class="nav-item active">
+            <!-- Icono de Perfil activo -->
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            Perfil
+        </a>
+    </nav>
+
+</body>
+</html>
