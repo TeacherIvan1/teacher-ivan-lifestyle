@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Explorar Hábitos - Teacher Ivan Lifestyle</title>
+    <meta name="theme-color" content="#2D6A4F">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- ESTILOS GENERALES --- */
+        :root {
+            --primary-green: #2D6A4F;
+            --light-green: #A2D9A9;
+            --bg-beige: #E6F0EA;
+            --text-dark: #333333;
+            --text-gray: #7D7D7D;
+            --card-bg: #FFFFFF;
+            --level-beginner: #4CAF50;
+            --level-intermediate: #FF9800;
+            --level-advanced: #F44336;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-beige);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* --- PATRÓN DE FONDO "HEALTHY" --- */
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.12;
+            background-image: 
+                radial-gradient(var(--primary-green) 1.5px, transparent 1.5px),
+                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
+                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
+                linear-gradient(135deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%);
+            background-size: 60px 60px;
+            background-position: 0 0, 0 0, 30px 30px, 30px 30px;
+        }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .app-container {
+            padding: 20px 20px 100px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- HEADER Y FILTROS --- */
+        .header {
+            margin-bottom: 20px;
+            padding-top: 10px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+            margin: 0 0 5px 0;
+            font-weight: 700;
+        }
+        
+        .header p {
+            color: var(--text-gray);
+            margin: 0 0 15px 0;
+            font-size: 0.95rem;
+        }
+
+        /* Menú deslizable horizontal para filtros */
+        .filters-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+        }
+        .filters-container::-webkit-scrollbar { display: none; }
+
+        .filter-btn {
+            background-color: var(--card-bg);
+            color: var(--text-gray);
+            border: 2px solid transparent;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            white-space: nowrap;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-green);
+            color: white;
+            box-shadow: 0 4px 10px rgba(45, 106, 79, 0.2);
+        }
+
+        /* --- LISTA DE HÁBITOS --- */
+        .habit-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .habit-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .habit-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--bg-beige);
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .habit-info {
+            flex-grow: 1;
+        }
+
+        .habit-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 5px 0;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+
+        /* Colores dinámicos por nivel de disciplina */
+        .tag-principiante { background-color: rgba(76, 175, 80, 0.15); color: var(--level-beginner); }
+        .tag-intermedio { background-color: rgba(255, 152, 0, 0.15); color: var(--level-intermediate); }
+        .tag-avanzado { background-color: rgba(244, 67, 54, 0.15); color: var(--level-advanced); }
+
+        /* Botón de Añadir */
+        .btn-add {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light-green);
+            color: var(--primary-green);
+            border: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn-add:active {
+            transform: scale(0.9);
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+        .btn-add.added {
+            background-color: var(--primary-green);
+            color: white;
+            transform: rotate(45deg); /* Se convierte en una 'X' sutil */
+        }
+
+        /* --- NAVEGACIÓN INFERIOR --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #FFFFFF;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 15px 0 20px 0;
+            z-index: 100;
+            border-radius: 30px 30px 0 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            gap: 5px;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-item svg { width: 24px; height: 24px; fill: currentColor; }
+        .nav-item.active { color: var(--primary-green); }
+
+    </style>
+</head>
+<body>
+
+    <div class="background-pattern"></div>
+
+    <div class="app-container">
+        
+        <div class="header">
+            <h1>Hábitos</h1>
+            <p>Construye tu disciplina paso a paso.</p>
+            
+            <!-- Filtros por nivel de disciplina -->
+            <div class="filters-container">
+                <button class="filter-btn active" onclick="filterHabits('Todos', this)">Todos</button>
+                <button class="filter-btn" onclick="filterHabits('Principiante', this)">Principiante</button>
+                <button class="filter-btn" onclick="filterHabits('Intermedio', this)">Intermedio</button>
+                <button class="filter-btn" onclick="filterHabits('Avanzado', this)">Avanzado</button>
+            </div>
+        </div>
+
+        <!-- Contenedor de la lista de hábitos -->
+        <div id="habitList" class="habit-list">
+            <!-- JS inyectará las tarjetas aquí -->
+        </div>
+
+    </div>
+
+    <!-- MENÚ INFERIOR Actualizado para incluir Hábitos -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Inicio
+        </a>
+        <a href="workouts.html" class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29l-1.43-1.43z"/></svg>
+            Rutinas
+        </a>
+        <a class="nav-item active">
+            <!-- Icono de Check/Hábitos -->
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            Hábitos
+        </a>
+        <a class="nav-item" onclick="alert('Ir a Nutrición')">
+            <svg viewBox="0 0 24 24"><path d="M15.06 11.06L16.12 10 15 8.88C13.88 7.75 13.88 5.92 15 4.79C12.44 5.39 10.45 7.42 10.05 10H10C8.9 10 8 10.9 8 12C8 13.1 8.9 14 10 14H10.05C10.45 16.58 12.44 18.61 15 19.21C13.88 18.08 13.88 16.25 15 15.12L16.12 14 15.06 12.94C14.54 12.42 14.54 11.58 15.06 11.06M20 12C20 16.42 16.42 20 12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"/></svg>
+            Dieta
+        </a>
+    </nav>
+
+    <script>
+        // Simulador de Base de Datos (Esto vendrá de tu Google Sheet en el futuro)
+        const allHabits = [
+            { id: 1, nombre: "Beber 2L de Agua", nivel: "Principiante", icono: "💧" },
+            { id: 2, nombre: "Meditar 10 mins", nivel: "Principiante", icono: "🧘" },
+            { id: 3, nombre: "Dormir 8 horas", nivel: "Principiante", icono: "🛌" },
+            { id: 4, nombre: "Leer 15 páginas", nivel: "Intermedio", icono: "📚" },
+            { id: 5, nombre: "Caminar 10k pasos", nivel: "Intermedio", icono: "🚶" },
+            { id: 6, nombre: "Sin azúcar refinada", nivel: "Intermedio", icono: "🚫" },
+            { id: 7, nombre: "Ducha de agua fría", nivel: "Avanzado", icono: "🚿" },
+            { id: 8, nombre: "Ayuno intermitente 16/8", nivel: "Avanzado", icono: "⏳" },
+            { id: 9, nombre: "Despertar 5:00 AM", nivel: "Avanzado", icono: "🌅" }
+        ];
+
+        // Función para renderizar el HTML
+        function renderHabits(habitsArray) {
+            const container = document.getElementById('habitList');
+            container.innerHTML = ''; 
+
+            if(habitsArray.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color: var(--text-gray);">No hay hábitos en esta categoría.</p>';
+                return;
+            }
+
+            habitsArray.forEach(habit => {
+                // Asignar clase de color según el nivel
+                let nivelClass = 'tag-principiante';
+                if (habit.nivel === 'Intermedio') nivelClass = 'tag-intermedio';
+                if (habit.nivel === 'Avanzado') nivelClass = 'tag-avanzado';
+
+                const cardHTML = `
+                    <div class="habit-card">
+                        <div class="habit-icon">${habit.icono}</div>
+                        <div class="habit-info">
+                            <h3 class="habit-title">${habit.nombre}</h3>
+                            <span class="tag ${nivelClass}">${habit.nivel}</span>
+                        </div>
+                        <button class="btn-add" onclick="toggleAddHabit(this)">+</button>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        // Función para filtrar
+        function filterHabits(nivel, btnElement) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            if (nivel === 'Todos') {
+                renderHabits(allHabits);
+            } else {
+                const filtrados = allHabits.filter(h => h.nivel === nivel);
+                renderHabits(filtrados);
+            }
+        }
+
+        // Animación simple para el botón "+"
+        function toggleAddHabit(btn) {
+            btn.classList.toggle('added');
+            if(btn.classList.contains('added')) {
+                // Pequeño feedback visual
+                alert('¡Hábito añadido a tu Dashboard diario!');
+            } else {
+                alert('Hábito removido de tu Dashboard diario.');
+            }
+        }
+
+        // Cargar todos los hábitos al iniciar
+        window.onload = () => {
+            renderHabits(allHabits);
+        };
+    </script>
+</body>
+</html>
