@@ -12,9 +12,9 @@
     <style>
         /* --- ESTILOS GENERALES (Móvil Primero) --- */
         :root {
-            --primary-green: #2D6A4F; /* Verde oscuro */
-            --light-green: #A2D9A9;   /* Verde claro */
-            --bg-beige: #E6F0EA;      /* Beige/Verde claro */
+            --primary-green: #2D6A4F;
+            --light-green: #A2D9A9;
+            --bg-beige: #E6F0EA;
             --text-dark: #333333;
             --text-gray: #7D7D7D;
         }
@@ -29,7 +29,7 @@
             position: relative;
         }
 
-        /* --- PATRÓN DE FONDO "HEALTHY" (NUEVO) --- */
+        /* --- PATRÓN DE FONDO "HEALTHY" --- */
         .background-pattern {
             position: absolute;
             top: 0;
@@ -37,7 +37,7 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            opacity: 0.12; /* Sutil pero visible */
+            opacity: 0.12; 
             background-image: 
                 radial-gradient(var(--primary-green) 1.5px, transparent 1.5px),
                 linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
@@ -68,7 +68,7 @@
             font-weight: 700;
             color: var(--primary-green);
             margin: 0;
-            letter-spacing: -1px; /* Tipografía amigable */
+            letter-spacing: -1px;
         }
 
         .logo-lifestyle {
@@ -79,32 +79,34 @@
             text-transform: uppercase;
         }
 
-        /* --- CONTENEDOR DE ANIMACIÓN (Centrado perfecto y orgánico) --- */
+        /* --- CONTENEDOR DE ANIMACIÓN (Ajuste Orgánico y Máscaras) --- */
         .animation-container {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-grow: 1;
-            padding: 20px;
+            width: 100%;
             margin-bottom: -20px; /* Para que parezca flotar sobre el panel */
+            position: relative;
+            z-index: 3;
         }
 
         .chibi-animation-wrapper {
-            width: 90%; /* Ajuste perfecto a móviles sin zoom innecesario */
-            max-width: 320px;
-            height: auto;
-            border-radius: 50%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Sombra suave */
-            overflow: hidden;
-            background-color: var(--bg-beige);
-            /* --- BORDES ELIMINADOS (AJUSTE) --- */
-            border: none; 
+            width: 100%;
+            max-width: 500px; /* Limita en tablets/desktop */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .chibi-animation-wrapper video {
             width: 100%;
-            height: 100%;
-            object-fit: contain; /* Ajusta sin recortar */
+            max-height: 45vh; /* Ocupa solo la mitad de la pantalla */
+            object-fit: contain; /* Tamaño nativo, sin recortes ni zoom excesivo */
+            
+            /* Magia CSS: Gradientes para fundir el video con el fondo orgánicamente */
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
         }
 
         /* --- PANEL INFERIOR (Bottom Sheet) --- */
@@ -113,12 +115,12 @@
             width: 100%;
             padding: 40px 20px 30px 20px;
             box-sizing: border-box;
-            border-radius: 40px 40px 0 0; /* Bordes superiores redondeados */
+            border-radius: 40px 40px 0 0; 
             box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.08);
             text-align: center;
             animation: slideUp 0.8s ease-out forwards;
             transform: translateY(100%);
-            z-index: 4; /* Sobre la animación */
+            z-index: 4; 
         }
 
         @keyframes slideUp {
@@ -162,7 +164,6 @@
             text-transform: uppercase;
         }
 
-        /* Botón Principal */
         .btn-primary {
             background-color: var(--primary-green);
             color: #FFFFFF;
@@ -173,12 +174,11 @@
             background-color: #245A42;
         }
 
-        /* Botón de Instalación PWA */
         .btn-outline {
             background-color: transparent;
             color: var(--primary-green);
             border: 2px solid var(--primary-green);
-            display: none; /* Se oculta, JS lo muestra */
+            display: none; 
             justify-content: center;
             align-items: center;
             gap: 10px;
@@ -189,7 +189,7 @@
             color: white;
         }
 
-        /* --- COPYRIGHT INFERIOR (AJUSTE AÑO) --- */
+        /* --- COPYRIGHT INFERIOR --- */
         .footer-copyright {
             position: absolute;
             bottom: 10px;
@@ -245,18 +245,19 @@
     </div>
 
     <script>
-        // 1. Lógica del botón Comenzar
+        // 1. Lógica del botón Comenzar (Conectividad Real)
         document.getElementById('startButton').addEventListener('click', () => {
+            // Animación de salida del panel
             document.querySelector('.bottom-panel').style.transform = 'translateY(100%)';
             document.querySelector('.bottom-panel').style.transition = 'transform 0.4s ease-in';
             
+            // Redirección a la siguiente página tras la animación
             setTimeout(() => {
-                alert('Redirigiendo a Paso 1: Perfil...');
-                // window.location.href = 'onboarding.html'; 
+                window.location.href = 'onboarding.html'; 
             }, 400);
         });
 
-        // 2. Lógica para Instalar la WebApp (PWA - Add to Home Screen)
+        // 2. Lógica para Instalar la WebApp (PWA)
         let deferredPrompt;
         const installBtn = document.getElementById('installAppBtn');
 
@@ -284,6 +285,19 @@
             installBtn.style.display = 'none';
             console.log('PWA fue instalada exitosamente');
         });
+
+        // 3. Registro del Service Worker para funcionamiento offline/PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registrado con éxito:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Error al registrar el Service Worker:', error);
+                    });
+            });
+        }
     </script>
 
 </body>
