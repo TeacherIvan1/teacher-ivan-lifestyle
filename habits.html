@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Explorar Hábitos - Teacher Ivan Lifestyle</title>
+    <title>Hábitos - Teacher Ivan Lifestyle</title>
     <meta name="theme-color" content="#2D6A4F">
     
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
@@ -17,217 +17,81 @@
             --text-dark: #333333;
             --text-gray: #7D7D7D;
             --card-bg: #FFFFFF;
-            --level-beginner: #4CAF50;
-            --level-intermediate: #FF9800;
-            --level-advanced: #F44336;
+            --accent-orange: #F4A261;
+            --danger-red: #E76F51;
         }
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            min-height: 100%;
-            font-family: 'Quicksand', sans-serif;
-            background-color: var(--bg-beige);
-            -webkit-tap-highlight-color: transparent;
-        }
+        body, html { margin: 0; padding: 0; min-height: 100%; font-family: 'Quicksand', sans-serif; background-color: var(--bg-beige); -webkit-tap-highlight-color: transparent; }
 
-        /* --- PATRÓN DE FONDO "HEALTHY" --- */
-        .background-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.12;
-            background-image: 
-                radial-gradient(var(--primary-green) 1.5px, transparent 1.5px),
-                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
-                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
-                linear-gradient(135deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%);
-            background-size: 60px 60px;
-            background-position: 0 0, 0 0, 30px 30px, 30px 30px;
-        }
+        .background-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.12; background-image: radial-gradient(var(--primary-green) 1.5px, transparent 1.5px), linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%); background-size: 60px 60px; }
+        .app-container { padding: 20px 20px 100px 20px; max-width: 600px; margin: 0 auto; }
 
-        /* --- CONTENEDOR PRINCIPAL --- */
-        .app-container {
-            padding: 20px 20px 100px 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        /* --- HEADER --- */
+        .header { margin-bottom: 20px; padding-top: 10px; }
+        .header h1 { font-size: 1.8rem; color: var(--primary-green); margin: 0; font-weight: 700; }
+        .header p { color: var(--text-gray); margin: 5px 0 0 0; font-size: 0.95rem; }
 
-        /* --- HEADER Y FILTROS --- */
-        .header {
-            margin-bottom: 20px;
-            padding-top: 10px;
+        /* --- TARJETA DE RACHAS (STREAKS) --- */
+        .streak-card {
+            background: linear-gradient(135deg, var(--accent-orange), #E76F51);
+            border-radius: 25px; padding: 20px; color: white; box-shadow: 0 8px 20px rgba(231, 111, 81, 0.2);
+            margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;
         }
+        .streak-info h2 { margin: 0 0 5px 0; font-size: 1.2rem; }
+        .streak-info p { margin: 0; font-size: 0.9rem; opacity: 0.9; }
+        .streak-fire { font-size: 3rem; background: rgba(255,255,255,0.2); width: 70px; height: 70px; display: flex; justify-content: center; align-items: center; border-radius: 50%; }
 
-        .header h1 {
-            font-size: 1.8rem;
-            color: var(--primary-green);
-            margin: 0 0 5px 0;
-            font-weight: 700;
-        }
+        /* --- MIS HÁBITOS (LISTA ACTIVA) --- */
+        .section-title { font-size: 1.2rem; color: var(--text-dark); margin: 0 0 15px 0; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+        .card { background-color: var(--card-bg); border-radius: 25px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.04); margin-bottom: 20px; }
         
-        .header p {
-            color: var(--text-gray);
-            margin: 0 0 15px 0;
-            font-size: 0.95rem;
-        }
+        .habit-list { display: flex; flex-direction: column; }
+        .habit-item { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #f0f0f0; transition: background-color 0.2s; }
+        .habit-item:last-child { border-bottom: none; }
+        
+        .habit-icon { font-size: 1.5rem; margin-right: 15px; background-color: var(--bg-beige); width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; border-radius: 12px; flex-shrink: 0; cursor: pointer; }
+        .habit-text-container { flex-grow: 1; cursor: pointer; }
+        .habit-text { font-weight: 700; color: var(--text-dark); font-size: 1rem; transition: color 0.3s; margin: 0 0 3px 0; }
+        .habit-status { font-size: 0.75rem; color: var(--text-gray); margin: 0; }
+        
+        .checkbox-round { width: 24px; height: 24px; border: 2px solid #ccc; border-radius: 50%; display: flex; justify-content: center; align-items: center; transition: all 0.2s; cursor: pointer; margin-right: 15px; }
+        .habit-item.completed .checkbox-round { background-color: var(--primary-green); border-color: var(--primary-green); }
+        .habit-item.completed .checkbox-round::after { content: "✓"; color: white; font-size: 14px; font-weight: bold; }
+        .habit-item.completed .habit-text { color: #aaa; text-decoration: line-through; }
+        
+        .btn-delete { background: none; border: none; color: var(--danger-red); font-size: 1.2rem; cursor: pointer; opacity: 0.5; transition: opacity 0.2s; padding: 5px; }
+        .btn-delete:active { opacity: 1; transform: scale(0.9); }
 
-        /* Menú deslizable horizontal para filtros */
-        .filters-container {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            scrollbar-width: none;
-        }
-        .filters-container::-webkit-scrollbar { display: none; }
+        .btn-add-habit { background-color: var(--primary-green); color: white; border: none; padding: 15px; border-radius: 20px; font-weight: 700; cursor: pointer; width: 100%; font-size: 1rem; font-family: 'Quicksand'; box-shadow: 0 5px 15px rgba(45, 106, 79, 0.2); display: flex; justify-content: center; align-items: center; gap: 8px; }
 
-        .filter-btn {
-            background-color: var(--card-bg);
-            color: var(--text-gray);
-            border: 2px solid transparent;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            white-space: nowrap;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
-            transition: all 0.3s ease;
-        }
+        /* --- MODAL EXPLORADOR DE HÁBITOS --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: none; justify-content: center; align-items: flex-end; opacity: 0; transition: opacity 0.3s; }
+        .modal-content { background: var(--bg-beige); width: 100%; height: 85vh; border-radius: 30px 30px 0 0; padding: 25px 20px; box-sizing: border-box; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-header h2 { margin: 0; color: var(--primary-green); font-size: 1.4rem; }
+        .btn-close { background: white; border: none; width: 35px; height: 35px; border-radius: 50%; font-weight: bold; color: var(--text-dark); cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
-        .filter-btn.active {
-            background-color: var(--primary-green);
-            color: white;
-            box-shadow: 0 4px 10px rgba(45, 106, 79, 0.2);
-        }
+        .db-habit-list { overflow-y: auto; flex-grow: 1; display: flex; flex-direction: column; gap: 15px; padding-bottom: 20px; }
+        .db-habit-card { background: white; border-radius: 20px; padding: 15px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+        .db-habit-info { flex-grow: 1; }
+        .db-habit-title { font-size: 1rem; font-weight: 700; margin: 0 0 5px 0; color: var(--text-dark); }
+        .db-habit-desc { font-size: 0.8rem; color: var(--text-gray); margin: 0; line-height: 1.3; }
+        .db-habit-level { font-size: 0.65rem; background: var(--bg-beige); color: var(--primary-green); padding: 3px 8px; border-radius: 10px; font-weight: 700; display: inline-block; margin-top: 5px;}
+        .btn-add-single { background: var(--light-green); color: var(--primary-green); border: none; width: 35px; height: 35px; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .btn-add-single:active { transform: scale(0.9); background: var(--primary-green); color: white; }
 
-        /* --- LISTA DE HÁBITOS --- */
-        .habit-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .habit-card {
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            padding: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.04);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            animation: fadeIn 0.4s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .habit-icon {
-            width: 50px;
-            height: 50px;
-            background-color: var(--bg-beige);
-            border-radius: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.8rem;
-            flex-shrink: 0;
-        }
-
-        .habit-info {
-            flex-grow: 1;
-        }
-
-        .habit-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin: 0 0 5px 0;
-        }
-
-        .tag {
-            font-size: 0.7rem;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            display: inline-block;
-        }
-
-        /* Colores dinámicos por nivel de disciplina */
-        .tag-principiante { background-color: rgba(76, 175, 80, 0.15); color: var(--level-beginner); }
-        .tag-intermedio { background-color: rgba(255, 152, 0, 0.15); color: var(--level-intermediate); }
-        .tag-avanzado { background-color: rgba(244, 67, 54, 0.15); color: var(--level-advanced); }
-
-        /* Botón de Añadir */
-        .btn-add {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--light-green);
-            color: var(--primary-green);
-            border: none;
-            font-size: 1.5rem;
-            font-weight: bold;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .btn-add:active {
-            transform: scale(0.9);
-            background-color: var(--primary-green);
-            color: white;
-        }
-
-        .btn-add.added {
-            background-color: var(--primary-green);
-            color: white;
-            transform: rotate(45deg); /* Se convierte en una 'X' sutil */
-        }
+        /* Loader */
+        .spinner { width: 35px; height: 35px; border: 4px solid var(--light-green); border-top: 4px solid var(--primary-green); border-radius: 50%; animation: spin 1s linear infinite; margin: 50px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* --- NAVEGACIÓN INFERIOR --- */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #FFFFFF;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 15px 0 20px 0;
-            z-index: 100;
-            border-radius: 30px 30px 0 0;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-gray);
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 600;
-            gap: 5px;
-            transition: color 0.2s;
-            cursor: pointer;
-        }
-
-        .nav-item svg { width: 24px; height: 24px; fill: currentColor; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #FFFFFF; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); display: flex; justify-content: space-between; padding: 15px 10px 20px 10px; box-sizing: border-box; z-index: 100; border-radius: 30px 30px 0 0; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-gray); text-decoration: none; font-size: 0.7rem; font-weight: 700; gap: 5px; flex: 1; text-align: center; }
+        .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
         .nav-item.active { color: var(--primary-green); }
-
     </style>
 </head>
 <body>
@@ -236,119 +100,218 @@
 
     <div class="app-container">
         
-        <div class="header">
-            <h1>Hábitos</h1>
-            <p>Construye tu disciplina paso a paso.</p>
-            
-            <!-- Filtros por nivel de disciplina -->
-            <div class="filters-container">
-                <button class="filter-btn active" onclick="filterHabits('Todos', this)">Todos</button>
-                <button class="filter-btn" onclick="filterHabits('Principiante', this)">Principiante</button>
-                <button class="filter-btn" onclick="filterHabits('Intermedio', this)">Intermedio</button>
-                <button class="filter-btn" onclick="filterHabits('Avanzado', this)">Avanzado</button>
+        <header class="header">
+            <h1>Tus Hábitos</h1>
+            <p>Forja disciplina, un día a la vez.</p>
+        </header>
+
+        <!-- TARJETA DE RACHA -->
+        <div class="streak-card">
+            <div class="streak-info">
+                <h2>Racha Actual</h2>
+                <p>¡Mantén el fuego vivo! Tienes <strong id="streakCount">0</strong> días seguidos cumpliendo tus metas.</p>
+            </div>
+            <div class="streak-fire">🔥</div>
+        </div>
+
+        <!-- LISTA DE HÁBITOS ACTIVOS -->
+        <div class="card">
+            <h2 class="section-title">Rutina Diaria</h2>
+            <div class="habit-list" id="myHabitsContainer">
+                <!-- Se inyectan con JS desde LocalStorage -->
             </div>
         </div>
 
-        <!-- Contenedor de la lista de hábitos -->
-        <div id="habitList" class="habit-list">
-            <!-- JS inyectará las tarjetas aquí -->
-        </div>
+        <button class="btn-add-habit" onclick="openExploreModal()">
+            <span>➕ Explorar Biblioteca de Hábitos</span>
+        </button>
 
     </div>
 
-    <!-- MENÚ INFERIOR Actualizado para incluir Hábitos -->
+    <!-- MODAL EXPLORADOR (BASE DE DATOS) -->
+    <div class="modal-overlay" id="exploreModal" onclick="closeExploreModal(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Descubrir Hábitos</h2>
+                <button class="btn-close" onclick="document.getElementById('exploreModal').classList.remove('active')">✕</button>
+            </div>
+            
+            <div id="dbLoader" class="spinner"></div>
+            
+            <div class="db-habit-list" id="dbHabitsContainer">
+                <!-- Se inyectan desde Google Sheets -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MENÚ INFERIOR -->
     <nav class="bottom-nav">
-        <a href="dashboard.html" class="nav-item">
-            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            Inicio
-        </a>
-        <a href="workouts.html" class="nav-item">
-            <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29l-1.43-1.43z"/></svg>
-            Rutinas
-        </a>
-        <a class="nav-item active">
-            <!-- Icono de Check/Hábitos -->
-            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-            Hábitos
-        </a>
-        <a class="nav-item" onclick="alert('Ir a Nutrición')">
-            <svg viewBox="0 0 24 24"><path d="M15.06 11.06L16.12 10 15 8.88C13.88 7.75 13.88 5.92 15 4.79C12.44 5.39 10.45 7.42 10.05 10H10C8.9 10 8 10.9 8 12C8 13.1 8.9 14 10 14H10.05C10.45 16.58 12.44 18.61 15 19.21C13.88 18.08 13.88 16.25 15 15.12L16.12 14 15.06 12.94C14.54 12.42 14.54 11.58 15.06 11.06M20 12C20 16.42 16.42 20 12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"/></svg>
-            Dieta
-        </a>
+        <a href="dashboard.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Inicio</a>
+        <a href="workouts.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29l-1.43-1.43z"/></svg>Rutinas</a>
+        <a href="nutrition.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M15.06 11.06L16.12 10 15 8.88C13.88 7.75 13.88 5.92 15 4.79C12.44 5.39 10.45 7.42 10.05 10H10C8.9 10 8 10.9 8 12C8 13.1 8.9 14 10 14H10.05C10.45 16.58 12.44 18.61 15 19.21C13.88 18.08 13.88 16.25 15 15.12L16.12 14 15.06 12.94C14.54 12.42 14.54 11.58 15.06 11.06M20 12C20 16.42 16.42 20 12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"/></svg>Dieta</a>
+        <a class="nav-item active"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>Hábitos</a>
+        <a href="profile.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Perfil</a>
     </nav>
 
     <script>
-        // Simulador de Base de Datos (Esto vendrá de tu Google Sheet en el futuro)
-        const allHabits = [
-            { id: 1, nombre: "Beber 2L de Agua", nivel: "Principiante", icono: "💧" },
-            { id: 2, nombre: "Meditar 10 mins", nivel: "Principiante", icono: "🧘" },
-            { id: 3, nombre: "Dormir 8 horas", nivel: "Principiante", icono: "🛌" },
-            { id: 4, nombre: "Leer 15 páginas", nivel: "Intermedio", icono: "📚" },
-            { id: 5, nombre: "Caminar 10k pasos", nivel: "Intermedio", icono: "🚶" },
-            { id: 6, nombre: "Sin azúcar refinada", nivel: "Intermedio", icono: "🚫" },
-            { id: 7, nombre: "Ducha de agua fría", nivel: "Avanzado", icono: "🚿" },
-            { id: 8, nombre: "Ayuno intermitente 16/8", nivel: "Avanzado", icono: "⏳" },
-            { id: 9, nombre: "Despertar 5:00 AM", nivel: "Avanzado", icono: "🌅" }
-        ];
+        const API_URL = 'https://script.google.com/macros/s/AKfycbxnbIBK31t3Il1JoyvIj6fSawERfBxgAJD-5ahXmZsFBKnf5RWMNy1uf1RQM36WNJJd/exec';
+        const STATE_KEY = 'teacherIvanData';
+        
+        let appState = JSON.parse(localStorage.getItem(STATE_KEY)) || { habits: [], user: { plan: 'free' } };
+        let dbHabitsLoaded = false;
 
-        // Función para renderizar el HTML
-        function renderHabits(habitsArray) {
-            const container = document.getElementById('habitList');
-            container.innerHTML = ''; 
+        window.onload = () => {
+            renderMyHabits();
+            calcularRacha();
+        };
 
-            if(habitsArray.length === 0) {
-                container.innerHTML = '<p style="text-align:center; color: var(--text-gray);">No hay hábitos en esta categoría.</p>';
+        function saveState() {
+            localStorage.setItem(STATE_KEY, JSON.stringify(appState));
+            renderMyHabits();
+            calcularRacha();
+        }
+
+        // --- MIS HÁBITOS ---
+        function renderMyHabits() {
+            const container = document.getElementById('myHabitsContainer');
+            container.innerHTML = '';
+            
+            if (!appState.habits || appState.habits.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-gray); font-size:0.9rem; text-align:center; padding: 20px 0;">Aún no sigues ningún hábito. ¡Explora la biblioteca y añade el primero!</p>';
                 return;
             }
 
-            habitsArray.forEach(habit => {
-                // Asignar clase de color según el nivel
-                let nivelClass = 'tag-principiante';
-                if (habit.nivel === 'Intermedio') nivelClass = 'tag-intermedio';
-                if (habit.nivel === 'Avanzado') nivelClass = 'tag-avanzado';
-
-                const cardHTML = `
-                    <div class="habit-card">
-                        <div class="habit-icon">${habit.icono}</div>
-                        <div class="habit-info">
-                            <h3 class="habit-title">${habit.nombre}</h3>
-                            <span class="tag ${nivelClass}">${habit.nivel}</span>
+            appState.habits.forEach((habit, index) => {
+                container.innerHTML += `
+                    <div class="habit-item ${habit.done ? 'completed' : ''}">
+                        <div class="checkbox-round" onclick="toggleHabit(${index})"></div>
+                        <div class="habit-icon" onclick="toggleHabit(${index})">${habit.icon || '✨'}</div>
+                        <div class="habit-text-container" onclick="toggleHabit(${index})">
+                            <h3 class="habit-text">${habit.text}</h3>
+                            <p class="habit-status">${habit.done ? 'Completado hoy' : 'Pendiente'}</p>
                         </div>
-                        <button class="btn-add" onclick="toggleAddHabit(this)">+</button>
+                        <button class="btn-delete" onclick="deleteHabit(${index})" title="Eliminar Hábito">🗑️</button>
                     </div>
                 `;
-                container.innerHTML += cardHTML;
             });
         }
 
-        // Función para filtrar
-        function filterHabits(nivel, btnElement) {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            btnElement.classList.add('active');
+        function toggleHabit(index) {
+            appState.habits[index].done = !appState.habits[index].done;
+            saveState();
+        }
 
-            if (nivel === 'Todos') {
-                renderHabits(allHabits);
-            } else {
-                const filtrados = allHabits.filter(h => h.nivel === nivel);
-                renderHabits(filtrados);
+        function deleteHabit(index) {
+            if (confirm(`¿Seguro que deseas eliminar "${appState.habits[index].text}" de tu rutina?`)) {
+                appState.habits.splice(index, 1);
+                saveState();
             }
         }
 
-        // Animación simple para el botón "+"
-        function toggleAddHabit(btn) {
-            btn.classList.toggle('added');
-            if(btn.classList.contains('added')) {
-                // Pequeño feedback visual
-                alert('¡Hábito añadido a tu Dashboard diario!');
-            } else {
-                alert('Hábito removido de tu Dashboard diario.');
+        // --- LÓGICA DE RACHAS (Simulada) ---
+        function calcularRacha() {
+            // Lógica simple: si todos los hábitos están en 'done = true', sumamos 1 día a la racha
+            let racha = parseInt(localStorage.getItem('teacherIvanStreak')) || 0;
+            
+            if (appState.habits.length > 0) {
+                const todosCompletos = appState.habits.every(h => h.done === true);
+                
+                // Si completó todos hoy y no lo habíamos sumado (Usamos una bandera simple local)
+                const hoyMarcado = localStorage.getItem('streakHoy');
+                const fechaHoy = new Date().toDateString();
+
+                if (todosCompletos && hoyMarcado !== fechaHoy) {
+                    racha += 1;
+                    localStorage.setItem('teacherIvanStreak', racha);
+                    localStorage.setItem('streakHoy', fechaHoy);
+                } else if (!todosCompletos && hoyMarcado === fechaHoy) {
+                    // Si desmarcó uno, quitamos el día de racha de hoy
+                    racha = Math.max(0, racha - 1);
+                    localStorage.setItem('teacherIvanStreak', racha);
+                    localStorage.removeItem('streakHoy');
+                }
+            }
+            
+            document.getElementById('streakCount').innerText = racha;
+        }
+
+        // --- EXPLORADOR DE BASE DE DATOS (MODAL) ---
+        const modal = document.getElementById('exploreModal');
+
+        function openExploreModal() {
+            modal.classList.add('active');
+            if (!dbHabitsLoaded) {
+                fetchHabitsFromDB();
             }
         }
 
-        // Cargar todos los hábitos al iniciar
-        window.onload = () => {
-            renderHabits(allHabits);
-        };
+        function closeExploreModal(e) {
+            if (e.target === modal) modal.classList.remove('active');
+        }
+
+        async function fetchHabitsFromDB() {
+            const container = document.getElementById('dbHabitsContainer');
+            const loader = document.getElementById('dbLoader');
+
+            try {
+                const response = await fetch(API_URL + '?action=getHabitos');
+                const habitosDB = await response.json();
+                
+                loader.style.display = 'none';
+                container.innerHTML = '';
+
+                habitosDB.forEach(habit => {
+                    // Evitar mostrar hábitos que el usuario ya tiene en su lista
+                    const yaLoTiene = appState.habits.some(h => h.text === habit["NOMBRE DEL HABITO"]);
+                    
+                    if (!yaLoTiene) {
+                        container.innerHTML += `
+                            <div class="db-habit-card">
+                                <div class="habit-icon" style="background: var(--bg-beige);">${habit["ICONO"] || '✨'}</div>
+                                <div class="db-habit-info">
+                                    <h3 class="db-habit-title">${habit["NOMBRE DEL HABITO"]}</h3>
+                                    <p class="db-habit-desc">${habit["DESCRIPCION"] || 'Hábito saludable para tu día.'}</p>
+                                    <span class="db-habit-level">${habit["NIVEL DE DISCIPLINA"] || 'General'}</span>
+                                </div>
+                                <button class="btn-add-single" onclick="addNewHabit('${habit["NOMBRE DEL HABITO"]}', '${habit["ICONO"]}')">+</button>
+                            </div>
+                        `;
+                    }
+                });
+                
+                dbHabitsLoaded = true;
+
+            } catch (error) {
+                console.error("Error conectando con la base de datos de hábitos", error);
+                loader.style.display = 'none';
+                container.innerHTML = '<p style="text-align:center; color: var(--danger-red);">Error de conexión. Intenta más tarde.</p>';
+            }
+        }
+
+        function addNewHabit(nombre, icono) {
+            // Verificar límite de hábitos para plan Free (Opcional, pero da valor al Premium)
+            if (appState.user.plan === 'free' && appState.habits.length >= 5) {
+                alert("🔒 El plan Free permite trackear hasta 5 hábitos. Sube a VIP Premium para hábitos ilimitados.");
+                window.location.href = 'auth.html';
+                return;
+            }
+
+            // Añadir al estado local
+            appState.habits.push({
+                id: Date.now(),
+                text: nombre,
+                icon: icono || '✨',
+                done: false
+            });
+
+            saveState();
+            
+            // Refrescar el modal para que desaparezca el hábito recién añadido
+            dbHabitsLoaded = false; 
+            fetchHabitsFromDB(); 
+            
+            alert(`"${nombre}" ha sido añadido a tu rutina diaria.`);
+        }
     </script>
 </body>
 </html>
