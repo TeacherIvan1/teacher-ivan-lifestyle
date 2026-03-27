@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Suscripción - Teacher Ivan Lifestyle</title>
+    <title>Dashboard - Teacher Ivan Lifestyle</title>
     <meta name="theme-color" content="#2D6A4F">
     
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
@@ -13,91 +13,77 @@
         :root {
             --primary-green: #2D6A4F;
             --light-green: #A2D9A9;
-            --accent-gold: #F4A261; /* Dorado Premium */
             --bg-beige: #E6F0EA;
             --text-dark: #333333;
             --text-gray: #7D7D7D;
             --card-bg: #FFFFFF;
+            --accent-orange: #F4A261;
+            --accent-gold: #E9C46A;
         }
 
-        body, html {
-            margin: 0; padding: 0; min-height: 100%; font-family: 'Quicksand', sans-serif;
-            background-color: var(--bg-beige); display: flex; flex-direction: column; overflow-x: hidden;
-        }
+        body, html { margin: 0; padding: 0; min-height: 100%; font-family: 'Quicksand', sans-serif; background-color: var(--bg-beige); -webkit-tap-highlight-color: transparent; }
 
-        /* --- PATRÓN DE FONDO "HEALTHY" --- */
-        .background-pattern {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.12;
-            background-image: 
-                radial-gradient(var(--primary-green) 1.5px, transparent 1.5px),
-                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
-                linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
-                linear-gradient(135deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%);
-            background-size: 60px 60px; background-position: 0 0, 0 0, 30px 30px, 30px 30px;
-        }
+        .background-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.12; background-image: radial-gradient(var(--primary-green) 1.5px, transparent 1.5px), linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%); background-size: 60px 60px; }
+        .app-container { padding: 20px 20px 100px 20px; max-width: 600px; margin: 0 auto; }
 
-        /* --- CONTENEDOR PRINCIPAL CON LOGO --- */
-        .app-container { flex-grow: 1; display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; z-index: 1; }
+        /* --- HEADER Y AVATAR --- */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-top: 10px; }
+        .header-text h1 { font-size: 1.6rem; color: var(--primary-green); margin: 0; font-weight: 700; }
+        .header-text p { color: var(--text-gray); margin: 2px 0 0 0; font-size: 0.9rem; font-weight: 600; display:flex; align-items:center; gap:5px;}
+        
+        .avatar { width: 55px; height: 55px; background-color: var(--light-green); border-radius: 50%; border: 3px solid #FFF; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; font-size: 1.8rem; cursor: pointer; transition: transform 0.2s; position: relative; }
+        .avatar:active { transform: scale(0.9); }
+        .avatar-edit-icon { position: absolute; bottom: -2px; right: -2px; background: var(--primary-green); color: white; width: 18px; height: 18px; border-radius: 50%; font-size: 10px; display: flex; justify-content: center; align-items: center; border: 2px solid white; }
 
-        .logo-wrapper { display: flex; justify-content: center; align-items: center; padding-top: 20px; padding-bottom: 20px; animation: fadeInDown 0.6s ease; }
-        .top-logo { width: 90px; height: 90px; border-radius: 50%; background-color: white; padding: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); object-fit: cover; }
+        .btn-notify { background: rgba(244, 162, 97, 0.2); color: var(--accent-orange); border: none; padding: 4px 8px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
 
-        .header { text-align: center; margin-bottom: 25px; animation: fadeInDown 0.6s ease 0.2s forwards; opacity: 0; }
-        .header h1 { color: var(--primary-green); margin: 0 0 10px 0; font-size: 1.8rem; font-weight: 700; }
-        .header p { color: var(--text-gray); margin: 0; font-size: 1rem; max-width: 280px; margin-left: auto; margin-right: auto; }
+        /* --- TARJETAS --- */
+        .card { background-color: var(--card-bg); border-radius: 25px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.04); margin-bottom: 20px; }
+        .section-title { font-size: 1.2rem; color: var(--text-dark); margin: 0 0 15px 0; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
 
-        /* --- CONTENEDOR DE PLANES --- */
-        .plans-container { display: flex; flex-direction: column; gap: 20px; align-items: center; padding-bottom: 120px; animation: slideUp 0.8s ease-out forwards; transform: translateY(30px); opacity: 0; }
+        /* Progreso */
+        .progress-card { background: linear-gradient(135deg, var(--primary-green), #1b4332); color: white; }
+        .progress-card h2 { margin: 0 0 5px 0; font-size: 1.2rem; }
+        .progress-card p { margin: 0 0 15px 0; font-size: 0.9rem; opacity: 0.8; }
+        .progress-bar-bg { background-color: rgba(255,255,255,0.2); height: 10px; border-radius: 10px; overflow: hidden; }
+        .progress-bar-fill { background-color: var(--accent-orange); height: 100%; width: 0%; transition: width 0.4s ease; }
 
-        /* --- TARJETAS DE PLANES --- */
-        .plan-card {
-            background-color: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px;
-            padding: 30px 25px; box-sizing: border-box; border: 3px solid transparent;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.06); cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative; overflow: hidden;
-        }
+        /* Rutina */
+        .workout-hero { background-color: var(--bg-beige); border-radius: 15px; padding: 15px; display: flex; align-items: flex-start; gap: 15px; margin-top: 10px; }
+        .workout-icon { width: 50px; height: 50px; background-color: white; border-radius: 15px; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; flex-shrink: 0;}
+        .workout-info h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: var(--text-dark); }
+        .workout-list { font-size: 0.8rem; color: var(--text-gray); margin: 0; line-height: 1.4; }
+        
+        .btn-start-workout { background-color: var(--primary-green); color: white; border: none; padding: 12px 20px; border-radius: 20px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 15px; font-size: 1rem; }
+        .btn-customize { background-color: transparent; color: var(--accent-gold); border: 2px solid var(--accent-gold); padding: 8px 15px; border-radius: 20px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 10px; font-size: 0.9rem; display: flex; justify-content: center; align-items: center; gap: 5px; }
 
-        .plan-card:not(.active) { opacity: 0.7; transform: scale(0.98); }
-        .plan-card.active { border-color: var(--primary-green); box-shadow: 0 12px 40px rgba(45, 106, 79, 0.15); opacity: 1; transform: scale(1); }
-        .plan-premium.active { border-color: var(--accent-gold); }
+        /* Hábitos */
+        .habit-list { display: flex; flex-direction: column; }
+        .habit-item { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; cursor: pointer; }
+        .habit-item:last-child { border-bottom: none; }
+        .habit-icon { font-size: 1.3rem; margin-right: 15px; background-color: var(--bg-beige); width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; border-radius: 12px; }
+        .habit-text { flex-grow: 1; font-weight: 600; color: var(--text-dark); transition: color 0.3s; }
+        .checkbox-round { width: 22px; height: 22px; border: 2px solid #ccc; border-radius: 50%; display: flex; justify-content: center; align-items: center; transition: all 0.2s; }
+        .habit-item.completed .checkbox-round { background-color: var(--primary-green); border-color: var(--primary-green); }
+        .habit-item.completed .checkbox-round::after { content: "✓"; color: white; font-size: 14px; font-weight: bold; }
+        .habit-item.completed .habit-text { color: #aaa; text-decoration: line-through; }
 
-        .premium-badge {
-            position: absolute; top: 0; right: 0; background-color: var(--accent-gold); color: white;
-            padding: 6px 18px; border-radius: 0 30px 0 20px; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-        }
-
-        .plan-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .plan-title { font-size: 1.5rem; font-weight: 700; color: var(--text-dark); margin: 0; }
-        .plan-price { font-size: 1.3rem; font-weight: 700; color: var(--primary-green); }
-        .plan-premium .plan-price { color: var(--accent-gold); }
-
-        .feature-list { list-style: none; padding: 0; margin: 0; text-align: left; }
-        .feature-list li { color: var(--text-gray); margin-bottom: 12px; font-size: 1rem; display: flex; align-items: flex-start; line-height: 1.4; }
-        .feature-list li::before { content: "✓"; color: var(--primary-green); font-weight: bold; margin-right: 12px; font-size: 1.2rem; flex-shrink: 0; margin-top: -2px; }
-        .plan-premium .feature-list li::before { color: var(--accent-gold); }
-
-        /* --- SECCIÓN DEL QR --- */
-        .qr-section { margin-top: 25px; padding-top: 25px; border-top: 1px dashed #eee; display: none; flex-direction: column; align-items: center; animation: slideDownFade 0.4s ease forwards; }
-        .plan-premium.active .qr-section { display: flex; }
-        .qr-container { width: 200px; height: 200px; background-color: white; border: 3px solid var(--accent-gold); border-radius: 20px; display: flex; justify-content: center; align-items: center; margin-bottom: 15px; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; }
-        .qr-image { width: 100%; height: 100%; object-fit: contain; }
-        .qr-instructions { font-size: 0.9rem; color: var(--text-gray); text-align: center; margin-bottom: 5px; max-width: 250px; line-height: 1.4; }
-
-        /* --- BOTÓN FLOTANTE INFERIOR --- */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; padding: 20px; box-sizing: border-box; background: linear-gradient(to top, var(--bg-beige) 80%, rgba(230,240,234,0)); display: flex; justify-content: center; z-index: 10; }
-        .btn-primary { background-color: var(--primary-green); color: #FFFFFF; width: 100%; max-width: 400px; padding: 18px; border-radius: 30px; font-size: 1.15rem; font-weight: 700; cursor: pointer; border: none; font-family: 'Quicksand', sans-serif; text-transform: uppercase; box-shadow: 0 8px 20px rgba(45, 106, 79, 0.2); transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; }
-        .btn-primary:active { transform: scale(0.96); background-color: #245A42; }
-        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
-
-        /* Spinner del botón */
-        .spinner-btn { display: none; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 10px; }
+        /* Loader para Rutina */
+        .spinner { width: 20px; height: 20px; border: 3px solid rgba(45, 106, 79, 0.2); border-top: 3px solid var(--primary-green); border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Animaciones */
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideDownFade { from { opacity: 0; transform: translateY(-10px); height: 0; } to { opacity: 1; transform: translateY(0); height: auto; } }
+        /* --- NAVEGACIÓN INFERIOR (5 Pestañas) --- */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #FFFFFF; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); display: flex; justify-content: space-between; padding: 15px 10px 20px 10px; box-sizing: border-box; z-index: 100; border-radius: 30px 30px 0 0; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-gray); text-decoration: none; font-size: 0.7rem; font-weight: 700; gap: 5px; flex: 1; text-align: center; }
+        .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
+        .nav-item.active { color: var(--primary-green); }
 
+        /* Modal Avatar (Simplificado para el código) */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: none; justify-content: center; align-items: flex-end; }
+        .modal-content { background: white; width: 100%; border-radius: 30px 30px 0 0; padding: 30px 20px 40px; transform: translateY(100%); transition: transform 0.3s; }
+        .modal-overlay.active { display: flex; } .modal-overlay.active .modal-content { transform: translateY(0); }
+        .avatar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 20px; }
+        .avatar-option { font-size: 2.5rem; background: var(--bg-beige); border-radius: 50%; width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; margin: 0 auto; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -106,143 +92,254 @@
 
     <div class="app-container">
         
-        <div class="logo-wrapper">
-            <img src="icon-512.png" alt="Teacher Ivan Lifestyle Logo" class="top-logo">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-text">
+                <h1>Hola, <span id="displayUserName">Usuario</span> 👋</h1>
+                <p>
+                    <span id="currentDate">Cargando fecha...</span>
+                    <button class="btn-notify" id="notifyBtn" onclick="requestNotifications()">🔔 Activar Avisos</button>
+                </p>
+            </div>
+            <div class="avatar" onclick="openAvatarModal()">
+                <span id="displayAvatar">🧘🏻‍♂️</span>
+                <div class="avatar-edit-icon">✏️</div>
+            </div>
+        </header>
+
+        <!-- PROGRESO -->
+        <div class="card progress-card">
+            <h2>Progreso Diario</h2>
+            <p id="progressText">Calculando...</p>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="mainProgress"></div>
+            </div>
         </div>
 
-        <div class="header">
-            <h1>Invierte en ti</h1>
-            <p>Elige el plan que transformará tu estilo de vida.</p>
-        </div>
-
-        <div class="plans-container">
+        <!-- RUTINA ASIGNADA -->
+        <div class="card">
+            <h2 class="section-title">Tu Rutina de Hoy <span style="font-size: 0.8rem; background: var(--bg-beige); padding: 4px 8px; border-radius: 10px;" id="planBadge">FREE</span></h2>
             
-            <div class="plan-card plan-free" id="cardFree" onclick="selectPlan('free')">
-                <div class="plan-header">
-                    <h2 class="plan-title"> Member Free </h2>
-                    <span class="plan-price">Bs. 0</span>
-                </div>
-                <ul class="feature-list">
-                    <li>Rastreador de Hábitos Básico</li>
-                    <li>Rutina General (no adaptativa)</li>
-                    <li>Soporte vía Comunidad</li>
-                    <li>Primeros pasos en tu viaje Lifestyle</li>
-                </ul>
+            <div class="workout-hero" id="routineHero">
+                <div class="spinner" id="routineLoader"></div>
+                <p style="color: var(--text-gray); margin-left: 10px; font-size: 0.9rem;" id="routineLoadingText">Buscando tu plan ideal...</p>
+                
+                <!-- Contenido inyectado por JS -->
             </div>
 
-            <div class="plan-card plan-premium active" id="cardPremium" onclick="selectPlan('premium')">
-                <div class="premium-badge">👑 VIP ELITE</div>
-                <div class="plan-header">
-                    <h2 class="plan-title">VIP Premium</h2>
-                    <span class="plan-price">Bs. 100 / mes</span>
-                </div>
-                <ul class="feature-list">
-                    <li><strong>Asesoría Personalizada Directa: Mentoría 1-a-1 con Teacher Ivan.</strong></li>
-                    <li><strong>Planes de Nutrición y Dieta 100% Adaptados a tus metas reales.</strong></li>
-                    <li><strong>Acceso Total e Ilimitado a la Biblioteca de Élite de ejercicios.</strong></li>
-                    <li>Rutinas Dinámicas que evolucionan con tu progreso.</li>
-                    <li>Soporte Preferencial vía WhatsApp.</li>
-                </ul>
+            <button class="btn-start-workout" onclick="window.location.href='workouts.html'">EMPEZAR ENTRENAMIENTO</button>
+            <button class="btn-customize" onclick="customizeRoutine()"><span>👑 Personalizar (VIP)</span></button>
+        </div>
 
-                <div class="qr-section">
-                    <p class="qr-instructions">Escanea el código QR desde tu app bancaria para activar tu plan VIP ELITE inmediatamente.</p>
-                    
-                    <div class="qr-container">
-                        <img src="TeacherIvan-QR.jpg" alt="Código QR de Pago Teacher Ivan" class="qr-image">
-                    </div>
-                    
-                    <p class="qr-instructions" style="font-size: 0.8rem; color: #999; margin-top: 5px;">
-                        Una vez realizado el pago, haz clic en continuar. Tu cuenta VIP será validada por el Teacher en breve.
-                    </p>
-                </div>
+        <!-- HÁBITOS SINCRONIZADOS -->
+        <div class="card">
+            <h2 class="section-title">Hábitos Diarios</h2>
+            <div class="habit-list" id="habitContainer">
+                <!-- Se inyectan con JS desde LocalStorage -->
             </div>
-
         </div>
 
     </div>
 
-    <div class="bottom-nav">
-        <button id="continueBtn" class="btn-primary">
-            <div class="spinner-btn" id="btnSpinner"></div>
-            <span id="btnText">Continuar al Dashboard</span>
-        </button>
+    <!-- MODAL DE AVATARES -->
+    <div class="modal-overlay" id="avatarModal" onclick="closeAvatarModal(event)">
+        <div class="modal-content">
+            <h2 style="margin-top:0; color: var(--primary-green); text-align: center;">Elige tu Avatar</h2>
+            <div class="avatar-grid">
+                <div class="avatar-option" onclick="saveAvatar('🧘🏻‍♂️')">🧘🏻‍♂️</div>
+                <div class="avatar-option" onclick="saveAvatar('🏋️‍♀️')">🏋️‍♀️</div>
+                <div class="avatar-option" onclick="saveAvatar('🏃🏽‍♂️')">🏃🏽‍♂️</div>
+                <div class="avatar-option" onclick="saveAvatar('🧗🏽‍♀️')">🧗🏽‍♀️</div>
+            </div>
+        </div>
     </div>
+
+    <!-- MENÚ INFERIOR (5 Elementos) -->
+    <nav class="bottom-nav">
+        <a class="nav-item active"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Inicio</a>
+        <a href="workouts.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29l-1.43-1.43z"/></svg>Rutinas</a>
+        <a href="nutrition.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M15.06 11.06L16.12 10 15 8.88C13.88 7.75 13.88 5.92 15 4.79C12.44 5.39 10.45 7.42 10.05 10H10C8.9 10 8 10.9 8 12C8 13.1 8.9 14 10 14H10.05C10.45 16.58 12.44 18.61 15 19.21C13.88 18.08 13.88 16.25 15 15.12L16.12 14 15.06 12.94C14.54 12.42 14.54 11.58 15.06 11.06M20 12C20 16.42 16.42 20 12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C16.42 4 20 7.58 20 12M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"/></svg>Dieta</a>
+        <a href="habits.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>Hábitos</a>
+        <a href="profile.html" class="nav-item"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Perfil</a>
+    </nav>
 
     <script>
-        // La URL de tu API Maestra
         const API_URL = 'https://script.google.com/macros/s/AKfycbxnbIBK31t3Il1JoyvIj6fSawERfBxgAJD-5ahXmZsFBKnf5RWMNy1uf1RQM36WNJJd/exec';
+        const STATE_KEY = 'teacherIvanData';
+        
+        let appState = JSON.parse(localStorage.getItem(STATE_KEY)) || {
+            user: { nombre: 'Usuario', avatar: '🧘🏻‍♂️', plan: 'free', nivel: 'Principiante' },
+            habits: []
+        };
 
-        // Lógica para alternar entre los planes
-        const cardFree = document.getElementById('cardFree');
-        const cardPremium = document.getElementById('cardPremium');
-        let selectedPlan = 'premium'; // Por defecto
+        window.onload = () => {
+            // Fecha
+            const dateStr = new Date().toLocaleDateString('es-ES', { weekday: 'long', month: 'long', day: 'numeric' });
+            document.getElementById('currentDate').innerText = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+            
+            // Estado Notificaciones
+            if ("Notification" in window && Notification.permission === "granted") {
+                document.getElementById('notifyBtn').style.display = 'none';
+                iniciarRecordatorios(); // Arranca el motor de motivación
+            }
 
-        function selectPlan(plan) {
-            selectedPlan = plan;
-            if (plan === 'free') {
-                cardFree.classList.add('active');
-                cardPremium.classList.remove('active');
-            } else {
-                cardPremium.classList.add('active');
-                cardFree.classList.remove('active');
+            renderUser();
+            renderHabits();
+            fetchAndRenderRoutine();
+        };
+
+        function saveState() {
+            localStorage.setItem(STATE_KEY, JSON.stringify(appState));
+            renderHabits(); // Re-dibuja progreso y lista
+        }
+
+        function renderUser() {
+            document.getElementById('displayUserName').innerText = appState.user.nombre.split(' ')[0]; // Solo primer nombre
+            document.getElementById('displayAvatar').innerText = appState.user.avatar || '🧘🏻‍♂️';
+            document.getElementById('planBadge').innerText = appState.user.plan === 'premium' ? '👑 VIP' : 'FREE';
+        }
+
+        // --- HÁBITOS SINCRONIZADOS ---
+        function renderHabits() {
+            const container = document.getElementById('habitContainer');
+            container.innerHTML = '';
+            
+            if(!appState.habits || appState.habits.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-gray); font-size:0.9rem; padding:10px 0;">No tienes hábitos configurados. Ve a la pestaña Hábitos.</p>';
+                return;
+            }
+
+            let completedCount = 0;
+            appState.habits.forEach((habit, index) => {
+                if(habit.done) completedCount++;
+                container.innerHTML += `
+                    <div class="habit-item ${habit.done ? 'completed' : ''}" onclick="toggleHabit(${index})">
+                        <div class="habit-icon">${habit.icon || '✨'}</div>
+                        <div class="habit-text">${habit.text}</div>
+                        <div class="checkbox-round"></div>
+                    </div>
+                `;
+            });
+
+            // Progreso
+            const total = appState.habits.length;
+            const percentage = total === 0 ? 0 : (completedCount / total) * 100;
+            document.getElementById('mainProgress').style.width = percentage + '%';
+            document.getElementById('progressText').innerText = `Has completado ${completedCount} de ${total} tareas.`;
+        }
+
+        function toggleHabit(index) {
+            appState.habits[index].done = !appState.habits[index].done;
+            saveState(); // Se guarda globalmente
+        }
+
+        // --- RUTINAS INTELIGENTES ---
+        async function fetchAndRenderRoutine() {
+            const hero = document.getElementById('routineHero');
+            
+            // Si ya la tiene guardada en memoria, renderizamos rápido
+            if (appState.rutinaGuardada) {
+                inyectarRutinaUI(appState.rutinaGuardada);
+                return;
+            }
+
+            // Si no la tiene, la buscamos en la base de datos
+            try {
+                const response = await fetch(API_URL + '?action=getRutinas');
+                const rutinas = await response.json();
+                
+                let userLevel = appState.user.nivel || "Principiante";
+                let rutinaIdeal = rutinas[0]; // Fallback
+
+                for (let r of rutinas) {
+                    if (r.NIVEL && r.NIVEL.includes(userLevel)) {
+                        rutinaIdeal = r;
+                        break;
+                    }
+                }
+
+                // Guardamos en memoria para no cargarla cada vez
+                appState.rutinaGuardada = rutinaIdeal;
+                saveState();
+                
+                inyectarRutinaUI(rutinaIdeal);
+
+            } catch (error) {
+                hero.innerHTML = `
+                    <div class="workout-icon">⚠️</div>
+                    <div class="workout-info">
+                        <h3>Rutina General</h3>
+                        <p class="workout-list">Ve a la pestaña Rutinas para empezar.</p>
+                    </div>`;
             }
         }
 
-        // Lógica del botón continuar con CONECTIVIDAD A GOOGLE SHEETS
-        document.getElementById('continueBtn').addEventListener('click', async () => {
-            const btn = document.getElementById('continueBtn');
-            const spinner = document.getElementById('btnSpinner');
-            const btnText = document.getElementById('btnText');
-
-            // 1. Recuperar los datos del usuario de la memoria del celular
-            const STATE_KEY = 'teacherIvanData';
-            let appState = JSON.parse(localStorage.getItem(STATE_KEY));
+        function inyectarRutinaUI(rutina) {
+            const hero = document.getElementById('routineHero');
+            // Formatear los ejercicios (separados por guiones en la BD)
+            let ejerciciosTexto = (rutina.LISTA_EJERCICIOS || "Ejercicios varios").split('-').map(e => e.trim()).slice(0, 3).join('<br>• ');
             
-            // Si por alguna razón no hay datos (ej. entró directo a esta URL saltando el registro)
-            if (!appState || !appState.user || !appState.user.email) {
-                appState = { user: { email: 'usuario_prueba@email.com' } }; 
+            hero.innerHTML = `
+                <div class="workout-icon">🔥</div>
+                <div class="workout-info">
+                    <h3>${rutina.NOMBRE_RUTINA || "Tu Plan"}</h3>
+                    <p class="workout-list">• ${ejerciciosTexto}<br><em>+ más en workouts...</em></p>
+                </div>
+            `;
+        }
+
+        function customizeRoutine() {
+            if (appState.user.plan === 'premium') {
+                window.location.href = 'workouts.html';
+            } else {
+                alert("🔒 Función VIP: Sube a Elite Premium para crear rutinas a tu medida.");
+                window.location.href = 'auth.html';
             }
+        }
 
-            // 2. Actualizar el estado local para que el Dashboard lo lea correctamente
-            appState.user.plan = selectedPlan;
-            localStorage.setItem(STATE_KEY, JSON.stringify(appState));
+        // --- NOTIFICACIONES MOTIVACIONALES ---
+        const frasesMotivadoras = [
+            "¡No te rindas! Cada paso cuenta. 💪",
+            "Bebe agua y mantén el enfoque. 💧",
+            "Tu cuerpo es tu templo, ¡cuídalo hoy! 🏋️",
+            "El éxito es la suma de pequeños esfuerzos. 🌱",
+            "Teacher Ivan: ¡Es hora de moverte! 🔥"
+        ];
 
-            // 3. Preparar los datos para enviar a Google Sheets
-            const formData = {
-                action: 'updatePlan',
-                email: appState.user.email,
-                suscripcion: selectedPlan
-            };
-
-            // Mostrar estado de carga en la UI
-            btn.disabled = true;
-            spinner.style.display = 'block';
-            btnText.innerText = 'Procesando...';
-
-            try {
-                // 4. Enviar la actualización a la base de datos (Pestaña "Usuarios")
-                await fetch(API_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
+        function requestNotifications() {
+            if (!("Notification" in window)) {
+                alert("Tu dispositivo no soporta notificaciones web.");
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        document.getElementById('notifyBtn').style.display = 'none';
+                        new Notification("¡Teacher Ivan Lifestyle!", { body: "Notificaciones activadas. ¡Vamos con todo!", icon: 'icon-512.png' });
+                        iniciarRecordatorios();
+                    }
                 });
-
-                // 5. Mensaje de éxito y redirección
-                if (selectedPlan === 'premium') {
-                    alert('¡Gracias por elegir VIP ELITE! Hemos registrado tu solicitud. Redirigiendo a tu Dashboard...');
-                } else {
-                    alert('Iniciando en Plan Free. Redirigiendo a tu Dashboard...');
-                }
-                
-                window.location.href = 'dashboard.html';
-
-            } catch (error) {
-                console.error("Error conectando con la base de datos:", error);
-                // Si falla el internet, lo dejamos pasar de todas formas porque ya actualizamos localStorage
-                window.location.href = 'dashboard.html'; 
             }
-        });
+        }
+
+        function iniciarRecordatorios() {
+            // Lanza un mensaje aleatorio cada X tiempo (Para este código, simulado cada 2 horas)
+            setInterval(() => {
+                if (Notification.permission === 'granted') {
+                    const frase = frasesMotivadoras[Math.floor(Math.random() * frasesMotivadoras.length)];
+                    new Notification("Recordatorio Lifestyle", { body: frase, icon: 'icon-512.png' });
+                }
+            }, 7200000); // 7200000 ms = 2 horas
+        }
+
+        // --- AVATARES ---
+        const modal = document.getElementById('avatarModal');
+        function openAvatarModal() { modal.classList.add('active'); }
+        function closeAvatarModal(e) { if(e.target === modal) modal.classList.remove('active'); }
+        function saveAvatar(emoji) {
+            appState.user.avatar = emoji;
+            saveState();
+            renderUser();
+            modal.classList.remove('active');
+        }
     </script>
 </body>
 </html>
