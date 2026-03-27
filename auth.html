@@ -21,298 +21,82 @@
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            min-height: 100%;
-            font-family: 'Quicksand', sans-serif;
-            background-color: var(--bg-beige);
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
+            margin: 0; padding: 0; min-height: 100%; font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-beige); display: flex; flex-direction: column; overflow-x: hidden;
         }
 
         /* --- PATRÓN DE FONDO "HEALTHY" --- */
         .background-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.12;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.12;
             background-image: 
                 radial-gradient(var(--primary-green) 1.5px, transparent 1.5px),
                 linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
                 linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%),
                 linear-gradient(135deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%);
-            background-size: 60px 60px;
-            background-position: 0 0, 0 0, 30px 30px, 30px 30px;
+            background-size: 60px 60px; background-position: 0 0, 0 0, 30px 30px, 30px 30px;
         }
 
         /* --- CONTENEDOR PRINCIPAL CON LOGO --- */
-        .app-container {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            box-sizing: border-box;
-            z-index: 1;
-        }
+        .app-container { flex-grow: 1; display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; z-index: 1; }
 
-        /* --- LOGO SUPERIOR CENTRADO --- */
-        .logo-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding-top: 20px;
-            padding-bottom: 20px;
-            animation: fadeInDown 0.6s ease;
-        }
+        .logo-wrapper { display: flex; justify-content: center; align-items: center; padding-top: 20px; padding-bottom: 20px; animation: fadeInDown 0.6s ease; }
+        .top-logo { width: 90px; height: 90px; border-radius: 50%; background-color: white; padding: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); object-fit: cover; }
 
-        .top-logo {
-            width: 90px; /* Escalado para móvil, no los 512px nativos */
-            height: 90px;
-            border-radius: 50%;
-            background-color: white;
-            padding: 10px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            object-fit: cover;
-        }
+        .header { text-align: center; margin-bottom: 25px; animation: fadeInDown 0.6s ease 0.2s forwards; opacity: 0; }
+        .header h1 { color: var(--primary-green); margin: 0 0 10px 0; font-size: 1.8rem; font-weight: 700; }
+        .header p { color: var(--text-gray); margin: 0; font-size: 1rem; max-width: 280px; margin-left: auto; margin-right: auto; }
 
-        /* --- HEADER --- */
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-            animation: fadeInDown 0.6s ease 0.2s forwards;
-            opacity: 0; /* Inicia oculto para la animación */
-        }
-
-        .header h1 {
-            color: var(--primary-green);
-            margin: 0 0 10px 0;
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        .header p {
-            color: var(--text-gray);
-            margin: 0;
-            font-size: 1rem;
-            max-width: 280px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* --- CONTENEDOR DE PLANES (Sube sobre el logo suavemente) --- */
-        .plans-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-            padding-bottom: 120px; /* Espacio para el botón fijo inferior */
-            animation: slideUp 0.8s ease-out forwards;
-            transform: translateY(30px);
-            opacity: 0;
-        }
+        /* --- CONTENEDOR DE PLANES --- */
+        .plans-container { display: flex; flex-direction: column; gap: 20px; align-items: center; padding-bottom: 120px; animation: slideUp 0.8s ease-out forwards; transform: translateY(30px); opacity: 0; }
 
         /* --- TARJETAS DE PLANES --- */
         .plan-card {
-            background-color: var(--card-bg);
-            width: 100%;
-            max-width: 400px;
-            border-radius: 30px;
-            padding: 30px 25px;
-            box-sizing: border-box;
-            border: 3px solid transparent;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            overflow: hidden;
+            background-color: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px;
+            padding: 30px 25px; box-sizing: border-box; border: 3px solid transparent;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06); cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative; overflow: hidden;
         }
 
-        /* Estado inactivo */
-        .plan-card:not(.active) {
-            opacity: 0.7;
-            transform: scale(0.98);
-        }
-
-        /* Estado activo */
-        .plan-card.active {
-            border-color: var(--primary-green);
-            box-shadow: 0 12px 40px rgba(45, 106, 79, 0.15);
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* Estilos específicos de Premium (Dorado) */
-        .plan-premium.active {
-            border-color: var(--accent-gold);
-        }
+        .plan-card:not(.active) { opacity: 0.7; transform: scale(0.98); }
+        .plan-card.active { border-color: var(--primary-green); box-shadow: 0 12px 40px rgba(45, 106, 79, 0.15); opacity: 1; transform: scale(1); }
+        .plan-premium.active { border-color: var(--accent-gold); }
 
         .premium-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: var(--accent-gold);
-            color: white;
-            padding: 6px 18px;
-            border-radius: 0 30px 0 20px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            position: absolute; top: 0; right: 0; background-color: var(--accent-gold); color: white;
+            padding: 6px 18px; border-radius: 0 30px 0 20px; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
         }
 
-        /* Contenido de la tarjeta */
-        .plan-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+        .plan-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .plan-title { font-size: 1.5rem; font-weight: 700; color: var(--text-dark); margin: 0; }
+        .plan-price { font-size: 1.3rem; font-weight: 700; color: var(--primary-green); }
+        .plan-premium .plan-price { color: var(--accent-gold); }
 
-        .plan-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin: 0;
-        }
+        .feature-list { list-style: none; padding: 0; margin: 0; text-align: left; }
+        .feature-list li { color: var(--text-gray); margin-bottom: 12px; font-size: 1rem; display: flex; align-items: flex-start; line-height: 1.4; }
+        .feature-list li::before { content: "✓"; color: var(--primary-green); font-weight: bold; margin-right: 12px; font-size: 1.2rem; flex-shrink: 0; margin-top: -2px; }
+        .plan-premium .feature-list li::before { color: var(--accent-gold); }
 
-        .plan-price {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--primary-green);
-        }
-
-        .plan-premium .plan-price {
-            color: var(--accent-gold);
-        }
-
-        .feature-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            text-align: left;
-        }
-
-        .feature-list li {
-            color: var(--text-gray);
-            margin-bottom: 12px;
-            font-size: 1rem;
-            display: flex;
-            align-items: flex-start;
-            line-height: 1.4;
-        }
-
-        .feature-list li::before {
-            content: "✓";
-            color: var(--primary-green);
-            font-weight: bold;
-            margin-right: 12px;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-            margin-top: -2px;
-        }
-
-        .plan-premium .feature-list li::before {
-            color: var(--accent-gold);
-        }
-
-        /* --- SECCIÓN DEL QR (Oculta por defecto) --- */
-        .qr-section {
-            margin-top: 25px;
-            padding-top: 25px;
-            border-top: 1px dashed #eee;
-            display: none; /* Se muestra con JS */
-            flex-direction: column;
-            align-items: center;
-            animation: slideDownFade 0.4s ease forwards;
-        }
-
-        .plan-premium.active .qr-section {
-            display: flex;
-        }
-
-        .qr-container {
-            width: 200px;
-            height: 200px;
-            background-color: white;
-            border: 3px solid var(--accent-gold);
-            border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 15px;
-            padding: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-
-        .qr-image {
-            width: 100%;
-            height: 100%;
-            object-fit: contain; /* Ajusta la imagen QR real */
-        }
-
-        .qr-instructions {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-            text-align: center;
-            margin-bottom: 5px;
-            max-width: 250px;
-            line-height: 1.4;
-        }
+        /* --- SECCIÓN DEL QR --- */
+        .qr-section { margin-top: 25px; padding-top: 25px; border-top: 1px dashed #eee; display: none; flex-direction: column; align-items: center; animation: slideDownFade 0.4s ease forwards; }
+        .plan-premium.active .qr-section { display: flex; }
+        .qr-container { width: 200px; height: 200px; background-color: white; border: 3px solid var(--accent-gold); border-radius: 20px; display: flex; justify-content: center; align-items: center; margin-bottom: 15px; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; }
+        .qr-image { width: 100%; height: 100%; object-fit: contain; }
+        .qr-instructions { font-size: 0.9rem; color: var(--text-gray); text-align: center; margin-bottom: 5px; max-width: 250px; line-height: 1.4; }
 
         /* --- BOTÓN FLOTANTE INFERIOR --- */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            background: linear-gradient(to top, var(--bg-beige) 80%, rgba(230,240,234,0));
-            display: flex;
-            justify-content: center;
-            z-index: 10;
-        }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; padding: 20px; box-sizing: border-box; background: linear-gradient(to top, var(--bg-beige) 80%, rgba(230,240,234,0)); display: flex; justify-content: center; z-index: 10; }
+        .btn-primary { background-color: var(--primary-green); color: #FFFFFF; width: 100%; max-width: 400px; padding: 18px; border-radius: 30px; font-size: 1.15rem; font-weight: 700; cursor: pointer; border: none; font-family: 'Quicksand', sans-serif; text-transform: uppercase; box-shadow: 0 8px 20px rgba(45, 106, 79, 0.2); transition: all 0.3s ease; display: flex; justify-content: center; align-items: center; }
+        .btn-primary:active { transform: scale(0.96); background-color: #245A42; }
+        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
 
-        .btn-primary {
-            background-color: var(--primary-green);
-            color: #FFFFFF;
-            width: 100%;
-            max-width: 400px;
-            padding: 18px;
-            border-radius: 30px;
-            font-size: 1.15rem;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            font-family: 'Quicksand', sans-serif;
-            text-transform: uppercase;
-            box-shadow: 0 8px 20px rgba(45, 106, 79, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:active {
-            transform: scale(0.96);
-            background-color: #245A42;
-        }
+        /* Spinner del botón */
+        .spinner-btn { display: none; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 10px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* Animaciones */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideDownFade {
-            from { opacity: 0; transform: translateY(-10px); height: 0; }
-            to { opacity: 1; transform: translateY(0); height: auto; }
-        }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDownFade { from { opacity: 0; transform: translateY(-10px); height: 0; } to { opacity: 1; transform: translateY(0); height: auto; } }
 
     </style>
 </head>
@@ -378,18 +162,23 @@
     </div>
 
     <div class="bottom-nav">
-        <button id="continueBtn" class="btn-primary">Continuar al Dashboard</button>
+        <button id="continueBtn" class="btn-primary">
+            <div class="spinner-btn" id="btnSpinner"></div>
+            <span id="btnText">Continuar al Dashboard</span>
+        </button>
     </div>
 
     <script>
+        // La URL de tu API Maestra
+        const API_URL = 'https://script.google.com/macros/s/AKfycbxnbIBK31t3Il1JoyvIj6fSawERfBxgAJD-5ahXmZsFBKnf5RWMNy1uf1RQM36WNJJd/exec';
+
         // Lógica para alternar entre los planes
         const cardFree = document.getElementById('cardFree');
         const cardPremium = document.getElementById('cardPremium');
-        let selectedPlan = 'premium'; // Por defecto, incitamos al usuario al Premium
+        let selectedPlan = 'premium'; // Por defecto
 
         function selectPlan(plan) {
             selectedPlan = plan;
-            
             if (plan === 'free') {
                 cardFree.classList.add('active');
                 cardPremium.classList.remove('active');
@@ -399,25 +188,59 @@
             }
         }
 
-        // 3. Lógica del botón continuar con CONECTIVIDAD REAL
-        document.getElementById('continueBtn').addEventListener('click', () => {
-            if (selectedPlan === 'premium') {
-                // Notificación Premium
-                alert('¡Gracias por elegir VIP ELITE! Escanea el QR para que Teacher Ivan valide tu pago. Redirigiendo a tu Dashboard...');
+        // Lógica del botón continuar con CONECTIVIDAD A GOOGLE SHEETS
+        document.getElementById('continueBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('continueBtn');
+            const spinner = document.getElementById('btnSpinner');
+            const btnText = document.getElementById('btnText');
+
+            // 1. Recuperar los datos del usuario de la memoria del celular
+            const STATE_KEY = 'teacherIvanData';
+            let appState = JSON.parse(localStorage.getItem(STATE_KEY));
+            
+            // Si por alguna razón no hay datos (ej. entró directo a esta URL saltando el registro)
+            if (!appState || !appState.user || !appState.user.email) {
+                appState = { user: { email: 'usuario_prueba@email.com' } }; 
+            }
+
+            // 2. Actualizar el estado local para que el Dashboard lo lea correctamente
+            appState.user.plan = selectedPlan;
+            localStorage.setItem(STATE_KEY, JSON.stringify(appState));
+
+            // 3. Preparar los datos para enviar a Google Sheets
+            const formData = {
+                action: 'updatePlan',
+                email: appState.user.email,
+                suscripcion: selectedPlan
+            };
+
+            // Mostrar estado de carga en la UI
+            btn.disabled = true;
+            spinner.style.display = 'block';
+            btnText.innerText = 'Procesando...';
+
+            try {
+                // 4. Enviar la actualización a la base de datos (Pestaña "Usuarios")
+                await fetch(API_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                // 5. Mensaje de éxito y redirección
+                if (selectedPlan === 'premium') {
+                    alert('¡Gracias por elegir VIP ELITE! Hemos registrado tu solicitud. Redirigiendo a tu Dashboard...');
+                } else {
+                    alert('Iniciando en Plan Free. Redirigiendo a tu Dashboard...');
+                }
                 
-                // Redirección Real al Dashboard tras confirmación visual
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 100); 
-                
-            } else {
-                // Notificación Free
-                alert('Iniciando en Plan Free. Redirigiendo a tu Dashboard...');
-                
-                // Redirección Real al Dashboard
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 100);
+                window.location.href = 'dashboard.html';
+
+            } catch (error) {
+                console.error("Error conectando con la base de datos:", error);
+                // Si falla el internet, lo dejamos pasar de todas formas porque ya actualizamos localStorage
+                window.location.href = 'dashboard.html'; 
             }
         });
     </script>
