@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Entrenamiento - Teacher Ivan Lifestyle</title>
+    <title>Entrenamiento Pro - Teacher Ivan Lifestyle</title>
     <meta name="theme-color" content="#2D6A4F">
     
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
@@ -17,56 +17,70 @@
             --text-gray: #7D7D7D;
             --card-bg: #FFFFFF;
             --accent-gold: #E9C46A;
+            --timer-bg: #1b4332;
         }
 
         body, html { margin: 0; padding: 0; min-height: 100%; font-family: 'Quicksand', sans-serif; background-color: var(--bg-beige); }
 
         .background-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.12; background-image: radial-gradient(var(--primary-green) 1.5px, transparent 1.5px), linear-gradient(45deg, #f0fdf4 25%, transparent 25%, transparent 75%, #f0fdf4 75%, #f0fdf4 100%); background-size: 60px 60px; }
-        .app-container { padding: 20px 20px 100px 20px; max-width: 600px; margin: 0 auto; }
+        .app-container { padding: 20px 20px 140px 20px; max-width: 600px; margin: 0 auto; }
 
         /* --- HEADER --- */
-        .header { margin-bottom: 20px; padding-top: 10px; }
-        .header h1 { font-size: 1.8rem; color: var(--primary-green); margin: 0; font-weight: 700; }
-        .routine-info { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
-        .badge { padding: 4px 10px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .header { margin-bottom: 20px; padding-top: 10px; display: flex; justify-content: space-between; align-items: flex-start; }
+        .header-text h1 { font-size: 1.6rem; color: var(--primary-green); margin: 0; font-weight: 700; }
+        .badge { padding: 4px 10px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-top: 5px; display: inline-block; }
         .badge-level { background: var(--primary-green); color: white; }
-        .badge-vip { background: var(--accent-gold); color: var(--text-dark); }
-
-        /* --- BUSCADOR (SOLO VIP) --- */
-        #vipSearchSection { display: none; margin-bottom: 20px; animation: fadeIn 0.5s ease; }
-        .search-bar { width: 100%; padding: 12px 15px; border-radius: 15px; border: 2px solid var(--light-green); font-family: 'Quicksand'; font-size: 1rem; box-sizing: border-box; outline: none; }
+        .btn-finish { background: var(--accent-gold); color: var(--text-dark); border: none; padding: 10px 15px; border-radius: 15px; font-weight: 700; cursor: pointer; font-family: 'Quicksand'; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
         /* --- LISTA DE EJERCICIOS --- */
-        .exercise-list { display: flex; flex-direction: column; gap: 15px; }
-        .exercise-card { background: var(--card-bg); border-radius: 25px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.04); position: relative; transition: transform 0.2s; }
-        .exercise-card:active { transform: scale(0.98); }
+        .exercise-list { display: flex; flex-direction: column; gap: 20px; }
+        .exercise-card { background: var(--card-bg); border-radius: 20px; padding: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.04); }
         
-        .exercise-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
-        .exercise-name { font-size: 1.2rem; font-weight: 700; color: var(--text-dark); margin: 0; flex: 1; }
+        .exercise-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .exercise-name { font-size: 1.1rem; font-weight: 700; color: var(--text-dark); margin: 0; }
+        .btn-video { background: var(--bg-beige); border: none; width: 30px; height: 30px; border-radius: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 1rem; color: var(--primary-green); }
+
+        /* --- TABLA DE SERIES (SETS) TIPO HEVY --- */
+        .set-table { width: 100%; border-collapse: collapse; text-align: center; }
+        .set-header { font-size: 0.7rem; color: var(--text-gray); text-transform: uppercase; font-weight: 700; border-bottom: 2px solid var(--bg-beige); }
+        .set-header th { padding-bottom: 8px; }
         
-        .btn-video { background: var(--bg-beige); border: none; width: 35px; height: 35px; border-radius: 10px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; }
+        .set-row { transition: background-color 0.3s; }
+        .set-row td { padding: 10px 2px; border-bottom: 1px solid #f9f9f9; vertical-align: middle; }
+        
+        .set-number { font-size: 0.85rem; font-weight: 700; color: var(--text-gray); background: var(--bg-beige); width: 24px; height: 24px; display: inline-flex; justify-content: center; align-items: center; border-radius: 6px; }
+        .set-prev { font-size: 0.75rem; color: #aaa; font-weight: 600; white-space: nowrap; }
+        
+        .set-input { width: 45px; padding: 8px 4px; border-radius: 8px; border: 1px solid #ddd; text-align: center; font-family: 'Quicksand'; font-size: 0.95rem; font-weight: 600; background: #fafafa; outline: none; }
+        .set-input:focus { border-color: var(--primary-green); background: white; }
+        .input-rpe { width: 35px; background: #fff0db; border-color: #fbd6a9; color: #d97706; } /* Naranja suave para RPE */
 
-        .exercise-details { display: flex; gap: 20px; margin-bottom: 15px; }
-        .detail-item { display: flex; flex-direction: column; }
-        .detail-label { font-size: 0.7rem; color: var(--text-gray); text-transform: uppercase; font-weight: 700; }
-        .detail-value { font-size: 1.1rem; color: var(--primary-green); font-weight: 700; }
+        .btn-check { width: 28px; height: 28px; border-radius: 8px; border: 2px solid #ddd; background: white; cursor: pointer; display: inline-flex; justify-content: center; align-items: center; transition: all 0.2s; }
+        .btn-check.completed { background: var(--primary-green); border-color: var(--primary-green); }
+        .btn-check.completed::after { content: "✓"; color: white; font-weight: bold; font-size: 14px; }
+        
+        .set-row.completed-row { background-color: rgba(162, 217, 169, 0.1); }
+        .set-row.completed-row .set-input { opacity: 0.7; pointer-events: none; }
 
-        /* --- BOTONES VIP DENTRO DE CARD --- */
-        .vip-actions { display: none; border-top: 1px solid #f0f0f0; padding-top: 15px; justify-content: space-between; align-items: center; }
-        .btn-change { background: none; border: 1.5px solid var(--accent-gold); color: var(--accent-gold); padding: 6px 12px; border-radius: 10px; font-weight: 700; font-size: 0.8rem; cursor: pointer; font-family: 'Quicksand'; }
+        .btn-add-set { background: none; border: none; color: var(--primary-green); font-weight: 700; font-size: 0.85rem; margin-top: 15px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+
+        /* --- REST TIMER (FLOTANTE) --- */
+        .rest-timer-bar { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(150%); width: 90%; max-width: 500px; background: var(--timer-bg); color: white; border-radius: 20px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); z-index: 90; box-sizing: border-box; }
+        .rest-timer-bar.active { transform: translateX(-50%) translateY(0); }
+        .timer-display { font-size: 1.8rem; font-weight: 700; font-variant-numeric: tabular-nums; display: flex; align-items: center; gap: 10px; }
+        .timer-controls { display: flex; gap: 10px; }
+        .btn-timer { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 12px; border-radius: 10px; font-weight: 700; cursor: pointer; font-family: 'Quicksand'; }
+        .btn-timer-skip { background: var(--accent-gold); color: var(--text-dark); }
+
+        /* Loader */
+        .loader { width: 30px; height: 30px; border: 4px solid var(--light-green); border-top: 4px solid var(--primary-green); border-radius: 50%; animation: spin 1s linear infinite; margin: 50px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* --- NAVEGACIÓN INFERIOR --- */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background-color: #FFFFFF; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); display: flex; justify-content: space-between; padding: 15px 10px 20px 10px; box-sizing: border-box; z-index: 100; border-radius: 30px 30px 0 0; }
         .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-gray); text-decoration: none; font-size: 0.7rem; font-weight: 700; gap: 5px; flex: 1; text-align: center; }
         .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
         .nav-item.active { color: var(--primary-green); }
-
-        /* Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Spinner */
-        .loader { width: 40px; height: 40px; border: 4px solid var(--light-green); border-top: 4px solid var(--primary-green); border-radius: 50%; animation: spin 1s linear infinite; margin: 50px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -76,25 +90,32 @@
     <div class="app-container">
         
         <header class="header">
-            <h1 id="routineTitle">Cargando rutina...</h1>
-            <div class="routine-info">
+            <div class="header-text">
+                <h1 id="routineTitle">Cargando...</h1>
                 <span class="badge badge-level" id="levelBadge">Nivel</span>
-                <span class="badge badge-vip" id="vipBadge" style="display: none;">👑 VIP</span>
             </div>
+            <button class="btn-finish" onclick="finishWorkout()">Finalizar</button>
         </header>
-
-        <!-- BUSCADOR VIP (Solo aparece si es Premium) -->
-        <section id="vipSearchSection">
-            <input type="text" class="search-bar" placeholder="🔍 Buscar ejercicio para cambiar..." onkeyup="searchExercises(this.value)">
-        </section>
 
         <div id="loading" class="loader"></div>
 
-        <!-- LISTA DE EJERCICIOS -->
+        <!-- LISTA DE EJERCICIOS Y SERIES -->
         <div class="exercise-list" id="exerciseContainer">
             <!-- Inyectado por JS -->
         </div>
 
+    </div>
+
+    <!-- TEMPORIZADOR DE DESCANSO FLOTANTE -->
+    <div class="rest-timer-bar" id="restTimerBar">
+        <div class="timer-display">
+            ⏱️ <span id="timeText">01:00</span>
+        </div>
+        <div class="timer-controls">
+            <button class="btn-timer" onclick="adjustTime(-15)">-15s</button>
+            <button class="btn-timer" onclick="adjustTime(15)">+15s</button>
+            <button class="btn-timer btn-timer-skip" onclick="skipTimer()">Saltar</button>
+        </div>
     </div>
 
     <!-- MENÚ INFERIOR -->
@@ -107,53 +128,28 @@
     </nav>
 
     <script>
-        const API_URL = 'https://script.google.com/macros/s/AKfycbxnbIBK31t3Il1JoyvIj6fSawERfBxgAJD-5ahXmZsFBKnf5RWMNy1uf1RQM36WNJJd/exec';
         const STATE_KEY = 'teacherIvanData';
         let appState = JSON.parse(localStorage.getItem(STATE_KEY));
-        let allExercises = []; // Base de datos completa para VIPs
-
-        window.onload = async () => {
-            if (!appState) { window.location.href = 'index.html'; return; }
-
-            // 1. Configurar Interfaz según Plan
-            const isVIP = appState.user.plan === 'premium';
-            if (isVIP) {
-                document.getElementById('vipBadge').style.display = 'inline-block';
-                document.getElementById('vipSearchSection').style.display = 'block';
-                fetchAllExercises(); // Cargar base de datos en segundo plano
-            }
-
-            // 2. Cargar Rutina (Prioridad: Memoria -> API)
-            if (appState.rutinaGuardada) {
-                renderRoutine(appState.rutinaGuardada);
-            } else {
-                fetchDefaultRoutine();
-            }
+        
+        // Base de datos Ficticia para simular el "Historial de Pesos" (En un futuro vendría de la pestaña LOGS)
+        const mockHistoryLogs = {
+            "Sentadillas": "60kg x 10",
+            "Press de banca": "50kg x 8",
+            "Peso muerto rumano": "70kg x 12"
         };
 
-        async function fetchDefaultRoutine() {
-            try {
-                const response = await fetch(API_URL + '?action=getRutinas');
-                const rutinas = await response.json();
-                let userLevel = appState.user.nivel || "Principiante";
-                let rutina = rutinas.find(r => r.NIVEL.includes(userLevel)) || rutinas[0];
-                
-                appState.rutinaGuardada = rutina;
-                localStorage.setItem(STATE_KEY, JSON.stringify(appState));
-                renderRoutine(rutina);
-            } catch (e) {
-                console.error("Error cargando rutina");
+        window.onload = () => {
+            if (!appState || !appState.rutinaGuardada) {
+                // Si no hay rutina guardada (entró directo), simulamos una básica
+                appState = { 
+                    user: { plan: 'free' }, 
+                    rutinaGuardada: { NOMBRE_RUTINA: 'Día de Pierna', NIVEL: 'Intermedio', LISTA_EJERCICIOS: 'Sentadillas - Peso muerto rumano - Zancadas' } 
+                };
             }
-        }
+            renderWorkout(appState.rutinaGuardada);
+        };
 
-        async function fetchAllExercises() {
-            try {
-                const response = await fetch(API_URL + '?action=getEjercicios');
-                allExercises = await response.json();
-            } catch (e) { console.log("Error cargando DB ejercicios"); }
-        }
-
-        function renderRoutine(rutina) {
+        function renderWorkout(rutina) {
             document.getElementById('loading').style.display = 'none';
             document.getElementById('routineTitle').innerText = rutina.NOMBRE_RUTINA;
             document.getElementById('levelBadge').innerText = rutina.NIVEL;
@@ -161,73 +157,142 @@
             const container = document.getElementById('exerciseContainer');
             container.innerHTML = '';
 
-            // Lista de nombres de la rutina (ej: "Sentadillas - Flexiones - Plancha")
-            const nombresEjercicios = rutina.LISTA_EJERCICIOS.split('-').map(n => n.trim());
+            const ejercicios = rutina.LISTA_EJERCICIOS.split('-').map(n => n.trim());
 
-            nombresEjercicios.forEach((nombre, index) => {
-                // Buscamos detalles en la lista guardada o mostramos básico
+            ejercicios.forEach((nombre, exIndex) => {
+                // Buscamos si hay historial previo para este ejercicio
+                const prevLog = mockHistoryLogs[nombre] || "-";
+
+                // Creamos 3 series por defecto para la UI
+                let setsHTML = '';
+                for(let s = 1; s <= 3; s++) {
+                    setsHTML += `
+                        <tr class="set-row" id="row-${exIndex}-${s}">
+                            <td><span class="set-number">${s}</span></td>
+                            <td class="set-prev">${prevLog}</td>
+                            <td><input type="number" class="set-input" placeholder="kg"></td>
+                            <td><input type="number" class="set-input" placeholder="reps"></td>
+                            <td><input type="number" class="set-input input-rpe" placeholder="RPE" min="1" max="10"></td>
+                            <td><button class="btn-check" onclick="toggleSet(this, ${exIndex}, ${s})"></button></td>
+                        </tr>
+                    `;
+                }
+
                 container.innerHTML += `
-                    <div class="exercise-card" id="ex-${index}">
+                    <div class="exercise-card">
                         <div class="exercise-header">
                             <h3 class="exercise-name">${nombre}</h3>
-                            <button class="btn-video" onclick="playVideo('${nombre}')">▶️</button>
+                            <button class="btn-video" title="Ver técnica">▶️</button>
                         </div>
-                        <div class="exercise-details">
-                            <div class="detail-item">
-                                <span class="detail-label">Series</span>
-                                <span class="detail-value">4</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Reps</span>
-                                <span class="detail-value">12-15</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Descanso</span>
-                                <span class="detail-value">60s</span>
-                            </div>
-                        </div>
-                        <div class="vip-actions" style="display: ${appState.user.plan === 'premium' ? 'flex' : 'none'}">
-                            <span style="font-size: 0.7rem; color: var(--text-gray);">¿No te gusta?</span>
-                            <button class="btn-change" onclick="triggerSwap(${index})">🔄 Intercambiar</button>
-                        </div>
+                        <table class="set-table">
+                            <thead>
+                                <tr class="set-header">
+                                    <th>Set</th>
+                                    <th>Anterior</th>
+                                    <th>kg</th>
+                                    <th>Reps</th>
+                                    <th>RPE</th>
+                                    <th>✔️</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-${exIndex}">
+                                ${setsHTML}
+                            </tbody>
+                        </table>
+                        <button class="btn-add-set" onclick="addSet(${exIndex}, '${prevLog}')">+ Añadir Serie</button>
                     </div>
                 `;
             });
         }
 
-        function playVideo(nombre) {
-            alert("Reproduciendo técnica de: " + nombre + "\n(Aquí se abriría el link de YouTube de tu Sheet1)");
-        }
-
-        // --- LÓGICA VIP: INTERCAMBIAR EJERCICIOS ---
-        let currentSwapIndex = null;
-
-        function triggerSwap(index) {
-            currentSwapIndex = index;
-            document.querySelector('.search-bar').focus();
-            document.querySelector('.search-bar').style.borderColor = 'var(--accent-gold)';
-            alert("Selecciona un ejercicio de la lista o busca uno nuevo para reemplazar.");
-        }
-
-        function searchExercises(query) {
-            if (!query || query.length < 2) return;
-            // Aquí se podría mostrar una lista desplegable de resultados de allExercises
-            console.log("Buscando en DB:", query);
-        }
-
-        // Esta función simula el intercambio (Para que el VIP vea el poder de su cuenta)
-        function finalizeSwap(newExerciseName) {
-            if(currentSwapIndex === null) return;
+        // --- LÓGICA DE SERIES (SETS) ---
+        function toggleSet(btn, exIndex, setNum) {
+            const row = document.getElementById(`row-${exIndex}-${setNum}`);
+            const inputs = row.querySelectorAll('input');
             
-            let nombres = appState.rutinaGuardada.LISTA_EJERCICIOS.split('-').map(n => n.trim());
-            nombres[currentSwapIndex] = newExerciseName;
-            
-            appState.rutinaGuardada.LISTA_EJERCICIOS = nombres.join(' - ');
-            localStorage.setItem(STATE_KEY, JSON.stringify(appState));
-            renderRoutine(appState.rutinaGuardada);
-            alert("¡Ejercicio actualizado!");
+            // Validar que haya llenado Reps o Kg antes de marcar (opcional, pero buena práctica)
+            if(!btn.classList.contains('completed') && inputs[1].value === "") {
+                inputs[1].focus();
+                return; // Evita marcar si no puso repeticiones
+            }
+
+            btn.classList.toggle('completed');
+            row.classList.toggle('completed-row');
+
+            // Si se acaba de completar, disparar temporizador
+            if (btn.classList.contains('completed')) {
+                startRestTimer(60); // 60 segundos por defecto
+            }
         }
 
+        function addSet(exIndex, prevLog) {
+            const tbody = document.getElementById(`tbody-${exIndex}`);
+            const currentSets = tbody.querySelectorAll('tr').length;
+            const newSetNum = currentSets + 1;
+
+            const tr = document.createElement('tr');
+            tr.className = 'set-row';
+            tr.id = `row-${exIndex}-${newSetNum}`;
+            tr.innerHTML = `
+                <td><span class="set-number">${newSetNum}</span></td>
+                <td class="set-prev">${prevLog}</td>
+                <td><input type="number" class="set-input" placeholder="kg"></td>
+                <td><input type="number" class="set-input" placeholder="reps"></td>
+                <td><input type="number" class="set-input input-rpe" placeholder="RPE"></td>
+                <td><button class="btn-check" onclick="toggleSet(this, ${exIndex}, ${newSetNum})"></button></td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        // --- LÓGICA DEL TEMPORIZADOR DE DESCANSO ---
+        let timerInterval;
+        let timeRemaining = 0;
+        const timerBar = document.getElementById('restTimerBar');
+        const timeText = document.getElementById('timeText');
+
+        function startRestTimer(seconds) {
+            clearInterval(timerInterval);
+            timeRemaining = seconds;
+            updateTimerUI();
+            
+            timerBar.classList.add('active'); // Mostrar barra flotante
+            
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerUI();
+                
+                if (timeRemaining <= 0) {
+                    skipTimer();
+                    // Opcional: Sonido o vibración nativa del celular
+                    if ("vibrate" in navigator) navigator.vibrate([200, 100, 200]);
+                }
+            }, 1000);
+        }
+
+        function updateTimerUI() {
+            const mins = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+            const secs = (timeRemaining % 60).toString().padStart(2, '0');
+            timeText.innerText = `${mins}:${secs}`;
+        }
+
+        function adjustTime(seconds) {
+            timeRemaining += seconds;
+            if (timeRemaining < 0) timeRemaining = 0;
+            updateTimerUI();
+        }
+
+        function skipTimer() {
+            clearInterval(timerInterval);
+            timerBar.classList.remove('active'); // Ocultar barra flotante
+        }
+
+        function finishWorkout() {
+            // Aquí en el futuro empaquetaremos todos los inputs y los enviaremos por POST a Google Sheets (Pestaña LOGS)
+            if(confirm("¿Has terminado tu entrenamiento por hoy?")) {
+                alert("¡Entrenamiento guardado con éxito! Gran trabajo.");
+                window.location.href = 'dashboard.html';
+            }
+        }
     </script>
 </body>
 </html>
